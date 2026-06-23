@@ -21,7 +21,8 @@ $expectedFiles = @(
     'reports/tsmc/index.html',
     'reports/components/index.html',
     'reports/server-cpu/index.html',
-    'reports/ai-pcb/index.html'
+    'reports/ai-pcb/index.html',
+    'reports/cpo/index.html'
 )
 
 $actualFiles = @(Get-ChildItem -LiteralPath $site -Recurse -File -Force | ForEach-Object {

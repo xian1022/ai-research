@@ -9,7 +9,7 @@ function Assert-True {
     if (-not $Condition) { throw "ASSERTION FAILED: $Message" }
 }
 
-$routes = @('tsmc', 'components', 'server-cpu', 'ai-pcb')
+$routes = @('tsmc', 'cpo', 'components', 'server-cpu', 'ai-pcb')
 foreach ($route in $routes) {
     $report = Join-Path $root "reports\$route\index.html"
     Assert-True (Test-Path -LiteralPath $report) "Missing public report: reports/$route/index.html"

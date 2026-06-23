@@ -20,7 +20,7 @@ $html = Get-Content -LiteralPath $homepage -Raw -Encoding UTF8
 
 Assert-True ($html -match '<html\s+lang="zh-Hant"') 'Document language must be zh-Hant'
 Assert-True ($html -match '<title>[^<]+</title>') 'Document must have a non-empty title'
-Assert-True ($html -match 'data-research-count="4"') 'Dashboard must declare four research reports'
+Assert-True ($html -match 'data-research-count="5"') 'Dashboard must declare five research reports'
 Assert-True ($html -match '<time[^>]+datetime="2026-06-23"') 'Dashboard must show latest update date 2026-06-23'
 Assert-True ($html -match '<h1>[^<]+</h1>') 'Hero title must be one uninterrupted line of text'
 Assert-True ($html -notmatch 'summary-board|LIBRARY SNAPSHOT') 'Library snapshot panel must be removed'
@@ -32,20 +32,21 @@ $links = [regex]::Matches(
     [System.Text.RegularExpressions.RegexOptions]::IgnoreCase
 )
 
-Assert-True ($links.Count -eq 4) 'Four report links must use relative routes and safe new-tab settings'
+Assert-True ($links.Count -eq 5) 'Five report links must use relative routes and safe new-tab settings'
 
 $actualLinks = @($links | ForEach-Object { $_.Groups[1].Value })
 $expectedLinks = @(
     'reports/tsmc/',
+    'reports/cpo/',
     'reports/components/',
     'reports/server-cpu/',
     'reports/ai-pcb/'
 )
 Assert-True (($actualLinks -join '|') -eq ($expectedLinks -join '|')) 'Links must use published relative routes'
-$projectOrder = @('tsmc', 'components', 'server-cpu', 'ai-pcb')
+$projectOrder = @('tsmc', 'cpo', 'components', 'server-cpu', 'ai-pcb')
 $projectPositions = @($projectOrder | ForEach-Object { $html.IndexOf("data-project=`"$_`"") })
 Assert-True (($projectPositions | Where-Object { $_ -lt 0 }).Count -eq 0) 'Every expected project identifier must be present'
-Assert-True (($projectPositions[0] -lt $projectPositions[1]) -and ($projectPositions[1] -lt $projectPositions[2]) -and ($projectPositions[2] -lt $projectPositions[3])) 'Reports must be ordered newest first'
+Assert-True (($projectPositions[0] -lt $projectPositions[1]) -and ($projectPositions[1] -lt $projectPositions[2]) -and ($projectPositions[2] -lt $projectPositions[3]) -and ($projectPositions[3] -lt $projectPositions[4])) 'Reports must preserve dashboard order'
 
 foreach ($relativePath in $actualLinks) {
     $windowsPath = $relativePath -replace '/', [System.IO.Path]::DirectorySeparatorChar

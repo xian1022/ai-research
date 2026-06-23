@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="模組化精簡版｜聚焦 AI 資料中心光互連、矽光子、CPO / NPO / LPO、全球與台灣供應鏈">
+  <title>矽光子、CPO 與 AI 光通訊產業研究報告</title>
+  <style>:root {
+  --paper: #f4f7fb;
+  --surface: #ffffff;
+  --ink: #10233f;
+  --muted: #5f7086;
+  --accent: #1769e0;
+  --accent-deep: #0b4f92;
+  --accent-rgb: 23, 105, 224;
+  --line: #d7e2ed;
+  --soft: #eaf2fb;
+  --green: #0b8f6a;
+  --green-soft: #e9f8f3;
+  --shadow: 0 18px 52px rgba(16, 35, 63, .08);
+  --radius: 20px;
+  --serif: "Noto Serif TC", "Songti TC", "PMingLiU", "新細明體", serif;
+  --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.78;
+  overflow-x: hidden;
+}
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+button, input { font: inherit; }
+code { font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace; }
+:focus-visible { outline: 3px solid rgba(var(--accent-rgb), .42); outline-offset: 3px; }
+
+.skip-link {
+  position: fixed;
+  z-index: 1000;
+  top: 10px;
+  left: 10px;
+  padding: 9px 14px;
+  background: var(--ink);
+  color: #fff;
+  transform: translateY(-160%);
+  transition: transform .18s;
+}
+.skip-link:focus { transform: none; }
+.progress {
+  position: fixed;
+  z-index: 950;
+  inset: 0 0 auto;
+  height: 4px;
+  background: rgba(215, 226, 237, .72);
+}
+.progress > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.container { width: min(1180px, calc(100% - 44px)); margin-inline: auto; }
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--accent);
+  font-size: .74rem;
+  font-weight: 850;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+.eyebrow::before { content: ""; width: 24px; height: 2px; background: currentColor; }
+
+.topbar {
+  position: fixed;
+  z-index: 900;
+  inset: 4px 0 auto;
+  border-bottom: 1px solid rgba(215, 226, 237, .9);
+  background: rgba(255, 255, 255, .91);
+  backdrop-filter: blur(16px);
+}
+.nav-shell { min-height: 64px; display: flex; align-items: center; gap: 18px; }
+.brand { color: var(--ink); font-weight: 900; text-decoration: none; white-space: nowrap; }
+.brand-mark {
+  display: inline-grid;
+  width: 32px;
+  height: 32px;
+  margin-right: 9px;
+  place-items: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), #49a9ff);
+  color: #fff;
+  font-size: .68rem;
+  box-shadow: 0 8px 20px rgba(var(--accent-rgb), .24);
+}
+.nav-links { margin-left: auto; display: flex; align-items: center; gap: 2px; overflow: auto; scrollbar-width: none; }
+.nav-links a { padding: 8px 10px; border-radius: 9px; color: var(--muted); font-size: .8rem; font-weight: 750; text-decoration: none; white-space: nowrap; }
+.nav-links a span { margin-right: 4px; color: #8293a8; font-variant-numeric: tabular-nums; }
+.nav-links a:hover, .nav-links a.active { color: var(--accent); background: var(--soft); }
+.nav-toggle { display: none; margin-left: auto; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); }
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: min(620px, 65vw);
+  aspect-ratio: 1;
+  right: -15vw;
+  top: -18vw;
+  border: 1px solid rgba(var(--accent-rgb), .16);
+  border-radius: 50%;
+  box-shadow: 0 0 0 7vw rgba(var(--accent-rgb), .035), 0 0 0 14vw rgba(var(--accent-rgb), .022);
+}
+.hero h1 {
+  margin: 20px 0 18px;
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 6.5vw, 6.8rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -.035em;
+  font-feature-settings: "palt";
+}
+.hero-deck { max-width: 760px; margin: 0; color: #465a73; font-size: clamp(1.05rem, 1.7vw, 1.35rem); line-height: 1.62; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-top: 30px; color: var(--muted); font-size: .8rem; }
+.hero-meta span { padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255, 255, 255, .72); }
+
+body[data-layout="dashboard"] .hero { padding: 132px 0 70px; background: linear-gradient(180deg, #f7faff, #fff); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(290px, .8fr); gap: clamp(38px, 7vw, 88px); align-items: end; }
+.hero-aside { position: relative; z-index: 1; padding: 28px; border-radius: 26px; background: var(--ink); color: #fff; box-shadow: 0 28px 72px rgba(9, 40, 76, .2); }
+.hero-aside h2 { margin: 0 0 20px; font-size: .82rem; letter-spacing: .12em; color: #86c5ff; }
+.hero-stat { padding-bottom: 22px; border-bottom: 1px solid rgba(255, 255, 255, .16); }
+.hero-stat strong { display: block; font-family: Arial, sans-serif; font-size: clamp(2.8rem, 5vw, 5.2rem); line-height: 1; }
+.hero-stat span { display: block; margin-top: 8px; color: #bed0e4; font-size: .86rem; }
+.thesis-list { display: grid; margin-top: 13px; }
+.thesis { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 13px 0; border-top: 1px solid rgba(255, 255, 255, .12); }
+.thesis:first-child { border-top: 0; }
+.thesis b { color: #70baff; font-family: Arial, sans-serif; font-size: .7rem; }
+.thesis strong { display: block; font-size: .92rem; }
+.thesis p { margin: 3px 0 0; color: #b9cce0; font-size: .78rem; line-height: 1.5; }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 44px; }
+.kpi { padding: 18px; border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 16px; background: rgba(255, 255, 255, .93); box-shadow: 0 10px 28px rgba(16, 35, 63, .055); }
+.kpi:nth-child(even) { border-top-color: var(--green); }
+.kpi b { display: block; color: var(--accent); font-family: Arial, sans-serif; font-size: clamp(1.45rem, 2.7vw, 2.15rem); line-height: 1.1; }
+.kpi:nth-child(even) b { color: var(--green); }
+.kpi span { display: block; margin-top: 9px; color: #4b6079; font-size: .8rem; line-height: 1.45; }
+
+body[data-layout="report"] .topbar { display: none; }
+body[data-layout="report"] .hero { min-height: 92dvh; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr); gap: clamp(46px, 8vw, 116px); align-items: end; padding: clamp(100px, 14vh, 160px) max(5vw, 30px) clamp(72px, 10vh, 112px); }
+body[data-layout="report"] .hero-copy { position: relative; z-index: 1; }
+body[data-layout="report"] .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+body[data-layout="report"] .hero-aside { border-radius: 0; border-top: 3px solid var(--accent); background: transparent; color: var(--ink); box-shadow: none; padding: 24px 0 0; }
+body[data-layout="report"] .hero-aside h2 { color: var(--ink); }
+body[data-layout="report"] .hero-stat { border-color: var(--line); }
+body[data-layout="report"] .hero-stat span, body[data-layout="report"] .thesis p { color: var(--muted); }
+body[data-layout="report"] .thesis { border-color: var(--line); }
+body[data-layout="report"] .thesis strong { color: var(--ink); }
+
+.mobile-bar { display: none; position: sticky; z-index: 800; top: 4px; padding: 10px 18px; border-bottom: 1px solid var(--line); background: rgba(244, 247, 251, .95); backdrop-filter: blur(16px); }
+.mobile-bar button { width: 100%; display: flex; justify-content: space-between; border: 0; background: none; color: var(--ink); font-weight: 850; }
+.mobile-menu { display: none; max-height: 66dvh; overflow: auto; padding: 10px 0; }
+.mobile-menu.open { display: grid; }
+.mobile-menu a { padding: 8px 0; color: var(--muted); font-size: .82rem; text-decoration: none; }
+
+.page-layout { min-width: 0; }
+body[data-layout="report"] .page-layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); max-width: 1480px; margin: auto; }
+.side-nav { display: none; }
+body[data-layout="report"] .side-nav { display: block; position: sticky; top: 4px; height: calc(100dvh - 4px); padding: 52px 28px 40px; border-right: 1px solid var(--line); overflow: auto; }
+.side-nav > span { display: block; margin-bottom: 28px; color: var(--muted); font-size: .74rem; font-weight: 800; letter-spacing: .12em; }
+.side-nav nav { display: grid; }
+.side-nav a { display: grid; grid-template-columns: 30px 1fr; gap: 8px; padding: 8px 0; border-left: 2px solid transparent; color: var(--muted); font-size: .78rem; line-height: 1.4; text-decoration: none; transition: .18s; }
+.side-nav a span { color: #8b9bae; font-variant-numeric: tabular-nums; }
+.side-nav a:hover, .side-nav a.active { padding-left: 8px; border-left-color: var(--accent); color: var(--ink); }
+.side-nav a.active span { color: var(--accent); }
+
+main { min-width: 0; overflow-x: hidden; }
+body[data-layout="dashboard"] main { padding-bottom: 110px; background: #fff; }
+body[data-layout="report"] main { padding: 0 clamp(28px, 6vw, 92px) 120px; }
+.visual-deck { padding: 72px 0 10px; background: #fff; }
+.visual-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.visual-card { min-width: 0; padding: clamp(22px, 3vw, 34px); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
+.visual-card.wide { grid-column: 1 / -1; }
+.visual-card h2, .visual-card h3 { margin: 8px 0 4px; font-family: var(--serif); font-size: clamp(1.45rem, 2.7vw, 2.3rem); line-height: 1.25; }
+.visual-card > p { margin: 0 0 24px; color: var(--muted); font-size: .84rem; }
+.scenario-exhibit { padding: clamp(24px, 4vw, 46px); border-top: 4px solid var(--accent); background: linear-gradient(155deg, #f8fbff 0%, #fff 58%); }
+.scenario-head { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(240px, .65fr); gap: 34px; align-items: end; }
+.scenario-head h3 { margin: 12px 0 8px; font-size: clamp(2rem, 4vw, 3.7rem); }
+.scenario-head p { max-width: 62ch; margin: 0; color: var(--muted); }
+.scenario-hero { padding: 22px 24px; border-radius: 18px; background: var(--ink); color: #fff; box-shadow: 0 18px 38px rgba(16, 35, 63, .16); }
+.scenario-hero small { display: block; color: #86c5ff; font-size: .67rem; font-weight: 850; letter-spacing: .13em; }
+.scenario-hero strong { display: block; margin: 8px 0 3px; font-family: Arial, sans-serif; font-size: clamp(2.4rem, 4.8vw, 4.8rem); line-height: 1; }
+.scenario-hero strong span { margin-left: 4px; color: #a8c1da; font-size: .28em; }
+.scenario-hero em { color: #91e0c4; font-size: .76rem; font-style: normal; font-weight: 800; }
+.scenario-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 30px 0; }
+.scenario-card { padding: 22px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+.scenario-card.base { border-color: var(--accent); box-shadow: 0 12px 30px rgba(var(--accent-rgb), .1); }
+.scenario-card.bear { border-top: 3px solid #8b9bae; }
+.scenario-card.base { border-top: 3px solid var(--accent); }
+.scenario-card.bull { border-top: 3px solid var(--green); }
+.scenario-card > span { color: var(--muted); font-size: .72rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+.scenario-card > strong { display: block; margin: 10px 0 18px; color: var(--ink); font-family: Arial, sans-serif; font-size: clamp(2rem, 3.4vw, 3.1rem); line-height: 1; }
+.scenario-card.base > strong { color: var(--accent); }
+.scenario-card.bull > strong { color: var(--green); }
+.scenario-card > strong small { margin-left: 3px; color: var(--muted); font-size: .32em; }
+.scenario-card dl { margin: 0; border-top: 1px solid var(--line); }
+.scenario-card dl div { display: flex; justify-content: space-between; gap: 14px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: .74rem; }
+.scenario-card dl div:last-child { border-bottom: 0; }
+.scenario-card dt { color: var(--muted); }
+.scenario-card dd { margin: 0; color: var(--ink); font-weight: 800; text-align: right; }
+.scenario-subhead { display: flex; justify-content: space-between; gap: 20px; margin: 38px 0 14px; color: var(--muted); font-size: .7rem; letter-spacing: .11em; }
+.scenario-subhead b { color: var(--accent-deep); letter-spacing: 0; }
+.driver-rail { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 18px; }
+.driver-node { position: relative; min-width: 0; padding: 15px 11px; border-radius: 11px; background: var(--soft); text-align: center; }
+.driver-node:not(:last-child)::after { content: "→"; position: absolute; top: 50%; right: -16px; color: var(--accent); font-size: 1rem; transform: translateY(-50%); }
+.driver-node span { display: block; overflow: hidden; color: var(--muted); font-size: .65rem; text-overflow: ellipsis; white-space: nowrap; }
+.driver-node strong { display: block; margin-top: 5px; color: var(--accent-deep); font-family: Arial, sans-serif; font-size: 1.05rem; }
+.scenario-insights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin: 30px 0; }
+.scenario-insights article { padding: 20px; border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; background: #fff; box-shadow: 0 8px 24px rgba(16, 35, 63, .045); }
+.scenario-insights article:nth-child(2) { border-left-color: var(--green); }
+.scenario-insights b { display: block; color: var(--accent); font-family: Arial, sans-serif; font-size: 1.75rem; line-height: 1; }
+.scenario-insights article:nth-child(2) b { color: var(--green); }
+.scenario-insights strong { display: block; margin: 9px 0 5px; font-size: .88rem; }
+.scenario-insights p { margin: 0; color: var(--muted); font-size: .75rem; line-height: 1.55; }
+.scenario-table-shell { max-width: 100%; overflow: auto; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
+.scenario-matrix { min-width: 820px; font-size: .78rem; }
+.scenario-matrix thead { background: #071e39; }
+.scenario-matrix td:not(:first-child) { font-family: Arial, sans-serif; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.scenario-matrix th:not(:first-child) { text-align: right; }
+.scenario-matrix .scenario-total { background: #e9f2ff; color: var(--accent-deep); font-weight: 900; }
+.scenario-exhibit figcaption { margin-top: 12px; color: var(--muted); font-size: .7rem; }
+.bar-list { display: grid; gap: 14px; margin-top: 26px; }
+.bar-meta { display: flex; justify-content: space-between; gap: 18px; font-size: .82rem; }
+.bar-meta strong { color: var(--accent); }
+.bar-track { height: 8px; border-radius: 99px; background: var(--soft); overflow: hidden; }
+.bar-track span { display: block; width: 100%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent-deep), var(--accent)); transform: scaleX(var(--bar)); transform-origin: left center; transition: transform .75s var(--ease) var(--delay, 0ms); }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 18px 0 10px; color: var(--muted); font-size: .76rem; }
+.chart-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.chart-legend i { width: 10px; height: 10px; border-radius: 3px; background: var(--swatch); }
+.data-chart { display: block; width: 100%; min-height: 280px; overflow: visible; }
+.data-chart text { fill: var(--muted); font-family: var(--sans); font-size: 11px; }
+.data-chart .chart-axis { stroke: var(--line); stroke-width: 1; }
+.data-chart .chart-unit { fill: var(--accent-deep); font-weight: 800; }
+.data-chart .chart-value { fill: var(--ink); font-family: Arial, sans-serif; font-size: 8px; font-weight: 700; }
+.donut-layout { display: grid; grid-template-columns: 180px 1fr; gap: 14px 24px; align-items: center; margin-top: 18px; }
+.donut-svg { width: 180px; max-width: 100%; }
+.donut-svg text { font-family: Arial, sans-serif; }
+.donut-total { fill: var(--ink); font-size: 18px; font-weight: 900; }
+.donut-label { fill: var(--muted); font-size: 8px; letter-spacing: .12em; }
+.donut-layout .chart-legend { align-content: center; margin: 0; }
+.donut-values { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.donut-values span { padding: 9px 10px; border-radius: 9px; background: var(--soft); color: var(--muted); font-size: .7rem; }
+.donut-values b { display: block; color: var(--ink); font-family: Arial, sans-serif; font-size: 1rem; }
+.range-list { display: grid; gap: 18px; margin-top: 26px; }
+.range-meta { display: flex; justify-content: space-between; gap: 16px; color: var(--muted); font-size: .78rem; }
+.range-meta strong { color: var(--accent-deep); }
+.range-track { position: relative; height: 13px; border-radius: 99px; background: var(--soft); }
+.range-track span { position: absolute; inset: 0 auto 0 calc(var(--start) * 100%); width: max(6px, calc((var(--end) - var(--start)) * 100%)); border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--green)); }
+.heatmap-scroll { overflow: auto; margin-top: 22px; }
+.heatmap-grid { display: grid; grid-template-columns: minmax(145px, 1.5fr) repeat(calc(var(--cols) - 1), minmax(68px, 1fr)); gap: 5px; min-width: 620px; }
+.heat-label, .heat-cell { min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 5px 8px; border-radius: 6px; font-size: .74rem; }
+.heat-label { justify-content: flex-start; background: var(--soft); font-weight: 750; }
+.heat-header { justify-content: center; background: var(--ink); color: #fff; }
+.heat-cell { border: 1px solid rgba(var(--accent-rgb), .08); font-weight: 850; }
+.heat-1 { background: rgba(var(--accent-rgb), .08); }
+.heat-2 { background: rgba(var(--accent-rgb), .16); }
+.heat-3 { background: rgba(var(--accent-rgb), .28); }
+.heat-4 { background: rgba(var(--accent-rgb), .48); color: #0d3f69; }
+.heat-5 { background: var(--accent); color: #fff; }
+.supply-stages { display: grid; grid-template-columns: repeat(var(--stages), minmax(0, 1fr)); gap: 28px; margin-top: 28px; }
+.supply-stage { position: relative; padding: 22px; border-top: 3px solid var(--accent); background: var(--soft); }
+.supply-stage:not(:last-child)::after { content: "→"; position: absolute; right: -21px; top: 50%; color: var(--accent); font-size: 1.25rem; transform: translateY(-50%); }
+.supply-stage span { color: var(--accent); font-size: .7rem; font-weight: 850; }
+.supply-stage strong { display: block; margin: 8px 0 4px; }
+.supply-stage p { margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.55; }
+.chain-diagram { margin: 30px 0 42px; }
+.chain-scroll-hint { display: none; margin: 0 0 9px; color: var(--accent-deep); font-size: .8rem; font-weight: 750; text-align: center; }
+.chain-diagram-scroll { overflow-x: auto; padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(180deg, #fff 0%, #f8fbff 100%); box-shadow: var(--shadow); scrollbar-color: var(--accent) #e8f0fa; }
+.industry-chain-svg { display: block; width: 100%; min-width: 980px; height: auto; }
+.chain-diagram figcaption { margin-top: 12px; color: var(--muted); font-size: .82rem; line-height: 1.6; }
+
+.report-section { max-width: 1040px; margin-inline: auto; padding: clamp(82px, 9vw, 132px) 0 0; }
+body[data-layout="dashboard"] .report-section { width: min(1180px, calc(100% - 44px)); max-width: none; }
+.report-section + .report-section { margin-top: 38px; }
+.section-header { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 18px; padding-bottom: 28px; margin-bottom: 42px; border-bottom: 1px solid var(--line); }
+.section-no { color: var(--accent); font-family: Arial, sans-serif; font-size: .76rem; font-weight: 850; letter-spacing: .14em; }
+.section-header h1, .section-header h2 { margin: 0; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 700; line-height: 1.14; letter-spacing: -.02em; }
+.section-body > h1, .section-body > h2, .section-body > h3, .section-body > h4 { max-width: 74ch; color: var(--ink); }
+.section-body > h1, .section-body > h2 { margin: 68px 0 22px; font-family: var(--serif); font-size: clamp(1.5rem, 2.4vw, 2.15rem); line-height: 1.34; }
+.section-body > h3 { margin: 46px 0 18px; font-size: 1.2rem; }
+.section-body > h4 { margin: 34px 0 14px; font-size: 1rem; }
+.section-body > p, .section-body > ul, .section-body > ol, .section-body > blockquote { max-width: 76ch; }
+.section-body p { margin: 0 0 20px; color: #344861; }
+.section-body ul, .section-body ol { padding-left: 1.35rem; margin: 18px 0 28px; }
+.section-body li { padding-left: .3rem; margin: 6px 0; }
+.section-body li::marker { color: var(--accent); font-weight: 800; }
+.section-body hr { margin: 52px 0; border: 0; border-top: 1px solid var(--line); }
+.section-body blockquote { margin: 28px 0; padding: 18px 22px; border-left: 4px solid var(--accent); background: var(--soft); color: #2c4763; }
+.section-body blockquote p:last-child { margin-bottom: 0; }
+.section-body pre { max-width: 100%; margin: 28px 0 42px; padding: 24px; overflow: auto; border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 12px; background: #f9fbfd; color: #243d59; font-size: .82rem; line-height: 1.75; }
+.inline-code { padding: .12em .36em; border-radius: 5px; background: var(--soft); color: #174a78; font-size: .9em; }
+.table-shell { max-width: 100%; margin: 28px 0 46px; overflow: auto; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: 0 10px 28px rgba(16, 35, 63, .045); }
+.source-table-details { max-width: 100%; margin: 24px 0 42px; }
+.source-table-details summary { width: fit-content; cursor: pointer; color: var(--accent); font-size: .82rem; font-weight: 800; }
+.source-table-details .table-shell { margin: 14px 0 0; }
+.table-hint { position: sticky; left: 0; display: none; justify-content: space-between; padding: 8px 12px; background: var(--soft); color: var(--muted); font-size: .7rem; }
+table { width: 100%; min-width: 680px; border-collapse: collapse; text-align: left; font-size: .84rem; line-height: 1.55; }
+thead { background: var(--ink); color: #fff; }
+th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+thead th { white-space: nowrap; font-size: .74rem; letter-spacing: .03em; }
+tbody th { min-width: 125px; color: var(--ink); }
+tbody td { color: #42566f; }
+tbody tr:nth-child(even) { background: rgba(var(--accent-rgb), .025); }
+tbody tr:hover { background: rgba(var(--accent-rgb), .06); }
+.media-figure { max-width: 900px; margin: 34px 0 46px; }
+.media-figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: var(--shadow); }
+.media-figure figcaption { margin-top: 9px; color: var(--muted); font-size: .76rem; }
+.source-section { margin-top: 92px; padding-top: 42px; border-top: 1px solid var(--line); }
+.source-section .section-header { border: 0; }
+.page-footer { max-width: 1180px; margin: 92px auto 0; padding: 36px 0 46px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 24px; color: var(--muted); font-size: .76rem; }
+.page-footer strong { color: var(--ink); }
+.back-top { position: fixed; z-index: 850; right: 20px; bottom: 20px; width: 46px; height: 46px; border: 1px solid var(--line); border-radius: 50%; background: rgba(255, 255, 255, .94); color: var(--ink); box-shadow: var(--shadow); opacity: 0; pointer-events: none; transform: translateY(9px); transition: .2s; }
+.back-top.visible { opacity: 1; pointer-events: auto; transform: none; }
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .58s var(--ease), transform .58s var(--ease); }
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (max-width: 1040px) {
+  .hero-grid, body[data-layout="report"] .hero { grid-template-columns: 1fr; align-items: center; min-height: auto; }
+  body[data-layout="report"] .page-layout { grid-template-columns: 1fr; }
+  body[data-layout="report"] .side-nav { display: none; }
+  body[data-layout="report"] .mobile-bar { display: block; }
+  body[data-layout="report"] main { padding-inline: clamp(20px, 5vw, 52px); }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 760px) {
+  body { font-size: 15px; }
+  .container, body[data-layout="dashboard"] .report-section { width: min(100% - 28px, 1180px); }
+  body[data-layout="dashboard"] .hero { padding-top: 108px; }
+  .hero h1 { font-size: clamp(2.55rem, 14vw, 4.2rem); }
+  .hero-grid { gap: 32px; }
+  .hero-aside { padding: 23px; }
+  .nav-toggle { display: block; }
+  .nav-links { display: none; position: absolute; left: 14px; right: 14px; top: 60px; max-height: 68vh; padding: 9px; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: var(--shadow); flex-direction: column; align-items: stretch; }
+  .nav-links.open { display: flex; }
+  .visual-grid, .kpi-grid { grid-template-columns: 1fr; }
+  body[data-layout="report"] .kpi-grid { grid-template-columns: 1fr; }
+  .donut-layout { grid-template-columns: 1fr; justify-items: center; }
+  .donut-layout .chart-legend { justify-content: center; }
+  .donut-values { grid-template-columns: repeat(2, 1fr); width: 100%; }
+  .visual-card.wide { grid-column: auto; }
+  .visual-card[data-visual="grouped-bar"] { overflow-x: auto; }
+  .visual-card[data-visual="grouped-bar"] .data-chart { width: 640px; max-width: none; }
+  .chain-scroll-hint { display: block; }
+  .scenario-head { grid-template-columns: 1fr; }
+  .scenario-cards, .scenario-insights { grid-template-columns: 1fr; }
+  .driver-rail { grid-template-columns: repeat(4, 1fr); row-gap: 26px; }
+  .driver-node:nth-child(4)::after { display: none; }
+  .supply-stages { grid-template-columns: 1fr; }
+  .supply-stage:not(:last-child)::after { right: 50%; top: auto; bottom: -27px; transform: translateX(50%) rotate(90deg); }
+  .section-header { grid-template-columns: 1fr; gap: 7px; }
+  .section-header h1, .section-header h2 { font-size: 2.25rem; }
+  .table-hint { display: flex; }
+  .page-footer { margin-inline: 16px; display: block; }
+  .page-footer span { display: block; margin-top: 7px; }
+}
+@media (max-width: 390px) {
+  body[data-layout="report"] main { padding-inline: 16px; }
+  .visual-card { padding: 20px 16px; }
+  .driver-rail { grid-template-columns: repeat(2, 1fr); }
+  .driver-node:nth-child(2n)::after { display: none; }
+  .scenario-subhead { display: block; }
+  .scenario-subhead b { display: block; margin-top: 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; transition-delay: 0ms !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+@media print {
+  .progress, .topbar, .side-nav, .mobile-bar, .back-top { display: none !important; }
+  .hero { min-height: auto !important; padding: 18mm 12mm !important; break-after: page; }
+  .page-layout { display: block !important; }
+  main { padding: 0 12mm !important; }
+  .report-section { break-before: page; padding-top: 12mm; }
+  .reveal { opacity: 1; transform: none; }
+  .table-shell { overflow: visible; box-shadow: none; }
+  .source-table-details > .table-shell { display: block !important; }
+  .source-table-details summary { display: none; }
+  table { min-width: 0; font-size: 8pt; }
+}
+</style>
+</head>
+<body data-layout="report">
+  <a class="skip-link" href="#main-content">跳至主要內容</a>
+  <div class="progress" role="progressbar" aria-label="閱讀進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+  
+  <header class="hero" id="top"><div class="hero-copy"><span class="eyebrow">INDUSTRY RESEARCH</span><h1>矽光子、CPO 與 AI 光通訊產業研究報告</h1><p class="hero-deck">模組化精簡版｜聚焦 AI 資料中心光互連、矽光子、CPO / NPO / LPO、全球與台灣供應鏈</p><div class="hero-meta"><span>資料日期：2026-06-23</span><span>研究範圍：AI 資料中心光互連、矽光子、CPO / NPO / LPO、全球與台灣供應鏈</span><span>離線單檔研究網頁</span></div></div><div class="kpi-grid"><div class="kpi"><b>1,000 億美元</b><span>2030 AI cluster optics + CPO 積極情境</span></div><div class="kpi"><b>390 億美元</b><span>2030E CPO / NPO 市場展望</span></div><div class="kpi"><b>44%</b><span>800G 2024–2030 CAGR</span></div><div class="kpi"><b>2027</b><span>Optical I/O 逐步接近商用節點</span></div></div></header>
+  <div class="mobile-bar"><button type="button" aria-expanded="false" aria-controls="mobile-menu"><span>章節導覽</span><i>展開</i></button><nav class="mobile-menu" id="mobile-menu" aria-label="行動版章節導覽"><a href="#section-01" data-nav="section-01"><span>01</span>研究說明</a><a href="#section-02" data-nav="section-02"><span>02</span>Executive Summary</a><a href="#section-03" data-nav="section-03"><span>03</span>市場數據快照</a><a href="#section-04" data-nav="section-04"><span>04</span>技術演進與時間軸</a><a href="#section-05" data-nav="section-05"><span>05</span>產業鏈地圖與大廠動態</a><a href="#section-06" data-nav="section-06"><span>06</span>結論</a><a href="#section-07" data-nav="section-07"><span>07</span>參考資料</a></nav></div>
+  <section class="visual-deck" aria-label="研究數據視覺化"><div class="container"><div class="visual-grid"><figure class="visual-card wide reveal" data-visual="grouped-bar"><span class="eyebrow">DATA VIEW 01</span><h3>AI 光互連市場規模：基期與 2030 展望</h3><p>資料取自「2.1 關鍵數據摘要」段落。</p><div class="chart-legend"><span><i style="--swatch:#1769e0"></i>基期</span><span><i style="--swatch:#0b8f6a"></i>2030 展望</span></div><svg class="data-chart" viewBox="0 0 640 285" role="img" aria-label="AI 光互連市場規模：基期與 2030 展望"><line x1="52" y1="238" x2="608" y2="238" class="chart-axis"/><g><rect x="114.66666666666667" y="202.03" width="27" height="35.97" rx="3" fill="#1769e0"><title>AI cluster Ethernet optics + CPO 基期: 165 億 </title></rect><text class="chart-value" x="128.16666666666669" y="197.03" text-anchor="middle">165 億</text></g><g><rect x="144.66666666666669" y="20" width="27" height="218" rx="3" fill="#0b8f6a"><title>AI cluster Ethernet optics + CPO 2030 展望: 1,000 億 </title></rect><text class="chart-value" x="158.16666666666669" y="15" text-anchor="middle">1,000 億</text></g><g><rect x="300" y="236" width="27" height="2" rx="3" fill="#1769e0"><title>Silicon PIC dies 基期: 4.04 億 </title></rect><text class="chart-value" x="313.5" y="231" text-anchor="middle">4.04 億</text></g><g><rect x="330" y="233.422" width="27" height="4.578" rx="3" fill="#0b8f6a"><title>Silicon PIC dies 2030 展望: &gt;21 億 </title></rect><text class="chart-value" x="343.5" y="228.422" text-anchor="middle">&gt;21 億</text></g><g><rect x="485.33333333333337" y="236" width="27" height="2" rx="3" fill="#1769e0"><title>CPO / NPO 基期: 1 億 </title></rect><text class="chart-value" x="498.83333333333337" y="231" text-anchor="middle">1 億</text></g><g><rect x="515.3333333333334" y="152.98000000000002" width="27" height="85.02" rx="3" fill="#0b8f6a"><title>CPO / NPO 2030 展望: &gt;390 億 </title></rect><text class="chart-value" x="528.8333333333334" y="147.98000000000002" text-anchor="middle">&gt;390 億</text></g><text x="144.66666666666669" y="262" text-anchor="middle">AI cluster Ethernet optics + CPO</text><text x="330" y="262" text-anchor="middle">Silicon PIC dies</text><text x="515.3333333333334" y="262" text-anchor="middle">CPO / NPO</text><text x="52" y="14" class="chart-unit"></text></svg></figure><figure class="visual-card reveal"><span class="eyebrow">DATA VIEW 02</span><h3>AI 光互連關鍵成長率</h3><p>資料取自「2.1 關鍵數據摘要」段落。</p><div class="bar-list"><div class="bar-row"><div class="bar-meta"><span>Silicon PIC dies CAGR</span><strong>31%</strong></div><div class="bar-track" aria-hidden="true"><span style="--bar:0.7045454545454546;--delay:0ms"></span></div></div><div class="bar-row"><div class="bar-meta"><span>AI optical modules CAGR</span><strong>36%</strong></div><div class="bar-track" aria-hidden="true"><span style="--bar:0.8181818181818182;--delay:45ms"></span></div></div><div class="bar-row"><div class="bar-meta"><span>800G CAGR</span><strong>44%</strong></div><div class="bar-track" aria-hidden="true"><span style="--bar:1;--delay:90ms"></span></div></div></div></figure><figure class="visual-card reveal" data-visual="range-bar"><span class="eyebrow">DATA VIEW 03</span><h3>2024–2029 技術導入區間</h3><p>資料取自「1.1 核心判斷／3.1 架構演進總表」段落。</p><div class="range-list" aria-label="2024–2029 技術導入區間"><div class="range-row"><div class="range-meta"><span>800G 主力期</span><strong>2024–2027 </strong></div><div class="range-track"><span style="--start:0;--end:0.6"></span></div></div><div class="range-row"><div class="range-meta"><span>1.6T 導入與加速</span><strong>2025–2027 </strong></div><div class="range-track"><span style="--start:0.2;--end:0.6"></span></div></div><div class="range-row"><div class="range-meta"><span>LPO / LRO 驗證與導入</span><strong>2025–2027 </strong></div><div class="range-track"><span style="--start:0.2;--end:0.6"></span></div></div><div class="range-row"><div class="range-meta"><span>NPO 過渡架構</span><strong>2026–2029 </strong></div><div class="range-track"><span style="--start:0.4;--end:1"></span></div></div></div></figure><figure class="visual-card wide reveal"><span class="eyebrow">DATA VIEW 04</span><h3>AI 光互連六大供應鏈層級</h3><p>資料取自「4.1 產業鏈樹狀圖」段落。</p><div class="supply-stages" style="--stages:6"><div class="supply-stage"><span>01</span><strong>算力與網路平台</strong><p>GPU / XPU、Switch ASIC、Optical networking</p></div><div class="supply-stage"><span>02</span><strong>矽光子與 CPO 平台</strong><p>Foundry / Packaging、Optical I/O、CPO Switch</p></div><div class="supply-stage"><span>03</span><strong>光源與 III-V 材料</strong><p>InP、GaAs、EML、CW laser、external laser source</p></div><div class="supply-stage"><span>04</span><strong>光模組與光通訊封測</strong><p>400G / 800G / 1.6T transceiver、AOC、LPO / LRO</p></div><div class="supply-stage"><span>05</span><strong>光纖連接與被動元件</strong><p>FAU、fiber array、fiber harness、connector、WDM</p></div><div class="supply-stage"><span>06</span><strong>封裝測試與系統整合</strong><p>封測、photonic wafer test、FAU AOI、AI rack integration</p></div></div></figure></div></div></section>
+  <div class="page-layout"><aside class="side-nav"><span>INDUSTRY / RESEARCH</span><nav aria-label="章節導覽"><a href="#section-01" data-nav="section-01"><span>01</span>研究說明</a><a href="#section-02" data-nav="section-02"><span>02</span>Executive Summary</a><a href="#section-03" data-nav="section-03"><span>03</span>市場數據快照</a><a href="#section-04" data-nav="section-04"><span>04</span>技術演進與時間軸</a><a href="#section-05" data-nav="section-05"><span>05</span>產業鏈地圖與大廠動態</a><a href="#section-06" data-nav="section-06"><span>06</span>結論</a><a href="#section-07" data-nav="section-07"><span>07</span>參考資料</a></nav></aside><main id="main-content"><section class="report-section reveal" id="section-01"><header class="section-header"><span class="section-no">01</span><h1>研究說明</h1></header><div class="section-body"><blockquote><p>模組化精簡版｜聚焦 AI 資料中心光互連、矽光子、CPO / NPO / LPO、全球與台灣供應鏈   更新日期：2026-06-23</p></blockquote>
+<hr>
+<h2>0. 報告架構</h2>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">模組</th><th scope="col">目的</th><th scope="col">對應內容</th></tr></thead><tbody><tr><th scope="row">1. Executive Summary</th><td>一頁掌握產業主軸</td><td>為什麼 AI 需要光互連、核心痛點、技術解法、台灣位置</td></tr><tr><th scope="row">2. 市場數據快照</th><td>壓縮呈現最關鍵市場規模與 CAGR</td><td>只保留 LightCounting、Yole、TrendForce、Omdia、Cignal AI 的核心數字</td></tr><tr><th scope="row">3. 技術演進與時間軸</th><td>釐清 800G → 1.6T → LPO / NPO → CPO → Optical I/O</td><td>速率升級、架構差異、導入節奏</td></tr><tr><th scope="row">4. 產業鏈地圖與大廠動態</th><td>將全球大廠與台灣供應鏈放在同一張地圖</td><td>上游材料、光源、矽光子、光模組、封裝測試、系統整合</td></tr></tbody></table></div>
+<hr></div></section>
+<section class="report-section reveal" id="section-02"><header class="section-header"><span class="section-no">02</span><h1>Executive Summary</h1></header><div class="section-body"><h2>1.1 核心判斷</h2>
+<p><strong>AI 資料中心的瓶頸正在從「算力晶片」擴散到「資料搬運」。</strong> GPU / XPU 數量增加後，cluster 內部需要更高頻寬、更低延遲、更低功耗的資料傳輸。傳統銅線與前面板可插拔光模組仍是主流，但在 800G、1.6T、3.2T 世代會逐步面臨功耗、訊號完整性、密度與散熱壓力。</p>
+<p><strong>短期主軸：800G / 1.6T 光模組放量。</strong> AI cluster 仍大量依賴可插拔光模組，800G 是 2024–2027 年主力，1.6T 從 2025–2026 年導入、2027 年加速。</p>
+<p><strong>中期主軸：LPO / NPO 降低功耗與縮短電訊號距離。</strong> LPO 減少模組端 DSP，NPO 將光學引擎靠近 ASIC，但仍保留一定模組化與維修彈性。</p>
+<p><strong>長期主軸：CPO / Optical I/O 把光互連推進封裝與系統核心。</strong> CPO 將 optical engine 與 switch ASIC 緊密整合；Optical I/O 進一步將光互連推向 XPU package、rack-level、multi-rack scale-up interconnect。</p>
+<h2>1.2 產業痛點與對應解法</h2>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">AI 資料中心痛點</th><th scope="col">現象</th><th scope="col">技術解法</th><th scope="col">對應受惠環節</th></tr></thead><tbody><tr><th scope="row">頻寬不足</th><td>GPU 等資料，cluster 利用率下降</td><td>800G / 1.6T / 3.2T 光模組</td><td>光模組、DSP、雷射、PD、TIA、Driver</td></tr><tr><th scope="row">功耗上升</th><td>高速電訊號與 DSP 消耗大量能源</td><td>LPO / LRO、CPO</td><td>線性光模組、SerDes、optical engine</td></tr><tr><th scope="row">電訊號距離受限</th><td>高速 PCB 走線損耗增加</td><td>NPO / CPO</td><td>先進封裝、基板、光耦合</td></tr><tr><th scope="row">前面板密度壓力</th><td>交換器 port 數與速率上升</td><td>CPO / 高密度連接器</td><td>光纖陣列、fiber harness、VSFF connector</td></tr><tr><th scope="row">封裝與散熱複雜度增加</th><td>光與電更靠近高熱 ASIC</td><td>COUPE、CoWoS CPO、外部光源</td><td>台積電、封測、光源、散熱、測試設備</td></tr></tbody></table></div>
+<h2>1.3 台灣供應鏈核心定位</h2>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">台灣位置</th><th scope="col">代表環節</th><th scope="col">核心判斷</th></tr></thead><tbody><tr><th scope="row">晶圓與先進封裝</th><td>台積電 COUPE、SoIC、CoWoS CPO</td><td>台灣最具戰略高度的矽光子 / CPO 平台</td></tr><tr><th scope="row">光纖連接與 FAU</th><td>波若威、上詮、光聖</td><td>CPO / SiPh 高密度光纖耦合與佈線需求增加</td></tr><tr><th scope="row">雷射封裝與光通訊封測</th><td>聯鈞</td><td>AI 光模組升級下的雷射封裝、AOC、光模組與矽光子封測代表</td></tr><tr><th scope="row">光模組與高速收發</th><td>眾達-KY、華星光、光聖、前鼎等</td><td>近期 800G / 1.6T 光模組主線</td></tr><tr><th scope="row">系統與機櫃整合</th><td>鴻海、廣達、緯創、智邦等</td><td>AI server、switch、rack integration 承接最終系統需求</td></tr></tbody></table></div>
+<hr></div></section>
+<section class="report-section reveal" id="section-03"><header class="section-header"><span class="section-no">03</span><h1>市場數據快照</h1></header><div class="section-body"><blockquote><p>原則：大型機構資料只保留「最能支撐主線的數字」，不再展開成長篇機構比較。完整來源集中於文末。</p></blockquote>
+<h2>2.1 關鍵數據摘要</h2>
+<details class="source-table-details"><summary>查看原始數據</summary><div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">指標</th><th scope="col">最新 / 起始值</th><th scope="col">2030 前後展望</th><th scope="col">讀法</th></tr></thead><tbody><tr><th scope="row">AI cluster Ethernet optics + CPO</th><td>2025：約 <strong>165 億美元</strong>；2026E：約 <strong>260 億美元</strong></td><td>2030 積極情境可挑戰 <strong>1,000 億美元</strong></td><td>AI cluster 已成為高速光模組與 CPO 需求主軸</td></tr><tr><th scope="row">Silicon PIC dies</th><td>2024：約 <strong>4.04 億美元</strong></td><td>2030E：<strong>超過 21 億美元</strong>；CAGR 約 <strong>31%</strong></td><td>矽光子由小眾技術轉向 AI datacom / CPO 成長平台</td></tr><tr><th scope="row">CPO / NPO</th><td>2025：約 <strong>1 億美元</strong></td><td>2030E：<strong>超過 390 億美元</strong></td><td>短期滲透率低，但 2028–2029 後加速</td></tr><tr><th scope="row">Pluggable optics</th><td>800G 為 2024–2027 主力</td><td>2030E 仍約 <strong>260 億美元</strong></td><td>可插拔光模組不會被立刻取代，會與 CPO / NPO 並存</td></tr><tr><th scope="row">AI optical modules</th><td>800G、1.6T 進入升級週期</td><td>2024–2030 CAGR 約 <strong>36%</strong>；800G CAGR 約 <strong>44%</strong></td><td>近期最直接的量產需求仍在 800G / 1.6T</td></tr></tbody></table></div></details>
+<h2>2.2 數據結論</h2>
+<ul><li><strong>近期主線：800G / 1.6T 可插拔光模組。</strong> 需求已反映在 AI cluster 建置與 hyperscaler 網路升級。</li><li><strong>中期成長：LPO / NPO / CPO。</strong> 目的不是追求新名詞，而是降低功耗、縮短電訊號距離、提高頻寬密度。</li><li><strong>長期方向：Optical I/O。</strong> 光互連將從交換器延伸到 XPU package、rack-level 與 multi-rack scale-up network。</li><li><strong>供應鏈瓶頸：雷射光源、光耦合、封裝測試、散熱與維修架構。</strong></li></ul></div></section>
+<section class="report-section reveal" id="section-04"><header class="section-header"><span class="section-no">04</span><h1>技術演進與時間軸</h1></header><div class="section-body"><h2>3.1 架構演進總表</h2>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">階段</th><th scope="col">架構</th><th scope="col">典型速率 / 產品</th><th scope="col">主要價值</th><th scope="col">導入節奏</th></tr></thead><tbody><tr><th scope="row">1</th><td>可插拔光模組 Pluggable Optics</td><td>400G / 800G / 1.6T OSFP、QSFP-DD</td><td>標準成熟、可維修、多供應商</td><td>目前主流，800G 放量、1.6T 導入</td></tr><tr><th scope="row">2</th><td>LPO / LRO</td><td>Linear Pluggable Optics、Linear Receive Optics</td><td>降低 DSP 功耗、降低延遲</td><td>2025–2027 年驗證與導入</td></tr><tr><th scope="row">3</th><td>NPO</td><td>Near-Packaged Optics</td><td>光學引擎靠近 ASIC，同時保留模組化</td><td>2026–2029 年作為過渡架構</td></tr><tr><th scope="row">4</th><td>CPO</td><td>Co-Packaged Optics</td><td>optical engine 與 switch ASIC 緊密整合</td><td>高階 AI switch 逐步商用化</td></tr><tr><th scope="row">5</th><td>Optical I/O</td><td>Photonic I/O chiplet、Photonic Fabric</td><td>光互連進入 XPU package / rack-level</td><td>2027 後逐步接近商用節點</td></tr><tr><th scope="row">6</th><td>Optical Switching</td><td>OCS、光交換網路</td><td>資料中心網路拓撲可重組</td><td>大型 AI cluster 長期架構</td></tr></tbody></table></div>
+<h2>3.2 速率升級時間軸</h2>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">時間</th><th scope="col">主力規格 / 架構</th><th scope="col">產業狀態</th><th scope="col">關鍵觀察指標</th></tr></thead><tbody><tr><th scope="row">2024</th><td>400G → 800G</td><td>AI 光模組需求快速啟動</td><td>800G 出貨量、GPU cluster 建置速度</td></tr><tr><th scope="row">2025</th><td>800G 主力、1.6T 早期導入</td><td>NVIDIA 發布 Spectrum-X / Quantum-X Photonics；AI optics 市場上修</td><td>1.6T 設計導入、LPO 驗證、CPO switch demo</td></tr><tr><th scope="row">2026</th><td>1.6T 放量準備、CPO / NPO 進入量產驗證</td><td>TSMC COUPE / CPO、Broadcom Davisson、AAOI 1.6T volume order</td><td>1.6T 出貨、CPO 交換器客戶導入、外部雷射供應</td></tr><tr><th scope="row">2027</th><td>1.6T 採用加速</td><td>Omdia 預期 1.6T 進入加速採用期</td><td>200G/lane 成熟度、LPO/NPO 滲透率</td></tr><tr><th scope="row">2028</th><td>3.2T 需求出現、CPO/NPO 加速</td><td>scale-up optical interconnect 開始放大</td><td>3.2T 標準、224G/448G signaling、生態成熟度</td></tr><tr><th scope="row">2029</th><td>CPO/NPO 高速擴張</td><td>AI multi-rack scale-up 增加</td><td>optical engine 良率、維修架構、散熱方案</td></tr><tr><th scope="row">2030</th><td>多架構並存</td><td>CPO/NPO、pluggable optics、Optical I/O 各自形成市場</td><td>CPO 滲透率、Optical I/O 封裝導入、AI cluster optics 支出占比</td></tr></tbody></table></div>
+<h2>3.3 LPO / NPO / CPO 對照</h2>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">架構</th><th scope="col">光學位置</th><th scope="col">電訊號距離</th><th scope="col">功耗改善</th><th scope="col">維修性</th><th scope="col">主要應用</th></tr></thead><tbody><tr><th scope="row">Pluggable</th><td>交換器前面板</td><td>較長</td><td>一般</td><td>高</td><td>現有資料中心與 AI cluster</td></tr><tr><th scope="row">LPO / LRO</th><td>前面板模組</td><td>較長</td><td>中高，主要來自 DSP 簡化</td><td>高</td><td>短距離 AI cluster、低延遲連接</td></tr><tr><th scope="row">NPO</th><td>ASIC 附近但未完全共封裝</td><td>中短</td><td>高</td><td>中</td><td>高階 AI switch 過渡方案</td></tr><tr><th scope="row">CPO</th><td>ASIC 同封裝或同基板附近</td><td>最短</td><td>最高</td><td>較低，需要系統級設計</td><td>高階 AI switch、scale-up network</td></tr><tr><th scope="row">Optical I/O</th><td>XPU / ASIC package 內或周邊</td><td>封裝級</td><td>最高</td><td>需新系統架構</td><td>XPU-to-XPU、rack-level、multi-rack scale-up</td></tr></tbody></table></div>
+<h2>3.4 矽光子的四大優勢</h2>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">優勢</th><th scope="col">說明</th><th scope="col">對 AI 光互連的意義</th></tr></thead><tbody><tr><th scope="row">高整合度</th><td>將 waveguide、modulator、detector、WDM 等功能整合在 PIC 上</td><td>光學元件小型化，支撐高密度 optical engine</td></tr><tr><th scope="row">可與 CMOS / 先進封裝整合</th><td>適合與 EIC、ASIC、CoWoS / SoIC / COUPE 結合</td><td>光互連從模組走向封裝與系統</td></tr><tr><th scope="row">頻寬密度提升</th><td>支援多波長、多通道、高速傳輸</td><td>對應 1.6T、3.2T、CPO / Optical I/O</td></tr><tr><th scope="row">成本與量產潛力</th><td>可利用半導體製程與晶圓級測試思維</td><td>支撐 AI 資料中心大規模部署</td></tr></tbody></table></div>
+<hr></div></section>
+<section class="report-section reveal" id="section-05"><header class="section-header"><span class="section-no">05</span><h1>產業鏈地圖與大廠動態</h1></header><div class="section-body"><h2>4.1 產業鏈樹狀圖</h2>
+<figure class="chain-diagram" aria-labelledby="chain-caption">
+<p class="chain-scroll-hint" aria-hidden="true">← 左右滑動查看完整產業鏈 →</p>
+<div class="chain-diagram-scroll" tabindex="0" role="region" aria-label="AI 光互連產業鏈階層圖，可橫向捲動">
+<svg class="industry-chain-svg" viewBox="0 0 1200 920" role="img" aria-labelledby="chain-title chain-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="chain-title">AI 資料中心光互連產業鏈階層圖</title>
+<desc id="chain-desc">AI 資料中心 / AI Factory
+│
+├─ 算力與網路平台
+│   ├─ GPU / XPU：NVIDIA、AMD、客製化 ASIC
+│   ├─ Switch ASIC：Broadcom、NVIDIA、Marvell
+│   └─ Optical networking：Nokia / Infinera
+│
+├─ 矽光子與 CPO 平台
+│   ├─ Foundry / Packaging：TSMC COUPE、SoIC、CoWoS CPO
+│   ├─ Optical I/O：Marvell / Celestial AI、AMD / Enosemi、Ayar Labs 類型
+│   └─ CPO Switch：NVIDIA Spectrum-X / Quantum-X Photonics、Broadcom Tomahawk 6 Davisson
+│
+├─ 光源與 III-V 材料
+│   ├─ Global：Lumentum、Coherent、AAOI
+│   ├─ Taiwan：聯亞、全新、穩懋等
+│   └─ 技術：InP、GaAs、EML、CW laser、external laser source
+│
+├─ 光模組與光通訊封測
+│   ├─ Global：AAOI、Coherent、Lumentum、Innolight、Eoptolink 類型
+│   ├─ Taiwan：聯鈞、華星光、眾達-KY、光聖、前鼎等
+│   └─ 產品：400G / 800G / 1.6T transceiver、AOC、LPO / LRO
+│
+├─ 光纖連接與被動元件
+│   ├─ Global：Corning、SENKO、Sumitomo Electric
+│   ├─ Taiwan：波若威、上詮、光聖、FIT / 鴻海連接器體系
+│   └─ 產品：FAU、fiber array、fiber harness、jumper、connector、WDM
+│
+└─ 封裝測試與系統整合
+    ├─ 封測：日月光 / 矽品、聯鈞、光通訊封測廠
+    ├─ 測試設備：光耦合、photonic wafer test、FAU AOI、burn-in
+    └─ 系統：鴻海、廣達、緯創、智邦、AI server / switch / rack integration</desc>
+<defs>
+  <filter id="chain-shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#10233f" flood-opacity=".09"/></filter>
+  <linearGradient id="root-fill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#102f5a"/><stop offset="1" stop-color="#0b4f92"/></linearGradient>
+  <style>
+    .chain-line{fill:none;stroke:#77a9e8;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.chain-dot{fill:#1769e0}.chain-stage{fill:#fff;stroke:#bcd2ea;stroke-width:1.5}.chain-detail{fill:#f4f8fd;stroke:#d7e4f2;stroke-width:1.3}.chain-kicker{font:800 12px Arial,sans-serif;letter-spacing:1.6px;fill:#1769e0}.chain-title{font:700 20px "Noto Sans TC","Microsoft JhengHei",sans-serif;fill:#10233f}.chain-body{font:14px "Noto Sans TC","Microsoft JhengHei",sans-serif;fill:#415976}.chain-num{font:800 13px Arial,sans-serif;fill:#1769e0}.chain-root-title{font:800 26px "Noto Sans TC","Microsoft JhengHei",sans-serif;fill:#fff}.chain-root-sub{font:15px Arial,sans-serif;fill:#dbeafe}.chain-root-note{font:13px "Noto Sans TC","Microsoft JhengHei",sans-serif;fill:#bcd8fa}.chain-bullet{fill:#0b8f6a}
+  </style>
+</defs>
+<rect x="24" y="28" width="1152" height="864" rx="24" fill="#f8fbff" stroke="#d7e4f2"/>
+<path class="chain-line" d="M258 460H294M294 82V838M294 82H330M294 222H330M294 362H330M294 502H330M294 642H330M294 782H330"/>
+<circle class="chain-dot" cx="294" cy="82" r="5"/><circle class="chain-dot" cx="294" cy="222" r="5"/><circle class="chain-dot" cx="294" cy="362" r="5"/><circle class="chain-dot" cx="294" cy="502" r="5"/><circle class="chain-dot" cx="294" cy="642" r="5"/><circle class="chain-dot" cx="294" cy="782" r="5"/>
+<g filter="url(#chain-shadow)"><rect x="52" y="370" width="206" height="180" rx="20" fill="url(#root-fill)"/></g>
+<text x="78" y="416" class="chain-kicker" fill="#8fc5ff">AI INFRASTRUCTURE</text><text x="78" y="458" class="chain-root-title">AI 資料中心</text><text x="78" y="487" class="chain-root-sub">AI Factory</text><text x="78" y="520" class="chain-root-note">COMPUTE · NETWORK · OPTICS</text>
+
+<g transform="translate(330 30)"><path class="chain-line" d="M250 52H278"/><circle class="chain-dot" cx="264" cy="52" r="4"/><rect class="chain-stage" width="250" height="104" rx="16" filter="url(#chain-shadow)"/><text x="20" y="26" class="chain-num">01</text><text x="20" y="58" class="chain-title">算力與網路平台</text><text x="20" y="82" class="chain-body">Compute &amp; Network</text><rect class="chain-detail" x="278" width="542" height="104" rx="16"/><circle class="chain-bullet" cx="300" cy="25" r="4"/><circle class="chain-bullet" cx="300" cy="52" r="4"/><circle class="chain-bullet" cx="300" cy="79" r="4"/><text x="314" y="30" class="chain-body">GPU / XPU：NVIDIA、AMD、客製化 ASIC</text><text x="314" y="57" class="chain-body">Switch ASIC：Broadcom、NVIDIA、Marvell</text><text x="314" y="84" class="chain-body">Optical networking：Nokia / Infinera</text></g>
+<g transform="translate(330 170)"><path class="chain-line" d="M250 52H278"/><circle class="chain-dot" cx="264" cy="52" r="4"/><rect class="chain-stage" width="250" height="104" rx="16" filter="url(#chain-shadow)"/><text x="20" y="26" class="chain-num">02</text><text x="20" y="58" class="chain-title">矽光子與 CPO 平台</text><text x="20" y="82" class="chain-body">Silicon Photonics</text><rect class="chain-detail" x="278" width="542" height="104" rx="16"/><circle class="chain-bullet" cx="300" cy="25" r="4"/><circle class="chain-bullet" cx="300" cy="52" r="4"/><circle class="chain-bullet" cx="300" cy="79" r="4"/><text x="314" y="30" class="chain-body">Foundry / Packaging：TSMC COUPE、SoIC、CoWoS CPO</text><text x="314" y="57" class="chain-body">Optical I/O：Marvell / Celestial AI、AMD / Enosemi、Ayar Labs</text><text x="314" y="84" class="chain-body">CPO Switch：NVIDIA Photonics、Broadcom Tomahawk 6 Davisson</text></g>
+<g transform="translate(330 310)"><path class="chain-line" d="M250 52H278"/><circle class="chain-dot" cx="264" cy="52" r="4"/><rect class="chain-stage" width="250" height="104" rx="16" filter="url(#chain-shadow)"/><text x="20" y="26" class="chain-num">03</text><text x="20" y="58" class="chain-title">光源與 III-V 材料</text><text x="20" y="82" class="chain-body">Laser &amp; Materials</text><rect class="chain-detail" x="278" width="542" height="104" rx="16"/><circle class="chain-bullet" cx="300" cy="25" r="4"/><circle class="chain-bullet" cx="300" cy="52" r="4"/><circle class="chain-bullet" cx="300" cy="79" r="4"/><text x="314" y="30" class="chain-body">Global：Lumentum、Coherent、AAOI</text><text x="314" y="57" class="chain-body">Taiwan：聯亞、全新、穩懋等</text><text x="314" y="84" class="chain-body">技術：InP、GaAs、EML、CW laser、external laser source</text></g>
+<g transform="translate(330 450)"><path class="chain-line" d="M250 52H278"/><circle class="chain-dot" cx="264" cy="52" r="4"/><rect class="chain-stage" width="250" height="104" rx="16" filter="url(#chain-shadow)"/><text x="20" y="26" class="chain-num">04</text><text x="20" y="58" class="chain-title">光模組與光通訊封測</text><text x="20" y="82" class="chain-body">Modules &amp; Testing</text><rect class="chain-detail" x="278" width="542" height="104" rx="16"/><circle class="chain-bullet" cx="300" cy="25" r="4"/><circle class="chain-bullet" cx="300" cy="52" r="4"/><circle class="chain-bullet" cx="300" cy="79" r="4"/><text x="314" y="30" class="chain-body">Global：AAOI、Coherent、Lumentum、Innolight、Eoptolink</text><text x="314" y="57" class="chain-body">Taiwan：聯鈞、華星光、眾達-KY、光聖、前鼎等</text><text x="314" y="84" class="chain-body">產品：400G / 800G / 1.6T transceiver、AOC、LPO / LRO</text></g>
+<g transform="translate(330 590)"><path class="chain-line" d="M250 52H278"/><circle class="chain-dot" cx="264" cy="52" r="4"/><rect class="chain-stage" width="250" height="104" rx="16" filter="url(#chain-shadow)"/><text x="20" y="26" class="chain-num">05</text><text x="20" y="58" class="chain-title">光纖連接與被動元件</text><text x="20" y="82" class="chain-body">Fiber Connectivity</text><rect class="chain-detail" x="278" width="542" height="104" rx="16"/><circle class="chain-bullet" cx="300" cy="25" r="4"/><circle class="chain-bullet" cx="300" cy="52" r="4"/><circle class="chain-bullet" cx="300" cy="79" r="4"/><text x="314" y="30" class="chain-body">Global：Corning、SENKO、Sumitomo Electric</text><text x="314" y="57" class="chain-body">Taiwan：波若威、上詮、光聖、FIT / 鴻海連接器體系</text><text x="314" y="84" class="chain-body">產品：FAU、fiber array、fiber harness、jumper、connector、WDM</text></g>
+<g transform="translate(330 730)"><path class="chain-line" d="M250 52H278"/><circle class="chain-dot" cx="264" cy="52" r="4"/><rect class="chain-stage" width="250" height="104" rx="16" filter="url(#chain-shadow)"/><text x="20" y="26" class="chain-num">06</text><text x="20" y="58" class="chain-title">封裝測試與系統整合</text><text x="20" y="82" class="chain-body">Packaging &amp; Systems</text><rect class="chain-detail" x="278" width="542" height="104" rx="16"/><circle class="chain-bullet" cx="300" cy="25" r="4"/><circle class="chain-bullet" cx="300" cy="52" r="4"/><circle class="chain-bullet" cx="300" cy="79" r="4"/><text x="314" y="30" class="chain-body">封測：日月光 / 矽品、聯鈞、光通訊封測廠</text><text x="314" y="57" class="chain-body">測試設備：光耦合、photonic wafer test、FAU AOI、burn-in</text><text x="314" y="84" class="chain-body">系統：鴻海、廣達、緯創、智邦、AI server / switch / rack</text></g>
+</svg>
+</div>
+<figcaption id="chain-caption">AI 光互連供應鏈由運算與網路平台向矽光子、光源、模組、連接及系統整合延伸；內容依原始研究樹狀資料重繪。</figcaption>
+</figure>
+<h2>4.2 全球大廠與台灣供應鏈對齊表</h2>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">供應鏈層級</th><th scope="col">全球代表</th><th scope="col">台灣代表</th><th scope="col">核心技術因子</th><th scope="col">量產 / 導入時間點</th><th scope="col">觀察指標</th></tr></thead><tbody><tr><th scope="row">AI network 系統</th><td>NVIDIA</td><td>鴻海、廣達、緯創、智邦</td><td>AI switch、InfiniBand / Ethernet networking、rack integration</td><td>2025 發布 CPO photonics switches；2026 後導入</td><td>Spectrum-X / Quantum-X 出貨、AI rack 專案</td></tr><tr><th scope="row">Switch ASIC + CPO</th><td>Broadcom</td><td>台積電協作、系統廠</td><td>Tomahawk 6 Davisson、102.4Tbps CPO、200G channel</td><td>2025 發布，2026 後商用推進</td><td>CPO switch 客戶導入、102.4T 交換器生態</td></tr><tr><th scope="row">矽光子製程 / 先進封裝</th><td>TSMC、GlobalFoundries、Intel Silicon Photonics</td><td>台積電</td><td>COUPE、SoIC、CoWoS CPO、SiPh PIC + EIC</td><td>2025 200Gbps 進展；2026 CPO 目標量產</td><td>COUPE 客戶數、CoWoS CPO 良率、optical I/O demo</td></tr><tr><th scope="row">高速 transceiver</th><td>AAOI、Coherent、Lumentum、Innolight、Eoptolink</td><td>華星光、眾達-KY、光聖、前鼎</td><td>800G / 1.6T、OSFP / QSFP-DD、AOC、LPO</td><td>800G 放量；1.6T 2025–2027 導入</td><td>800G / 1.6T 出貨、hyperscaler 驗證</td></tr><tr><th scope="row">雷射 / 光源</th><td>Lumentum、Coherent、AAOI</td><td>聯亞、全新、穩懋</td><td>EML、CW laser、InP / GaAs、external laser source</td><td>2026 起受 CPO / SiPh 帶動</td><td>外部光源產能、laser reliability、光源採購承諾</td></tr><tr><th scope="row">雷射封裝 / 光通訊封測</th><td>Fabrinet、AAOI 類型</td><td>聯鈞</td><td>雷射二極體封測、AOC、光模組封測、SiPh / CPO 封測</td><td>800G 完成驗證後 2026 逐季放量</td><td>800G / 1.6T 封測產能、光電對準能力</td></tr><tr><th scope="row">光纖陣列 / 連接</th><td>Corning、SENKO、Sumitomo</td><td>波若威、上詮、光聖、FIT</td><td>FAU、fiber array、fiber harness、connector、WDM</td><td>800G / 1.6T 與 CPO 同步升級</td><td>fiber harness 規格、CPO fiber attach、客製化 jumper</td></tr><tr><th scope="row">Optical I/O</th><td>Marvell / Celestial AI、Ayar Labs、AMD / Enosemi</td><td>台積電、ASIC 設計服務與封裝生態</td><td>Photonic Fabric、TeraPHY 類 optical chiplet、UCIe / package-level I/O</td><td>2027 後逐步商用化</td><td>XPU-to-XPU optical I/O、rack-level scale-up demo</td></tr><tr><th scope="row">Optical networking</th><td>Nokia / Infinera</td><td>網通系統廠</td><td>Coherent optics、DCI、intra-data-center optics</td><td>2025 完成 Infinera 收購後整合</td><td>ICE-D、coherent ports、data center optical fabric</td></tr></tbody></table></div>
+<h2>4.3 台灣公司核心觀察指標</h2>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">公司 / 類型</th><th scope="col">供應鏈位置</th><th scope="col">核心技術因子</th><th scope="col">量產 / 導入節奏</th><th scope="col">報告中定位</th></tr></thead><tbody><tr><th scope="row">台積電</th><td>矽光子製程與先進封裝</td><td>COUPE、SoIC、CoWoS CPO、SiPh PIC + EIC</td><td>2025 達成 200Gbps 高速傳輸進展；2026 CPO 目標量產</td><td>台灣最高戰略位階，CPO / Optical I/O 平台</td></tr><tr><th scope="row">日月光 / 矽品</th><td>封裝測試</td><td>先進封裝、光電共封裝、CPO assembly</td><td>隨 CPO / Optical I/O 導入增加</td><td>承接光電共封裝與測試複雜度</td></tr><tr><th scope="row">聯鈞</th><td>雷射封裝、光通訊封測</td><td>雷射二極體封測、AOC、800G 光模組、SiPh / CPO 封測</td><td>800G 完成驗證後，2026 逐季放量觀察</td><td>光通訊封測與雷射封裝代表，不是 CPO 架構主導者</td></tr><tr><th scope="row">波若威</th><td>光纖佈線與 fiber harness</td><td>800G / 1.6T fiber harness、customized jumper / cable</td><td>AI server / data center fiber harness 升級</td><td>高密度光纖管理與 AI server 光纖佈線</td></tr><tr><th scope="row">上詮</th><td>Fiber array / SiPh 耦合</td><td>FAU、fiber array、SiPh / CPO connector</td><td>隨 SiPh / CPO optical engine 增加</td><td>矽光子光纖耦合與高密度連接</td></tr><tr><th scope="row">光聖</th><td>主被動光元件、連接</td><td>active / passive optical components、high-speed optical components</td><td>AI data center 高速傳輸需求提升</td><td>光通訊元件與資料中心連接</td></tr><tr><th scope="row">眾達-KY / 華星光 / 前鼎</th><td>光收發模組</td><td>400G / 800G / 1.6T transceiver、AOC</td><td>800G 主力、1.6T 導入</td><td>近期最接近營收放量的光模組層</td></tr><tr><th scope="row">聯亞 / 全新 / 穩懋</th><td>III-V 材料與光源上游</td><td>InP、GaAs、雷射、PD、EML / VCSEL 相關</td><td>隨 SiPh 外部光源與高速光模組需求升級</td><td>SiPh / CPO 光源與上游材料支撐</td></tr><tr><th scope="row">鴻海 / FIT</th><td>連接器、系統整合</td><td>external laser solution、connectivity、AI server integration</td><td>NVIDIA photonics ecosystem、AI server 放量</td><td>光電連接、系統組裝與 AI rack integration</td></tr><tr><th scope="row">智邦</th><td>網通系統</td><td>data center switch、white-box switch</td><td>AI Ethernet switch 升級</td><td>承接 AI network switch 系統需求</td></tr><tr><th scope="row">廣達 / 緯創 / 英業達等</th><td>AI server / rack</td><td>server、rack、液冷與系統整合</td><td>AI factory 建置擴大</td><td>光互連最終落地的系統平台</td></tr></tbody></table></div>
+<h2>4.4 全球公司核心觀察指標</h2>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">公司</th><th scope="col">供應鏈位置</th><th scope="col">核心動態</th><th scope="col">產業意義</th></tr></thead><tbody><tr><th scope="row">NVIDIA</th><td>AI network 系統推動者</td><td>Spectrum-X / Quantum-X Photonics CPO switches</td><td>定義 AI factory 光互連架構</td></tr><tr><th scope="row">Broadcom</th><td>Switch ASIC + CPO</td><td>Tomahawk 6 Davisson 102.4Tbps CPO</td><td>推動 CPO Ethernet switch 商用化</td></tr><tr><th scope="row">TSMC</th><td>SiPh + advanced packaging</td><td>COUPE、CoWoS CPO、200Gbps photonic engine</td><td>將矽光子推進封裝內互連</td></tr><tr><th scope="row">AAOI</th><td>高速光模組</td><td>1.6T data center transceiver volume order</td><td>1.6T 光模組量產節奏指標</td></tr><tr><th scope="row">Lumentum</th><td>雷射 / 外部光源</td><td>NVIDIA strategic partnership、advanced laser components</td><td>CPO / SiPh 光源核心</td></tr><tr><th scope="row">Coherent</th><td>雷射 / 光元件 / optical networking</td><td>NVIDIA strategic partnership、advanced lasers and optical networking products</td><td>光源與光網路產品關鍵供應商</td></tr><tr><th scope="row">Nokia / Infinera</th><td>Optical networking / coherent optics</td><td>收購 Infinera、ICE-D intra-data-center optics</td><td>電信光網路能力往 AI data center 內部延伸</td></tr><tr><th scope="row">Marvell / Celestial AI</th><td>Optical I/O</td><td>Photonic Fabric chiplet</td><td>XPU package / rack-level optical I/O</td></tr><tr><th scope="row">AMD / Enosemi</th><td>AI system + photonics</td><td>收購 Enosemi</td><td>AI 晶片公司補足 CPO / photonics 能力</td></tr><tr><th scope="row">Corning</th><td>光纖與連接基礎設施</td><td>與 NVIDIA 合作擴大 optical connectivity capacity</td><td>支撐 AI cluster 高密度光纖佈線</td></tr></tbody></table></div>
+<hr></div></section>
+<section class="report-section reveal" id="section-06"><header class="section-header"><span class="section-no">06</span><h1>結論</h1></header><div class="section-body"><p><strong>AI 光通訊升級不是單一零件題材，而是資料中心架構升級。</strong> 800G / 1.6T 光模組是短期主線；LPO / NPO 是降低功耗與過渡到 CPO 的中期方案；CPO / Optical I/O 是長期把光互連推進封裝與系統核心的方向。</p>
+<p><strong>市場成長由 AI cluster 拉動，且數據已明確上修。</strong> LightCounting、Yole、TrendForce、Omdia、Cignal AI 等機構的資料共同指向：AI 光互連、矽光子、CPO / NPO、高速光模組都會在 2025–2030 年進入結構性成長期。</p>
+<p><strong>台灣供應鏈的核心價值是整合。</strong> 台積電負責 SiPh / CPO 平台；聯鈞切入雷射封裝與光通訊封測；波若威、上詮、光聖切入高密度光纖連接與 FAU；系統廠承接 AI server、switch、rack integration。台灣不是只做單一零件，而是橫跨晶圓、封裝、光通訊、連接與系統整合的完整鏈條。</p>
+<hr></div></section>
+<section class="report-section reveal" id="section-07"><header class="section-header"><span class="section-no">07</span><h1>參考資料</h1></header><div class="section-body"><ol><li>LightCounting, *January 2026 Optics for AI Clusters*：https://www.lightcounting.com/newsletter/en/january-2026-optics-for-ai-clusters-366</li><li>LightCounting, *January 2025 Optics for AI Clusters*：https://www.lightcounting.com/newsletter/en/january-2025-optics-for-ai-clusters-319</li><li>LightCounting, *$100 Billion Market for AI Cluster Optics by 2030?*：https://www.lightcounting.com/newsletter/en/march-2026-ethernet-optics-382</li><li>Yole Group / Evatec, *Navigating the next wave of optical interconnects*：https://evatecnet.com/media/o4cbavcm/evatec-layers-9-dp-photo-yole.pdf</li><li>TrendForce, *Optical Interconnects Become Critical to AI Factory Expansion; CPO/NPO Market Expected to Exceed US$39 Billion by 2030*：https://www.trendforce.com/presscenter/news/20260615-13098.html</li><li>TrendForce, *CPO Penetration in AI Data Centers Expected to Rise*：https://www.trendforce.com/presscenter/news/20260311-12962.html</li><li>Omdia / IEEE 802.3, *Optical Components Market Update*：https://www.ieee802.org/3/ad_hoc/E4AI/public/25_1023/huff_e4ai_01a_251023.pdf</li><li>Cignal AI, *800GbE Optics Shipments to Grow 60% in 2025*：https://cignal.ai/2025/05/800gbe-optics-shipments-to-grow-60-in-2025/</li><li>NVIDIA, *Spectrum-X Photonics Co-Packaged Optics Networking Switches*：https://investor.nvidia.com/news/press-release-details/2025/NVIDIA-Announces-Spectrum-X-Photonics-Co-Packaged-Optics-Networking-Switches-to-Scale-AI-Factories-to-Millions-of-GPUs/default.aspx</li><li>Broadcom, *Tomahawk 6 Davisson 102.4Tbps CPO Ethernet Switch*：https://www.globenewswire.com/news-release/2025/10/08/3163429/19933/en/broadcom-announces-tomahawk-6-davisson-the-industry-s-first-102-4-tbps-ethernet-switch-with-co-packaged-optics.html</li><li>TSMC Research, *COUPE integration scheme*：https://research.tsmc.com/english/research/interconnect/publish-time-1.html</li><li>Applied Optoelectronics, *1.6T Data Center Transceivers Volume Order*：https://www.ofcconference.org/news-media/exhibitor-news/aoi-receives-first-volume-order-of-1-6t-data-center-transceivers-from-major-hyperscale-customer/</li><li>Nokia, *Acquisition of Infinera*：https://www.nokia.com/newsroom/nokia-completes-acquisition-of-infinera-to-create-innovation-powerhouse-in-optical-networks-with-the-scale-to-power-the-data-center-revolution/</li><li>Marvell, *Acquisition of Celestial AI*：https://investor.marvell.com/news-events/press-releases/detail/1000/marvell-to-acquire-celestial-ai-accelerating-scale-up-connectivity-for-next-generation-data-centers</li><li>AMD, *Acquires Enosemi to Accelerate Co-Packaged Optics Innovation*：https://www.amd.com/en/blogs/2025/amd-acquires-enosemi-to-accelerate-co-packaged-optics-innovation.html</li><li>Corning / NVIDIA partnership：https://nvidianews.nvidia.com/news/nvidia-and-corning-announce-long-term-partnership-to-strengthen-us-manufacturing-for-ai-infrastructure</li><li>聯鈞光電官方資料：https://www.elaser.com.tw/p2-4.htm</li><li>鉅亨網，聯鈞 800G 光模組驗證與 2026 放量：https://news.cnyes.com/news/id/6243790</li><li>波若威 2024 年報：https://www.browave.com/uploads/images/113_Annual_Report%28EN%29.pdf</li><li>上詮光纖陣列與 SiPh / CPO 相關產品：https://www.foci.com.tw/ReLFACon_news</li></ol>
+<hr>
+<h2>參考來源（精簡）</h2>
+<ul><li>LightCounting：AI cluster Ethernet optical transceivers + CPO 2025 / 2026 市場估計、AI cluster optics 長期情境。</li><li>Yole Group：Silicon PIC dies 市場規模與 2024–2030 CAGR。</li><li>TrendForce：CPO / NPO 與可插拔光模組 2030 市場展望。</li><li>Omdia：AI scale-up / scale-out optical modules、800G / 1.6T / 3.2T 導入節奏。</li><li>Cignal AI：Datacom optical components、800G / 1.6T 出貨趨勢。</li><li>OIF / Ethernet Alliance：224G、LPO / NPO / CPO、1.6T / 3.2T 標準與技術路線。</li></ul></div></section><footer class="page-footer"><strong>矽光子、CPO 與 AI 光通訊產業研究報告</strong><span>資料日期：2026-06-23 · 由原始 Markdown 生成</span></footer></main></div>
+  <button class="back-top" type="button" aria-label="返回頁首">↑</button>
+  <script>(() => {
+  const root = document.documentElement;
+  const progress = document.querySelector('.progress');
+  const progressBar = progress?.querySelector('span');
+  const backTop = document.querySelector('.back-top');
+  const navLinks = [...document.querySelectorAll('[data-nav]')];
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('.nav-links');
+  const mobileButton = document.querySelector('.mobile-bar button');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const updateScroll = () => {
+    const max = root.scrollHeight - innerHeight;
+    const ratio = max > 0 ? Math.min(1, scrollY / max) : 0;
+    if (progressBar) progressBar.style.transform = `scaleX(${ratio})`;
+    if (progress) progress.setAttribute('aria-valuenow', String(Math.round(ratio * 100)));
+    backTop?.classList.toggle('visible', scrollY > innerHeight * .65);
+  };
+  addEventListener('scroll', updateScroll, { passive: true });
+  addEventListener('resize', updateScroll, { passive: true });
+  updateScroll();
+
+  navToggle?.addEventListener('click', () => {
+    const open = navMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(open));
+  });
+  navMenu?.addEventListener('click', (event) => {
+    if (!event.target.closest('a')) return;
+    navMenu.classList.remove('open');
+    navToggle?.setAttribute('aria-expanded', 'false');
+  });
+  mobileButton?.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    mobileButton.setAttribute('aria-expanded', String(open));
+    const state = mobileButton.querySelector('i');
+    if (state) state.textContent = open ? '收合' : '展開';
+  });
+  mobileMenu?.addEventListener('click', (event) => {
+    if (!event.target.closest('a')) return;
+    mobileMenu.classList.remove('open');
+    mobileButton?.setAttribute('aria-expanded', 'false');
+  });
+  backTop?.addEventListener('click', () => scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' }));
+
+  if ('IntersectionObserver' in window) {
+    const sectionObserver = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      navLinks.forEach((link) => link.classList.toggle('active', link.dataset.nav === visible.target.id));
+    }, { rootMargin: '-18% 0px -62% 0px', threshold: [0, .25, .6] });
+    document.querySelectorAll('.report-section').forEach((section) => sectionObserver.observe(section));
+
+    if (!reducedMotion) {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      }, { rootMargin: '0px 0px -7% 0px', threshold: .06 });
+      document.querySelectorAll('.reveal').forEach((node) => revealObserver.observe(node));
+    }
+  }
+  if (reducedMotion || !('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal').forEach((node) => node.classList.add('visible'));
+  }
+})();
+</script>
+</body>
+</html>

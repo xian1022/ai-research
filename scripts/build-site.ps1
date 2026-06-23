@@ -2,7 +2,7 @@ $ErrorActionPreference = 'Stop'
 
 $root = Split-Path -Parent $PSScriptRoot
 $site = Join-Path $root '_site'
-$routes = @('tsmc', 'components', 'server-cpu', 'ai-pcb')
+$routes = @('tsmc', 'cpo', 'components', 'server-cpu', 'ai-pcb')
 
 if (Test-Path -LiteralPath $site) {
     Remove-Item -LiteralPath $site -Recurse -Force
