@@ -24,11 +24,13 @@ $expectedFiles = @(
     'reports/ai-pcb/index.html'
 )
 
-$actualFiles = @(Get-ChildItem -LiteralPath $site -Recurse -File | ForEach-Object {
+$actualFiles = @(Get-ChildItem -LiteralPath $site -Recurse -File -Force | ForEach-Object {
     $_.FullName.Substring($site.Length + 1).Replace([System.IO.Path]::DirectorySeparatorChar, '/')
 })
 
-Assert-True ((($actualFiles | Sort-Object) -join '|') -eq (($expectedFiles | Sort-Object) -join '|')) '_site must contain only approved public files'
+$actualManifest = ($actualFiles | Sort-Object) -join '|'
+$expectedManifest = ($expectedFiles | Sort-Object) -join '|'
+Assert-True ($actualManifest -eq $expectedManifest) "_site must contain only approved public files. Expected: $expectedManifest. Actual: $actualManifest"
 
 $workflowText = Get-Content -LiteralPath $workflow -Raw -Encoding UTF8
 foreach ($required in @(
