@@ -11,6 +11,7 @@ Desktop.ini
 .DS_Store
 
 # Generated backups and temporary artifacts
+_site/
 *.bak-*.html
 *.tmp
 *.log

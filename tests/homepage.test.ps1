@@ -28,11 +28,11 @@ Assert-True ($html -match 'h1\s*\{[^}]*white-space:\s*nowrap') 'Hero title must 
 
 $links = [regex]::Matches(
     $html,
-    '<a\b(?=[^>]*\bdata-report-link\b)(?=[^>]*\bdata-public-url="[^"]*")(?=[^>]*\btarget="_blank")(?=[^>]*\brel="noopener")[^>]*\bhref="([^"]+)"[^>]*>',
+    '<a\b(?=[^>]*\bdata-report-link\b)(?=[^>]*\btarget="_blank")(?=[^>]*\brel="noopener")[^>]*\bhref="([^"]+)"[^>]*>',
     [System.Text.RegularExpressions.RegexOptions]::IgnoreCase
 )
 
-Assert-True ($links.Count -eq 4) 'Four report links must include local fallback and safe new-tab settings'
+Assert-True ($links.Count -eq 4) 'Four report links must use relative routes and safe new-tab settings'
 
 $actualLinks = @($links | ForEach-Object { $_.Groups[1].Value })
 $expectedLinks = @(
@@ -41,7 +41,7 @@ $expectedLinks = @(
     'reports/server-cpu/',
     'reports/ai-pcb/'
 )
-Assert-True (($actualLinks -join '|') -eq ($expectedLinks -join '|')) 'Fallback links must use published clean routes'
+Assert-True (($actualLinks -join '|') -eq ($expectedLinks -join '|')) 'Links must use published relative routes'
 $projectOrder = @('tsmc', 'components', 'server-cpu', 'ai-pcb')
 $projectPositions = @($projectOrder | ForEach-Object { $html.IndexOf("data-project=`"$_`"") })
 Assert-True (($projectPositions | Where-Object { $_ -lt 0 }).Count -eq 0) 'Every expected project identifier must be present'
@@ -52,8 +52,9 @@ foreach ($relativePath in $actualLinks) {
     Assert-True (Test-Path -LiteralPath (Join-Path $root $windowsPath)) "Missing report file: $relativePath"
 }
 
-Assert-True ($html -match 'const\s+publicUrl\s*=\s*link\.dataset\.publicUrl\.trim\(\)') 'Script must trim the public URL'
-Assert-True ($html -match 'if\s*\(publicUrl\)\s*\{[^}]*link\.href\s*=\s*publicUrl') 'A public URL must override the local URL'
+Assert-True ($html -notmatch 'data-public-url') 'Homepage must not hardcode deployment URLs'
+Assert-True ($html -notmatch 'xian1022\.github\.io') 'Homepage must remain portable across deployment paths'
+Assert-True ($html -notmatch 'dataset\.publicUrl|link\.href\s*=') 'Homepage must not override relative links in JavaScript'
 Assert-True ($html -match '@media\s*\(max-width:\s*768px\)') 'Tablet responsive styles are required'
 Assert-True ($html -match '@media\s*\(max-width:\s*520px\)') 'Mobile responsive styles are required'
 Assert-True ($html -match '@media\s*\(prefers-reduced-motion:\s*reduce\)') 'Reduced motion must be supported'

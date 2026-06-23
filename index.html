@@ -448,7 +448,7 @@
           <time datetime="2026-06-23">2026.06.23</time>
           <span class="link-mode">本機可用</span>
         </div>
-        <a class="report-link" data-report-link data-public-url="https://xian1022.github.io/ai-research/reports/tsmc/" href="reports/tsmc/" target="_blank" rel="noopener" aria-label="在新分頁開啟台積電供應產業鏈研究">
+        <a class="report-link" data-report-link href="reports/tsmc/" target="_blank" rel="noopener" aria-label="在新分頁開啟台積電供應產業鏈研究">
           <span>閱讀研究</span>
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
         </a>
@@ -468,7 +468,7 @@
           <time datetime="2026-06-22">2026.06.22</time>
           <span class="link-mode">本機可用</span>
         </div>
-        <a class="report-link" data-report-link data-public-url="https://xian1022.github.io/ai-research/reports/components/" href="reports/components/" target="_blank" rel="noopener" aria-label="在新分頁開啟主動元件與被動元件產業研究">
+        <a class="report-link" data-report-link href="reports/components/" target="_blank" rel="noopener" aria-label="在新分頁開啟主動元件與被動元件產業研究">
           <span>閱讀研究</span>
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
         </a>
@@ -488,7 +488,7 @@
           <time datetime="2026-06-22">2026.06.22</time>
           <span class="link-mode">本機可用</span>
         </div>
-        <a class="report-link" data-report-link data-public-url="https://xian1022.github.io/ai-research/reports/server-cpu/" href="reports/server-cpu/" target="_blank" rel="noopener" aria-label="在新分頁開啟 AI Server CPU 產業研究">
+        <a class="report-link" data-report-link href="reports/server-cpu/" target="_blank" rel="noopener" aria-label="在新分頁開啟 AI Server CPU 產業研究">
           <span>閱讀研究</span>
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
         </a>
@@ -508,7 +508,7 @@
           <time datetime="2026-06-20">2026.06.20</time>
           <span class="link-mode">本機可用</span>
         </div>
-        <a class="report-link" data-report-link data-public-url="https://xian1022.github.io/ai-research/reports/ai-pcb/" href="reports/ai-pcb/" target="_blank" rel="noopener" aria-label="在新分頁開啟 AI PCB 供應鏈研究">
+        <a class="report-link" data-report-link href="reports/ai-pcb/" target="_blank" rel="noopener" aria-label="在新分頁開啟 AI PCB 供應鏈研究">
           <span>閱讀研究</span>
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
         </a>
@@ -523,16 +523,5 @@
     <p>最後整理日期：<time datetime="2026-06-23">2026 年 6 月 23 日</time></p>
   </footer>
 
-  <script>
-    document.querySelectorAll('[data-report-link]').forEach((link) => {
-      const publicUrl = link.dataset.publicUrl.trim();
-      if (publicUrl) {
-        link.href = publicUrl;
-        const item = link.closest('.report-item');
-        const mode = item && item.querySelector('.link-mode');
-        if (mode) mode.textContent = '公開網址';
-      }
-    });
-  </script>
 </body>
 </html>
