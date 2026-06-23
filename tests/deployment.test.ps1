@@ -18,14 +18,14 @@ Assert-True (Test-Path -LiteralPath $workflow) 'GitHub Pages workflow must exist
 $expectedFiles = @(
     '.nojekyll',
     'index.html',
-    'reports\tsmc\index.html',
-    'reports\components\index.html',
-    'reports\server-cpu\index.html',
-    'reports\ai-pcb\index.html'
+    'reports/tsmc/index.html',
+    'reports/components/index.html',
+    'reports/server-cpu/index.html',
+    'reports/ai-pcb/index.html'
 )
 
 $actualFiles = @(Get-ChildItem -LiteralPath $site -Recurse -File | ForEach-Object {
-    $_.FullName.Substring($site.Length + 1)
+    $_.FullName.Substring($site.Length + 1).Replace([System.IO.Path]::DirectorySeparatorChar, '/')
 })
 
 Assert-True ((($actualFiles | Sort-Object) -join '|') -eq (($expectedFiles | Sort-Object) -join '|')) '_site must contain only approved public files'
