@@ -1,0 +1,2686 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="被動元件與主動元件產業研究：AI Server、EV、資料中心、光通訊與高壓電源架構下的電子零組件升級。">
+  <title>被動元件與主動元件產業研究報告</title>
+  <style>
+    :root{--paper:#f4f7fb;--surface:#fff;--ink:#10233f;--muted:#5a6a7f;--accent:#256fa8;--accent-rgb:37,111,168;--line:#d6e1ec;--soft:#eaf2f8;--shadow:0 16px 50px rgba(16,35,63,.08);--serif:"Noto Serif TC","Songti TC","PMingLiU","新細明體",serif;--radius:18px;--ease:cubic-bezier(.16,1,.3,1)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:36px}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;font-size:16px;line-height:1.82;overflow-x:hidden}
+    a{color:inherit}button{font:inherit}.skip-link{position:fixed;z-index:1000;top:10px;left:10px;padding:10px 14px;background:var(--ink);color:#fff;transform:translateY(-160%);transition:transform .18s}.skip-link:focus{transform:none}
+    :focus-visible{outline:3px solid rgba(var(--accent-rgb),.5);outline-offset:3px}.progress{position:fixed;z-index:900;inset:0 0 auto;height:4px;background:rgba(214,225,236,.7)}.progress span{display:block;width:100%;height:100%;background:var(--accent);transform:scaleX(0);transform-origin:left center}
+    .hero{min-height:100dvh;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:clamp(48px,8vw,120px);align-items:end;padding:clamp(96px,13vh,150px) max(5vw,28px) clamp(72px,10vh,110px);position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+    .hero:before{content:"";position:absolute;right:-12vw;top:-20vw;width:54vw;aspect-ratio:1;border:1px solid rgba(var(--accent-rgb),.15);border-radius:50%;box-shadow:0 0 0 6vw rgba(var(--accent-rgb),.03),0 0 0 12vw rgba(var(--accent-rgb),.025)}
+    .hero-copy,.hero-aside{position:relative;z-index:1}.hero-kicker,.eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.18em;color:var(--accent)}.hero h1{max-width:920px;margin:22px 0 18px;font-family:var(--serif);font-size:clamp(2.9rem,6.6vw,7rem);line-height:1.02;letter-spacing:-.04em;font-weight:700;font-feature-settings:"palt"}.hero-deck{max-width:780px;margin:0;color:var(--muted);font-size:clamp(1.1rem,2vw,1.55rem);line-height:1.55}.hero-meta{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:42px;font-size:.82rem;color:var(--muted)}
+    .hero-aside{border-top:3px solid var(--accent);padding-top:24px}.hero-aside h2{margin:0 0 26px;font-size:1rem;letter-spacing:.08em}.thesis{display:grid;grid-template-columns:42px 1fr;gap:16px;padding:19px 0;border-top:1px solid var(--line)}.thesis:first-of-type{border-top:0}.thesis b{font-size:.75rem;color:var(--accent)}.thesis strong{display:block;font-size:1.12rem}.thesis p{margin:4px 0 0;color:var(--muted);font-size:.92rem;line-height:1.6}
+    .mobile-bar{display:none;position:sticky;top:4px;z-index:800;padding:10px 16px;background:rgba(244,247,251,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.mobile-bar button{width:100%;display:flex;justify-content:space-between;align-items:center;border:0;background:none;color:var(--ink);font-weight:800;padding:8px 0}.mobile-bar i{font-style:normal;color:var(--accent)}
+    .layout{display:grid;grid-template-columns:280px minmax(0,1fr);max-width:1440px;margin:auto}.side-nav{position:sticky;top:4px;height:calc(100dvh - 4px);padding:54px 30px 40px;border-right:1px solid var(--line);overflow:auto}.side-nav .brand{display:block;margin-bottom:30px;font-size:.78rem;letter-spacing:.12em;color:var(--muted)}.side-nav nav{display:grid}.side-nav a{display:grid;grid-template-columns:32px 1fr;gap:8px;padding:9px 0;text-decoration:none;color:var(--muted);font-size:.79rem;line-height:1.4;border-left:2px solid transparent;transition:color .18s,padding .18s,border-color .18s}.side-nav a span{font-variant-numeric:tabular-nums;color:#8c9bab}.side-nav a:hover,.side-nav a.active{color:var(--ink);padding-left:9px;border-left-color:var(--accent)}.side-nav a.active span{color:var(--accent)}
+    main{min-width:0;padding:0 clamp(28px,6vw,96px) 120px}.report-section{max-width:1040px;margin:0 auto;padding:clamp(84px,10vw,150px) 0 0}.report-section+section{margin-top:60px}.chapter-header{display:grid;grid-template-columns:70px minmax(0,1fr);gap:20px;align-items:start;padding-bottom:30px;margin-bottom:48px;border-bottom:1px solid var(--line)}.chapter-no{font-size:.84rem;font-weight:800;color:var(--accent);letter-spacing:.12em}.chapter-header h1{margin:0;font-family:var(--serif);font-size:clamp(2rem,4.4vw,4.25rem);font-weight:700;line-height:1.12;letter-spacing:-.025em;font-feature-settings:"palt"}.report-section>h2{max-width:74ch;margin:76px 0 26px;font-family:var(--serif);font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:700;line-height:1.34;letter-spacing:-.012em}.report-section>h3{max-width:74ch;margin:52px 0 20px;font-size:1.18rem}.report-section>p,.report-section>ul,.report-section>ol{max-width:74ch}.report-section p{margin:0 0 20px;color:#33465f}.report-section strong{color:var(--ink)}.report-section ul,.report-section ol{padding-left:1.35rem;margin:18px 0 28px}.report-section li{padding-left:.35rem;margin:7px 0}.report-section li::marker{color:var(--accent);font-weight:700}.report-section hr{border:0;border-top:1px solid var(--line);margin:56px 0}
+    .table-shell{max-width:100%;overflow:auto;margin:28px 0 48px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 10px 28px rgba(16,35,63,.045)}.table-hint{position:sticky;left:0;display:none;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--soft);color:var(--muted);font-size:.72rem}.table-hint b{color:var(--accent)}table{width:100%;min-width:680px;border-collapse:collapse;text-align:left;font-size:.86rem;line-height:1.55}thead{background:var(--ink);color:#fff}th,td{padding:13px 15px;border-bottom:1px solid var(--line);vertical-align:top}thead th{white-space:nowrap;font-size:.76rem;letter-spacing:.035em}tbody th{color:var(--ink);font-weight:800;min-width:130px}tbody td{color:#42566f}tbody tr:nth-child(even){background:rgba(var(--accent-rgb),.025)}tbody tr:hover{background:rgba(var(--accent-rgb),.06)}
+    .flow-code{max-width:900px;overflow:auto;margin:32px 0 48px;padding:28px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface);color:#233b59;font-family:"Cascadia Mono","SFMono-Regular",Consolas,monospace;font-size:.85rem;line-height:1.9;box-shadow:0 12px 30px rgba(16,35,63,.04)}
+    figure{margin:54px 0}.metric-board{padding:clamp(24px,4vw,46px);background:var(--ink);color:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}.metric-board figcaption{display:grid;grid-template-columns:1fr 1fr;gap:12px 48px;margin-bottom:34px}.metric-board figcaption h2{margin:0;font-size:clamp(1.8rem,3.2vw,3rem)}.metric-board figcaption p{margin:0;color:#c1cddd;line-height:1.65}.metric-grid{display:grid;grid-template-columns:1.35fr repeat(3,1fr);border-top:1px solid rgba(255,255,255,.16)}.metric{padding:25px 20px 8px 0;border-right:1px solid rgba(255,255,255,.13)}.metric:last-child{border-right:0;padding-left:20px}.metric:not(:first-child){padding-left:20px}.metric span,.metric small{display:block;color:#c1cddd;font-size:.74rem}.metric strong{display:block;margin:4px 0;font-size:clamp(1.8rem,3vw,3.2rem);line-height:1.15;color:#fff}.metric-featured strong{color:#78b6e3}
+    .growth-chart,.heatmap,.supply-map{padding:clamp(22px,4vw,42px);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 14px 38px rgba(16,35,63,.055)}figure figcaption h2,figure figcaption h3,.heatmap h3{margin:5px 0 6px;font-family:var(--serif);font-size:clamp(1.5rem,2.6vw,2.35rem);font-weight:700;letter-spacing:-.01em}figure figcaption p,.heatmap-head p{margin:0;color:var(--muted);font-size:.86rem}.bar-list{display:grid;gap:15px;margin-top:30px}.bar-meta{display:flex;justify-content:space-between;gap:20px;font-size:.84rem}.bar-meta strong{color:var(--accent)}.bar-track{height:8px;background:var(--soft);border-radius:99px;overflow:hidden}.bar-track span{display:block;width:100%;height:100%;background:var(--accent);border-radius:inherit;transform:scaleX(var(--bar));transform-origin:left center;transition:transform .8s var(--ease) var(--delay)}
+    .heatmap-scroll{overflow:auto;margin-top:28px}.heatmap-grid{display:grid;grid-template-columns:minmax(150px,1.5fr) repeat(calc(var(--cols) - 1),minmax(72px,1fr));gap:5px;min-width:650px}.heat-label,.heat-cell{min-height:46px;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:.76rem}.heat-label{justify-content:flex-start;padding:0 10px;background:var(--soft);font-weight:700}.heat-header{background:var(--ink);color:#fff;justify-content:center}.heat-cell{border:1px solid rgba(var(--accent-rgb),.08)}.heat-cell span{font-weight:800}.heat-1{background:rgba(var(--accent-rgb),.08)}.heat-2{background:rgba(var(--accent-rgb),.16)}.heat-3{background:rgba(var(--accent-rgb),.28)}.heat-4{background:rgba(var(--accent-rgb),.48);color:#123c5d}.heat-5{background:var(--accent);color:#fff}
+    .supply-stages{display:grid;grid-template-columns:1fr 36px 1fr 36px 1fr;align-items:stretch;margin-top:30px}.supply-stage{padding:25px;border-top:3px solid var(--accent);background:var(--soft)}.supply-stage span{font-size:.72rem;color:var(--accent);font-weight:800}.supply-stage strong{display:block;margin:10px 0 6px;font-size:1.08rem}.supply-stage p{margin:0;color:var(--muted);font-size:.8rem;line-height:1.6}.supply-arrow{display:grid;place-items:center;color:var(--accent);font-size:1.4rem}
+    .company-jump{display:grid;grid-template-columns:1.15fr repeat(3,1fr);align-items:stretch;margin:0 0 64px;border-block:1px solid var(--line)}.company-jump>span{display:flex;align-items:center;padding:18px 16px 18px 0;color:var(--muted);font-size:.76rem;letter-spacing:.08em}.company-jump a{display:flex;align-items:center;gap:12px;padding:18px;text-decoration:none;border-left:1px solid var(--line);font-weight:800;font-size:.86rem;transition:background .18s,color .18s}.company-jump a:hover{background:var(--soft);color:var(--accent)}.company-jump b{color:var(--accent);font-size:.72rem}.company-overview{padding:clamp(24px,4vw,42px);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 14px 38px rgba(16,35,63,.045)}.company-overview-head{max-width:740px;margin-bottom:36px}.company-overview-head h2,.company-group-head h2{margin:5px 0 8px;font-family:var(--serif);font-weight:700;font-size:clamp(1.8rem,3.3vw,3.15rem);line-height:1.14;letter-spacing:-.02em}.company-overview-head p,.company-group-head p{margin:0;color:var(--muted)}.company-table-block>h3{margin:52px 0 18px;font-size:1.22rem}.company-table-block .table-shell{margin-top:0;margin-bottom:34px}.company-source-note{display:flex;gap:12px;align-items:center;margin:32px 0 0!important;padding-top:20px;border-top:1px solid var(--line);color:var(--muted)!important;font-size:.78rem}.company-source-note span{padding:4px 8px;border-radius:4px;background:var(--soft);color:var(--accent);font-weight:800}.company-group{scroll-margin-top:28px;margin-top:clamp(96px,12vw,150px)}.company-group-head{display:grid;grid-template-columns:74px minmax(0,1fr);gap:24px;padding:32px 0 34px;border-top:4px solid var(--accent);border-bottom:1px solid var(--line)}.company-group-no{padding-top:8px;color:var(--accent);font-weight:800;letter-spacing:.14em}.company-group .company-table-block>h3{margin-top:58px}.company-group .table-shell{background:var(--surface)}
+    .back-top{position:fixed;z-index:700;right:22px;bottom:22px;width:46px;height:46px;border:1px solid var(--line);border-radius:50%;background:rgba(255,255,255,.92);color:var(--ink);box-shadow:var(--shadow);opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .2s,transform .2s}.back-top.visible{opacity:1;pointer-events:auto;transform:none}.back-top:active{transform:scale(.96)}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s var(--ease),transform .55s var(--ease)}.reveal.visible{opacity:1;transform:none}.footer{max-width:1040px;margin:100px auto 0;padding:40px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:30px;color:var(--muted);font-size:.78rem}.footer strong{color:var(--ink)}
+    @media(max-width:1100px){.hero{grid-template-columns:1fr;align-items:center;min-height:auto;padding-top:120px}.hero-aside{max-width:720px}.layout{grid-template-columns:1fr}.side-nav{display:none}.mobile-bar{display:block}.mobile-menu{display:none;max-height:65dvh;overflow:auto;padding:8px 0 16px}.mobile-menu.open{display:grid}.mobile-menu a{padding:8px 0;text-decoration:none;color:var(--muted);font-size:.82rem}main{padding-inline:clamp(20px,5vw,54px)}}
+    @media(max-width:720px){body{font-size:15px}.hero{padding:92px 20px 64px;gap:54px}.hero h1{font-size:clamp(2.55rem,14vw,4.2rem)}.hero-meta{display:grid;gap:6px}.chapter-header{grid-template-columns:1fr;gap:8px}.chapter-header h1{font-size:2.3rem}.report-section{padding-top:78px}.report-section+section{margin-top:10px}.report-section>h2{margin-top:58px}.table-hint{display:flex}.metric-board figcaption{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr 1fr}.metric{border-bottom:1px solid rgba(255,255,255,.13)}.metric:nth-child(2){border-right:0}.metric:nth-child(3){padding-left:0}.supply-stages{grid-template-columns:1fr}.supply-arrow{height:34px;transform:rotate(90deg)}.company-jump{grid-template-columns:1fr;margin-bottom:48px}.company-jump>span{padding:13px 0}.company-jump a{border-left:0;border-top:1px solid var(--line);padding:14px 4px}.company-overview{padding:22px 16px}.company-group{margin-top:88px}.company-group-head{grid-template-columns:1fr;gap:4px;padding-top:24px}.company-group-no{padding-top:0}.company-source-note{display:block}.company-source-note span{display:table;margin-bottom:8px}.footer{display:block}.footer span{display:block;margin-top:8px}}
+    @media(max-width:390px){main{padding-inline:16px}.hero{padding-inline:16px}.metric-grid{grid-template-columns:1fr}.metric,.metric:not(:first-child),.metric:last-child{padding:20px 0;border-right:0}.growth-chart,.heatmap,.supply-map,.metric-board{margin-inline:-4px;padding:20px 16px}.chapter-header h1{font-size:2rem}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;transition-delay:0ms!important}.reveal{opacity:1;transform:none}}
+    @media print{.progress,.side-nav,.mobile-bar,.back-top{display:none!important}.layout{display:block}.hero{min-height:auto;break-after:page}.reveal{opacity:1;transform:none}.report-section{break-before:page}main{padding:0 12mm}.table-shell{overflow:visible;box-shadow:none}table{font-size:8pt}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳至主要內容</a>
+  <div class="progress" aria-label="閱讀進度" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+  <header class="hero">
+    <div class="hero-copy">
+      <div class="hero-kicker">INDUSTRY RESEARCH · 2026</div>
+      <h1>被動元件與<br>主動元件產業研究報告</h1>
+      <p class="hero-deck">AI Server、EV、資料中心、光通訊與高壓電源架構下的電子零組件升級</p>
+      <div class="hero-meta"><span>資料日期：2026-06-20</span><span>研究範圍：被動元件、主動元件、功率半導體、石英晶體、頻率控制元件、AI server、EV、資料中心、光通訊、工業電源、通訊設備、消費電子</span></div>
+    </div>
+    <aside class="hero-aside" aria-label="研究核心主軸">
+      <h2>三條產業升級主軸</h2>
+      <div class="thesis"><b>01</b><div><strong>高功率化</strong><p>GPU／ASIC 功耗、EV 800V 與高瓦數 PSU 同步升級。</p></div></div>
+      <div class="thesis"><b>02</b><div><strong>高頻寬化</strong><p>800G／1.6T 光通訊推動高速互連元件價值提升。</p></div></div>
+      <div class="thesis"><b>03</b><div><strong>高同步化</strong><p>低 jitter 與穩定時脈成為高速系統的重要基礎。</p></div></div>
+    </aside>
+  </header>
+  <div class="mobile-bar">
+    <button type="button" aria-expanded="false" aria-controls="mobile-menu"><span>章節導覽</span><i>展開</i></button>
+    <nav class="mobile-menu" id="mobile-menu" aria-label="行動版章節導覽">
+  <a href="#section-01" data-nav="section-01"><span>01</span>研究摘要</a>
+  <a href="#section-02" data-nav="section-02"><span>02</span>產業總覽</a>
+  <a href="#section-03" data-nav="section-03"><span>03</span>產業成長動能</a>
+  <a href="#section-04" data-nav="section-04"><span>04</span>被動元件供應鏈分析</a>
+  <a href="#section-05" data-nav="section-05"><span>05</span>石英晶體與 Timing 元件產業分析</a>
+  <a href="#section-06" data-nav="section-06"><span>06</span>主動元件供應鏈分析</a>
+  <a href="#section-07" data-nav="section-07"><span>07</span>AI Server 需求拉動</a>
+  <a href="#section-08" data-nav="section-08"><span>08</span>EV、資料中心與光通訊需求</a>
+  <a href="#section-09" data-nav="section-09"><span>09</span>核心數據與圖表整理</a>
+  <a href="#section-10" data-nav="section-10"><span>10</span>公司與供應鏈整理</a>
+  <a href="#section-11" data-nav="section-11"><span>11</span>產業純度排序</a>
+  <a href="#section-12" data-nav="section-12"><span>12</span>產業核心邏輯總整理</a>
+  <a href="#section-13" data-nav="section-13"><span>13</span>總結</a>
+  <a href="#section-14" data-nav="section-14"><span>14</span>資料來源整理</a></nav>
+  </div>
+  <div class="layout">
+    <aside class="side-nav"><span class="brand">COMPONENTS / RESEARCH</span><nav aria-label="章節導覽">
+  <a href="#section-01" data-nav="section-01"><span>01</span>研究摘要</a>
+  <a href="#section-02" data-nav="section-02"><span>02</span>產業總覽</a>
+  <a href="#section-03" data-nav="section-03"><span>03</span>產業成長動能</a>
+  <a href="#section-04" data-nav="section-04"><span>04</span>被動元件供應鏈分析</a>
+  <a href="#section-05" data-nav="section-05"><span>05</span>石英晶體與 Timing 元件產業分析</a>
+  <a href="#section-06" data-nav="section-06"><span>06</span>主動元件供應鏈分析</a>
+  <a href="#section-07" data-nav="section-07"><span>07</span>AI Server 需求拉動</a>
+  <a href="#section-08" data-nav="section-08"><span>08</span>EV、資料中心與光通訊需求</a>
+  <a href="#section-09" data-nav="section-09"><span>09</span>核心數據與圖表整理</a>
+  <a href="#section-10" data-nav="section-10"><span>10</span>公司與供應鏈整理</a>
+  <a href="#section-11" data-nav="section-11"><span>11</span>產業純度排序</a>
+  <a href="#section-12" data-nav="section-12"><span>12</span>產業核心邏輯總整理</a>
+  <a href="#section-13" data-nav="section-13"><span>13</span>總結</a>
+  <a href="#section-14" data-nav="section-14"><span>14</span>資料來源整理</a></nav></aside>
+    <main id="main-content">
+      <section class="report-section reveal" id="section-01" data-chapter="1">
+<header class="chapter-header"><span class="chapter-no">01</span><h1>一、研究摘要</h1></header>
+
+<h2>1. 核心結論</h2>
+
+<p>被動元件與主動元件是所有電子系統的基礎。主動元件負責運算、控制、放大、開關與訊號處理；被動元件負責儲能、濾波、穩壓、阻抗匹配與保護；石英晶體與 Timing 元件則提供系統時脈與同步基準。</p>
+<p>AI server、電動車、資料中心與光通訊升級，正在同時推動三條產業主軸：</p>
+<ol>
+<li><strong>高功率化</strong></li>
+<p>GPU／ASIC 功耗提高、EV 800V、高瓦數 PSU，使 MOSFET、SiC、GaN、PMIC、MLCC、電感、薄膜電容需求提高。</p>
+</ol>
+<ol>
+<li><strong>高頻寬化</strong></li>
+<p>AI cluster 對 800G／1.6T 光通訊需求增加，推動光模組、DSP、TIA、Driver、雷射、PD、Switch ASIC 與高速 SerDes。</p>
+</ol>
+<ol>
+<li><strong>高同步化</strong></li>
+<p>高速訊號需要低 jitter、低相位雜訊與高穩定時脈，推動石英晶體、XO、TCXO、VCXO、OCXO、Clock IC 與 MEMS oscillator。</p>
+</ol>
+<hr>
+<h2>2. 被動元件、主動元件與 Timing 元件的整體定位</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="被動元件、主動元件與 Timing 元件的整體定位資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">類別</th>
+<th scope="col">核心功能</th>
+<th scope="col">代表元件</th>
+<th scope="col">電子系統中的角色</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">被動元件</th>
+<td>儲能、濾波、穩壓、限流、保護</td>
+<td>MLCC、電容、電感、電阻、變壓器</td>
+<td>讓電路穩定、安全、可靠</td>
+</tr>
+<tr>
+<th scope="row">主動元件</th>
+<td>控制、運算、放大、開關、訊號處理</td>
+<td>CPU、GPU、ASIC、PMIC、MOSFET、IGBT、SiC、GaN</td>
+<td>驅動系統運作與控制能量流</td>
+</tr>
+<tr>
+<th scope="row">Timing 元件</th>
+<td>提供時脈、同步、低抖動訊號</td>
+<td>XTAL、XO、TCXO、VCXO、OCXO、Clock IC</td>
+<td>讓高速系統正確同步運作</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>3. 最受惠元件整理</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="最受惠元件整理資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">應用</th>
+<th scope="col">最受惠主動元件</th>
+<th scope="col">最受惠被動元件／Timing 元件</th>
+<th scope="col">成長原因</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">AI server</th>
+<td>GPU、ASIC、HBM、PMIC、MOSFET、Driver IC</td>
+<td>MLCC、電感、固態電容、石英振盪器</td>
+<td>GPU 功耗提高、電源軌增加、高速同步需求</td>
+</tr>
+<tr>
+<th scope="row">資料中心 PSU</th>
+<td>GaN、SiC、MOSFET、整流器、Hot-swap IC</td>
+<td>鋁電容、薄膜電容、磁性元件、變壓器</td>
+<td>高瓦數 PSU、48V／800V 電源架構</td>
+</tr>
+<tr>
+<th scope="row">電動車</th>
+<td>SiC、IGBT、MOSFET、MCU、Driver IC、感測器</td>
+<td>薄膜電容、車規 MLCC、電感、石英晶體</td>
+<td>800V 平台、OBC、DC-DC、BMS、ADAS</td>
+</tr>
+<tr>
+<th scope="row">光通訊</th>
+<td>DSP、TIA、Driver、Laser、PD、Switch ASIC</td>
+<td>XO、VCXO、TCXO、Clock IC、SAW／BAW</td>
+<td>800G／1.6T、CPO、AI cluster 網路升級</td>
+</tr>
+<tr>
+<th scope="row">工業電源</th>
+<td>IGBT、SiC、MOSFET、MCU、類比 IC</td>
+<td>電感、變壓器、薄膜電容、鋁電容</td>
+<td>馬達、機器人、儲能、太陽能逆變器</td>
+</tr>
+<tr>
+<th scope="row">消費電子</th>
+<td>SoC、PMIC、MCU、RF IC</td>
+<td>MLCC、電阻、石英晶體、SAW／BAW</td>
+<td>AI PC、手機、穿戴裝置、通訊升級</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="report-section reveal" id="section-02" data-chapter="2">
+<header class="chapter-header"><span class="chapter-no">02</span><h1>二、產業總覽</h1></header>
+
+<h2>1. 被動元件是什麼？</h2>
+
+<p>被動元件通常不需要外部電源即可發揮基本電性功能，本身不會主動放大訊號，也不會進行邏輯運算。它主要負責讓電路穩定、安全、可控。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="被動元件是什麼？資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">元件</th>
+<th scope="col">功能</th>
+<th scope="col">簡短解釋</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">電容</th>
+<td>儲能、濾波、去耦、穩壓</td>
+<td>暫時存放電荷，讓電壓不要劇烈波動</td>
+</tr>
+<tr>
+<th scope="row">電感</th>
+<td>儲能、濾波、穩定電流</td>
+<td>暫時存放磁能，常用於 DC-DC 轉換</td>
+</tr>
+<tr>
+<th scope="row">電阻</th>
+<td>限流、分壓、電流偵測</td>
+<td>控制電流大小，協助監測與保護</td>
+</tr>
+<tr>
+<th scope="row">磁性元件</th>
+<td>電源轉換、濾波、隔離</td>
+<td>用磁場傳遞或儲存能量</td>
+</tr>
+<tr>
+<th scope="row">變壓器</th>
+<td>升降壓、隔離</td>
+<td>在 PSU、OBC、工業電源中重要</td>
+</tr>
+<tr>
+<th scope="row">石英晶體</th>
+<td>頻率基準</td>
+<td>提供穩定時脈參考</td>
+</tr>
+<tr>
+<th scope="row">SAW／BAW 濾波器</th>
+<td>RF 濾波</td>
+<td>選擇特定頻段，常見於手機與通訊設備</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>2. 主動元件是什麼？</h2>
+
+<p>主動元件需要外部電源才能運作，能控制電壓或電流，因此可以放大訊號、切換訊號、控制電路或執行運算。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="主動元件是什麼？資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">元件</th>
+<th scope="col">功能</th>
+<th scope="col">主要應用</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">CPU</th>
+<td>通用運算</td>
+<td>Server、PC、工業控制</td>
+</tr>
+<tr>
+<th scope="row">GPU</th>
+<td>平行運算</td>
+<td>AI training、AI inference、HPC</td>
+</tr>
+<tr>
+<th scope="row">ASIC</th>
+<td>特定用途運算</td>
+<td>TPU、Trainium、custom AI chip</td>
+</tr>
+<tr>
+<th scope="row">MCU</th>
+<td>控制與低功耗運算</td>
+<td>車用、工業、家電、BMS</td>
+</tr>
+<tr>
+<th scope="row">類比 IC</th>
+<td>訊號放大、轉換、監控</td>
+<td>工業、車用、資料中心</td>
+</tr>
+<tr>
+<th scope="row">PMIC</th>
+<td>電源管理、電壓調節</td>
+<td>GPU board、AI server、手機、車用</td>
+</tr>
+<tr>
+<th scope="row">MOSFET</th>
+<td>中低壓高速開關</td>
+<td>PSU、DC-DC、主板電源、48V server</td>
+</tr>
+<tr>
+<th scope="row">IGBT</th>
+<td>高壓大功率開關</td>
+<td>工業馬達、EV inverter、太陽能逆變器</td>
+</tr>
+<tr>
+<th scope="row">SiC MOSFET</th>
+<td>高壓、高效率、高耐溫</td>
+<td>EV 800V、快充、資料中心 PSU</td>
+</tr>
+<tr>
+<th scope="row">GaN HEMT</th>
+<td>高頻、高效率、小型化</td>
+<td>快充、資料中心 PSU、通訊電源</td>
+</tr>
+<tr>
+<th scope="row">光電元件</th>
+<td>光電轉換</td>
+<td>光模組、CPO、資料中心互連</td>
+</tr>
+<tr>
+<th scope="row">RF 元件</th>
+<td>高頻收發與濾波</td>
+<td>手機、Wi-Fi、基地台、車用通訊</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>3. 被動元件、主動元件、Timing 元件差異</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="被動元件、主動元件、Timing 元件差異資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">類別</th>
+<th scope="col">是否需要外部電源</th>
+<th scope="col">核心功能</th>
+<th scope="col">代表產品</th>
+<th scope="col">電路角色</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">被動元件</th>
+<td>通常不需要</td>
+<td>儲能、濾波、穩壓、保護</td>
+<td>電容、電感、電阻、變壓器</td>
+<td>穩定電路</td>
+</tr>
+<tr>
+<th scope="row">主動元件</th>
+<td>需要</td>
+<td>控制、放大、開關、運算</td>
+<td>IC、MOSFET、IGBT、SiC、GaN</td>
+<td>驅動與控制</td>
+</tr>
+<tr>
+<th scope="row">Timing 元件</th>
+<td>石英晶體偏被動；振盪器含主動電路</td>
+<td>提供時脈、同步、低抖動訊號</td>
+<td>XTAL、XO、TCXO、VCXO、OCXO</td>
+<td>系統時間基準</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>4. 主動元件為什麼能控制、放大、開關訊號？</h2>
+
+<p>主動元件的核心是電晶體。電晶體可以利用小訊號控制大電流，因此可以放大訊號；也可以在導通與截止之間切換，因此可以作為電子開關。大量電晶體整合後，就形成 CPU、GPU、ASIC、MCU、PMIC 等 IC。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="主動元件為什麼能控制、放大、開關訊號？資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">功能</th>
+<th scope="col">對應原理</th>
+<th scope="col">代表元件</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">控制</th>
+<td>用電壓或電流控制另一段電路</td>
+<td>MCU、PMIC、Driver IC</td>
+</tr>
+<tr>
+<th scope="row">放大</th>
+<td>小訊號控制大電流</td>
+<td>類比 IC、RF PA</td>
+</tr>
+<tr>
+<th scope="row">開關</th>
+<td>在導通與截止之間切換</td>
+<td>MOSFET、IGBT、SiC、GaN</td>
+</tr>
+<tr>
+<th scope="row">運算</th>
+<td>大量電晶體執行邏輯運算</td>
+<td>CPU、GPU、ASIC</td>
+</tr>
+<tr>
+<th scope="row">訊號處理</th>
+<td>將訊號轉換、調整或同步</td>
+<td>ADC、DAC、DSP、Clock IC</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>5. 被動元件為什麼負責儲能、濾波、穩壓、阻抗匹配與保護？</h2>
+
+<p>被動元件不會主動控制訊號，但可以透過本身的電阻、電容、電感特性，穩定電壓、電流與訊號品質。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="被動元件為什麼負責儲能、濾波、穩壓、阻抗匹配與保護？資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">功能</th>
+<th scope="col">對應元件</th>
+<th scope="col">說明</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">儲能</th>
+<td>電容、電感</td>
+<td>暫存電能或磁能</td>
+</tr>
+<tr>
+<th scope="row">濾波</th>
+<td>電容、電感、磁珠</td>
+<td>去除雜訊與紋波</td>
+</tr>
+<tr>
+<th scope="row">穩壓</th>
+<td>MLCC、鋁電容、固態電容</td>
+<td>平滑電源輸出</td>
+</tr>
+<tr>
+<th scope="row">阻抗匹配</th>
+<td>電阻、電容、電感</td>
+<td>讓高速訊號傳輸更穩定</td>
+</tr>
+<tr>
+<th scope="row">保護</th>
+<td>電阻、TVS、保險絲、磁性元件</td>
+<td>限流、防突波、防 EMI</td>
+</tr>
+<tr>
+<th scope="row">隔離</th>
+<td>變壓器、光耦、磁性元件</td>
+<td>提高安全與抗干擾能力</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>6. 電子系統中三者如何搭配？</h2>
+
+<p>以 AI server GPU board 為例：</p>
+<pre class="flow-code" tabindex="0"><code>AI GPU／ASIC
+→ PMIC 控制多組電源軌
+→ MOSFET 進行高速開關
+→ 電感完成 DC-DC 降壓與儲能
+→ MLCC 去耦、濾波、抑制電壓波動
+→ 電阻進行電流偵測與保護
+→ 石英晶體／XO 提供時脈同步
+→ PSU、變壓器、磁性元件供應穩定電力
+→ 形成完整 AI server 系統</code></pre>
+<hr>
+</section>
+<section class="report-section reveal" id="section-03" data-chapter="3">
+<header class="chapter-header"><span class="chapter-no">03</span><h1>三、產業成長動能</h1></header>
+
+<h2>1. 成長主軸</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="成長主軸資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">成長主軸</th>
+<th scope="col">對應需求</th>
+<th scope="col">受惠元件</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">高功率</th>
+<td>GPU 功耗提高、EV 800V、資料中心 PSU</td>
+<td>MOSFET、SiC、GaN、PMIC、MLCC、電感、薄膜電容</td>
+</tr>
+<tr>
+<th scope="row">高頻寬</th>
+<td>800G／1.6T、CPO、AI networking</td>
+<td>DSP、TIA、Driver、Laser、PD、Switch ASIC</td>
+</tr>
+<tr>
+<th scope="row">高同步</th>
+<td>低 jitter、低相位雜訊、穩定時脈</td>
+<td>XTAL、XO、TCXO、VCXO、OCXO、Clock IC</td>
+</tr>
+<tr>
+<th scope="row">高可靠</th>
+<td>車規、工業、資料中心 24/7 運作</td>
+<td>車規 MLCC、薄膜電容、電阻、SiC、IGBT</td>
+</tr>
+<tr>
+<th scope="row">高效率</th>
+<td>PSU、OBC、DC-DC、快充</td>
+<td>GaN、SiC、MOSFET、磁性元件、變壓器</td>
+</tr>
+<tr>
+<th scope="row">小型化</th>
+<td>手機、穿戴、AI edge、光模組</td>
+<td>MLCC、SAW／BAW、石英晶體、MEMS oscillator</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>2. 主要應用拉動邏輯</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="主要應用拉動邏輯資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">應用</th>
+<th scope="col">成長邏輯</th>
+<th scope="col">受惠環節</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">AI server</th>
+<td>GPU／ASIC 功耗提高，電源軌增加，高速互連升級</td>
+<td>MLCC、電感、PMIC、MOSFET、HBM、光模組、Timing</td>
+</tr>
+<tr>
+<th scope="row">資料中心</th>
+<td>Rack power density 提升，PSU、BBU、UPS 升級</td>
+<td>GaN、SiC、鋁電容、薄膜電容、磁性元件</td>
+</tr>
+<tr>
+<th scope="row">EV</th>
+<td>400V 升級 800V，主逆變器、OBC、DC-DC 功率提高</td>
+<td>SiC、IGBT、薄膜電容、車規 MLCC、電感</td>
+</tr>
+<tr>
+<th scope="row">光通訊</th>
+<td>400G → 800G → 1.6T</td>
+<td>DSP、TIA、Driver、Laser、PD、XO、VCXO</td>
+</tr>
+<tr>
+<th scope="row">工業電源</th>
+<td>馬達、機器人、儲能、太陽能逆變器</td>
+<td>IGBT、SiC、MOSFET、薄膜電容、變壓器</td>
+</tr>
+<tr>
+<th scope="row">消費電子</th>
+<td>AI PC、手機、穿戴裝置回溫</td>
+<td>PMIC、MLCC、石英晶體、RF 元件</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>3. 產業總覽表</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="產業總覽表資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">類別</th>
+<th scope="col">主要產品</th>
+<th scope="col">功能</th>
+<th scope="col">主要應用</th>
+<th scope="col">成長動能</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">被動元件</th>
+<td>MLCC、鋁電容、鉭電容、薄膜電容、電感、電阻</td>
+<td>儲能、濾波、穩壓、保護</td>
+<td>AI server、EV、工業、消費電子</td>
+<td>高功率、高頻、高可靠</td>
+</tr>
+<tr>
+<th scope="row">磁性元件</th>
+<td>電感、變壓器、共模電感</td>
+<td>電源轉換、隔離、抑制 EMI</td>
+<td>PSU、OBC、DC-DC、充電樁</td>
+<td>高功率密度</td>
+</tr>
+<tr>
+<th scope="row">Timing 元件</th>
+<td>XTAL、XO、TCXO、VCXO、OCXO</td>
+<td>時脈、同步、低 jitter</td>
+<td>光模組、switch、車用、基地台</td>
+<td>800G／1.6T、5G、車用</td>
+</tr>
+<tr>
+<th scope="row">主動元件</th>
+<td>GPU、ASIC、MCU、PMIC</td>
+<td>運算、控制、訊號處理</td>
+<td>AI server、車用、工業</td>
+<td>AI 運算與控制</td>
+</tr>
+<tr>
+<th scope="row">功率半導體</th>
+<td>MOSFET、IGBT、SiC、GaN</td>
+<td>電力轉換、開關、整流</td>
+<td>EV、PSU、快充、工業</td>
+<td>高壓、高效率</td>
+</tr>
+<tr>
+<th scope="row">光電與 RF</th>
+<td>雷射、PD、TIA、DSP、SAW／BAW</td>
+<td>光電轉換、高頻收發</td>
+<td>AI data center、通訊</td>
+<td>800G／1.6T、CPO、5G</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="report-section reveal" id="section-04" data-chapter="4">
+<header class="chapter-header"><span class="chapter-no">04</span><h1>四、被動元件供應鏈分析</h1></header>
+
+<figure class="supply-map reveal" aria-label="被動元件價值鏈">
+  <figcaption><span class="eyebrow">PASSIVE SUPPLY CHAIN</span><h2>被動元件價值鏈</h2></figcaption>
+  <div class="supply-stages">
+    <div class="supply-stage"><span>01</span><strong>上游材料</strong><p>陶瓷粉末・鎳粉・鋁箔・薄膜・磁性粉末</p></div><div class="supply-arrow" aria-hidden="true">→</div>
+    <div class="supply-stage"><span>02</span><strong>中游元件</strong><p>MLCC・電容・電感・電阻・變壓器</p></div><div class="supply-arrow" aria-hidden="true">→</div>
+    <div class="supply-stage"><span>03</span><strong>系統應用</strong><p>AI server・EV・資料中心・工業・通訊</p></div>
+  </div>
+</figure>
+<h2>1. 被動元件供應鏈總圖</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="被動元件供應鏈總圖資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">供應鏈位置</th>
+<th scope="col">關鍵材料／產品</th>
+<th scope="col">對應元件</th>
+<th scope="col">下游應用</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">上游材料</th>
+<td>陶瓷粉末、鎳粉、銅粉</td>
+<td>MLCC</td>
+<td>AI server、車用、通訊</td>
+</tr>
+<tr>
+<th scope="row">上游材料</th>
+<td>鋁箔、電解液</td>
+<td>鋁電容</td>
+<td>PSU、UPS、工業電源</td>
+</tr>
+<tr>
+<th scope="row">上游材料</th>
+<td>鉭粉</td>
+<td>鉭電容</td>
+<td>通訊、伺服器、工業</td>
+</tr>
+<tr>
+<th scope="row">上游材料</th>
+<td>PP／PPS 薄膜</td>
+<td>薄膜電容</td>
+<td>EV inverter、OBC、太陽能逆變器</td>
+</tr>
+<tr>
+<th scope="row">上游材料</th>
+<td>磁性粉末、鐵氧體</td>
+<td>電感、變壓器</td>
+<td>48V server、PSU、OBC</td>
+</tr>
+<tr>
+<th scope="row">上游材料</th>
+<td>電阻材料、合金、陶瓷基板</td>
+<td>電阻</td>
+<td>車用、工業、電源管理</td>
+</tr>
+<tr>
+<th scope="row">中游製造</th>
+<td>MLCC、電容、電感、電阻、變壓器</td>
+<td>被動元件</td>
+<td>AI server、EV、工業、消費電子</td>
+</tr>
+<tr>
+<th scope="row">下游系統</th>
+<td>GPU board、PSU、BBU、UPS、EV、通訊設備</td>
+<td>系統應用</td>
+<td>資料中心、車用、工業、通訊</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>2. 被動元件上游材料</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="被動元件上游材料資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">材料</th>
+<th scope="col">對應元件</th>
+<th scope="col">功能</th>
+<th scope="col">AI／EV／工業受惠邏輯</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">陶瓷粉末</th>
+<td>MLCC</td>
+<td>介電材料</td>
+<td>高容量、高可靠 MLCC 需求提升</td>
+</tr>
+<tr>
+<th scope="row">鎳粉</th>
+<td>MLCC 內電極</td>
+<td>導電層</td>
+<td>MLCC 層數提升，內電極需求增加</td>
+</tr>
+<tr>
+<th scope="row">銅粉</th>
+<td>電極、端電極、電感</td>
+<td>導電</td>
+<td>高電流與低損耗需求提高</td>
+</tr>
+<tr>
+<th scope="row">鋁箔</th>
+<td>鋁電容</td>
+<td>儲能材料</td>
+<td>PSU、UPS、BBU、工業電源需求提升</td>
+</tr>
+<tr>
+<th scope="row">鉭粉</th>
+<td>鉭電容</td>
+<td>高穩定電容材料</td>
+<td>通訊、伺服器、軍工、工業控制</td>
+</tr>
+<tr>
+<th scope="row">薄膜材料</th>
+<td>薄膜電容</td>
+<td>高壓 DC-link</td>
+<td>EV、OBC、太陽能逆變器</td>
+</tr>
+<tr>
+<th scope="row">磁性粉末</th>
+<td>電感、變壓器</td>
+<td>儲能、隔離、電源轉換</td>
+<td>AI server 48V、資料中心 PSU</td>
+</tr>
+<tr>
+<th scope="row">電阻材料</th>
+<td>電阻</td>
+<td>限流、分壓、偵測</td>
+<td>車用、工業、高可靠電源</td>
+</tr>
+<tr>
+<th scope="row">封裝材料</th>
+<td>各類被動元件</td>
+<td>防潮、耐熱、可靠度</td>
+<td>AI、車用、工業規格升級</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>3. MLCC 產業分析</h2>
+
+<p>MLCC 是 AI server 與車用電子中最核心的被動元件之一。它主要用於去耦、濾波、穩壓與抑制雜訊。AI GPU／ASIC 功耗提升後，電源軌與瞬間電流變化更劇烈，MLCC 用量與規格同步提升。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="MLCC 產業分析資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">應用</th>
+<th scope="col">MLCC 需求變化</th>
+<th scope="col">原因</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">AI server</th>
+<td>用量增加、規格升級</td>
+<td>GPU／ASIC 電源去耦與濾波</td>
+</tr>
+<tr>
+<th scope="row">GPU board</th>
+<td>高容量、低 ESL</td>
+<td>高電流、負載瞬變劇烈</td>
+</tr>
+<tr>
+<th scope="row">EV</th>
+<td>車規化、高可靠</td>
+<td>高溫、高震動、高壓環境</td>
+</tr>
+<tr>
+<th scope="row">通訊設備</th>
+<td>高頻、低損耗</td>
+<td>RF 與高速訊號</td>
+</tr>
+<tr>
+<th scope="row">消費電子</th>
+<td>小型化、高密度</td>
+<td>手機、PC、穿戴裝置</td>
+</tr>
+</tbody></table></div>
+<h3>MLCC 成長邏輯</h3>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="MLCC 成長邏輯資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">成長來源</th>
+<th scope="col">說明</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">用量增加</th>
+<td>AI server、GPU board、車用電子零組件數量增加</td>
+</tr>
+<tr>
+<th scope="row">規格升級</th>
+<td>高容量、低 ESL、低 ESR、高可靠度</td>
+</tr>
+<tr>
+<th scope="row">車規認證</th>
+<td>EV、ADAS、BMS 對可靠度要求更高</td>
+</tr>
+<tr>
+<th scope="row">高頻需求</th>
+<td>RF、通訊設備、高速訊號需要低損耗</td>
+</tr>
+<tr>
+<th scope="row">小型化</th>
+<td>手機、穿戴、AI edge 需要高密度配置</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>4. 電容類產品比較</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="電容類產品比較資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">類型</th>
+<th scope="col">特性</th>
+<th scope="col">主要應用</th>
+<th scope="col">成長邏輯</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">鋁質電解電容</th>
+<td>大容量、成本較低</td>
+<td>PSU、UPS、BBU、工業電源</td>
+<td>AI data center 電源備援與高功率 PSU</td>
+</tr>
+<tr>
+<th scope="row">固態電容</th>
+<td>低 ESR、高紋波、高可靠</td>
+<td>GPU board、server 主板、電源模組</td>
+<td>高功率主板與資料中心電源</td>
+</tr>
+<tr>
+<th scope="row">鉭質電容</th>
+<td>穩定、小型、高可靠</td>
+<td>通訊、伺服器、軍工、工業</td>
+<td>高可靠電子設備</td>
+</tr>
+<tr>
+<th scope="row">薄膜電容</th>
+<td>高壓、高耐溫、高壽命</td>
+<td>EV inverter、OBC、太陽能逆變器</td>
+<td>EV 800V 與能源轉型</td>
+</tr>
+<tr>
+<th scope="row">超級電容</th>
+<td>快速充放電</td>
+<td>BBU、工業備援、交通</td>
+<td>高功率瞬間備援需求</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>5. 電感、磁性元件與變壓器</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="電感、磁性元件與變壓器資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">應用</th>
+<th scope="col">需求元件</th>
+<th scope="col">成長原因</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">AI server</th>
+<td>高電流電感、變壓器、共模電感</td>
+<td>GPU 功耗上升與 48V 電源架構</td>
+</tr>
+<tr>
+<th scope="row">PSU</th>
+<td>變壓器、PFC 電感、濾波電感</td>
+<td>高效率、高功率密度</td>
+</tr>
+<tr>
+<th scope="row">EV OBC</th>
+<td>變壓器、電感、EMI 元件</td>
+<td>高壓充電與隔離需求</td>
+</tr>
+<tr>
+<th scope="row">工業馬達</th>
+<td>電感、濾波器、磁性元件</td>
+<td>變頻器與馬達控制</td>
+</tr>
+<tr>
+<th scope="row">通訊基地台</th>
+<td>濾波電感、變壓器</td>
+<td>高頻與戶外可靠度</td>
+</tr>
+</tbody></table></div>
+<h3>磁性元件成長邏輯</h3>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="磁性元件成長邏輯資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">成長來源</th>
+<th scope="col">說明</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">高功率密度</th>
+<td>AI rack、資料中心 PSU、OBC 都需要更小、更高效率的磁性元件</td>
+</tr>
+<tr>
+<th scope="row">高頻化</th>
+<td>GaN、SiC 使電源轉換頻率提高，推動磁性材料升級</td>
+</tr>
+<tr>
+<th scope="row">高效率</th>
+<td>電感與變壓器損耗直接影響 PSU、OBC、DC-DC 效率</td>
+</tr>
+<tr>
+<th scope="row">高可靠</th>
+<td>車用、工業、資料中心要求長時間穩定運作</td>
+</tr>
+<tr>
+<th scope="row">EMI 控制</th>
+<td>高速、高功率系統需要共模電感、濾波器抑制干擾</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="report-section reveal" id="section-05" data-chapter="5">
+<header class="chapter-header"><span class="chapter-no">05</span><h1>五、石英晶體與 Timing 元件產業分析</h1></header>
+
+<figure class="supply-map reveal" aria-label="Timing 元件價值鏈">
+  <figcaption><span class="eyebrow">TIMING SUPPLY CHAIN</span><h2>Timing 元件價值鏈</h2></figcaption>
+  <div class="supply-stages">
+    <div class="supply-stage"><span>01</span><strong>材料與晶片</strong><p>人造石英晶棒・MEMS wafer・Clock IC</p></div><div class="supply-arrow" aria-hidden="true">→</div>
+    <div class="supply-stage"><span>02</span><strong>頻率元件</strong><p>XTAL・XO・TCXO・VCXO・OCXO</p></div><div class="supply-arrow" aria-hidden="true">→</div>
+    <div class="supply-stage"><span>03</span><strong>高速系統</strong><p>光模組・switch・server・車用・基地台</p></div>
+  </div>
+</figure>
+<h2>1. 石英晶體與 Timing 元件定位</h2>
+
+<p>石英晶體與振盪器是電子產品的「時脈心臟」。一般 XTAL 偏向被動元件，XO／TCXO／VCXO／OCXO 則因內含振盪電路，通常可視為 Timing 模組或頻率控制元件。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="石英晶體與 Timing 元件定位資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">元件</th>
+<th scope="col">定位</th>
+<th scope="col">功能</th>
+<th scope="col">常見應用</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">石英晶體 XTAL</th>
+<td>偏被動元件</td>
+<td>提供固定頻率基準</td>
+<td>MCU、SoC、手機、PC、車用、IoT</td>
+</tr>
+<tr>
+<th scope="row">石英振盪器 XO</th>
+<td>含振盪電路</td>
+<td>輸出穩定時脈</td>
+<td>server、通訊、工業、消費電子</td>
+</tr>
+<tr>
+<th scope="row">TCXO</th>
+<td>溫度補償振盪器</td>
+<td>改善溫度造成的頻率漂移</td>
+<td>GNSS、車用、通訊、穿戴</td>
+</tr>
+<tr>
+<th scope="row">VCXO</th>
+<td>壓控振盪器</td>
+<td>可調頻率</td>
+<td>網通、光通訊、同步系統</td>
+</tr>
+<tr>
+<th scope="row">OCXO</th>
+<td>恆溫控制振盪器</td>
+<td>高穩定、低相位雜訊</td>
+<td>基地台、衛星、資料中心同步</td>
+</tr>
+<tr>
+<th scope="row">SAW／BAW</th>
+<td>RF 被動濾波</td>
+<td>選頻、濾波</td>
+<td>手機、Wi-Fi、車用、通訊設備</td>
+</tr>
+<tr>
+<th scope="row">MEMS oscillator</th>
+<td>非石英 Timing 元件</td>
+<td>抗震、小型化、可編程</td>
+<td>工業、車用、資料中心、IoT</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>2. 石英晶體與 Timing 供應鏈</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="石英晶體與 Timing 供應鏈資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">供應鏈位置</th>
+<th scope="col">關鍵材料／產品</th>
+<th scope="col">功能</th>
+<th scope="col">受惠邏輯</th>
+<th scope="col">代表公司</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">上游材料</th>
+<td>人造石英晶棒</td>
+<td>頻率材料來源</td>
+<td>高穩定、高純度需求</td>
+<td>Seiko Epson、NDK、Kyocera、Daishinku</td>
+</tr>
+<tr>
+<th scope="row">上游製程</th>
+<td>切割、研磨、拋光</td>
+<td>控制晶片厚度與頻率</td>
+<td>高頻、小型化要求提升</td>
+<td>Epson、NDK、晶技、泰藝</td>
+</tr>
+<tr>
+<th scope="row">中游製造</th>
+<td>XTAL</td>
+<td>頻率基準</td>
+<td>MCU、SoC、車用、IoT</td>
+<td>晶技、希華、加高、安碁</td>
+</tr>
+<tr>
+<th scope="row">中游製造</th>
+<td>XO／TCXO／VCXO／OCXO</td>
+<td>穩定時脈與同步</td>
+<td>AI 光模組、5G、車用、工業</td>
+<td>晶技、泰藝、NDK、Epson</td>
+</tr>
+<tr>
+<th scope="row">中游製造</th>
+<td>SAW／BAW</td>
+<td>RF 濾波</td>
+<td>5G、Wi-Fi、車用通訊</td>
+<td>台嘉碩、Murata、Qorvo、Broadcom</td>
+</tr>
+<tr>
+<th scope="row">下游應用</th>
+<td>光模組、switch、server</td>
+<td>高速資料同步</td>
+<td>800G／1.6T 要求低 jitter</td>
+<td>AI data center、通訊設備</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>3. 石英元件為什麼受惠 AI 光通訊？</h2>
+
+<p>AI cluster 需要大量高速交換器與光模組。光模組從 400G 升級到 800G／1.6T 後，對 reference clock 的 jitter 要求提高。速度越高，時脈抖動越容易造成 bit error，因此低 jitter XO、VCXO、TCXO 與 Clock IC 重要性提高。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="石英元件為什麼受惠 AI 光通訊？資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">應用</th>
+<th scope="col">需求元件</th>
+<th scope="col">需求原因</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">800G 光模組</th>
+<td>低 jitter XO、VCXO</td>
+<td>高速 PAM4 訊號</td>
+</tr>
+<tr>
+<th scope="row">1.6T 光模組</th>
+<td>高頻差動振盪器</td>
+<td>更高資料速率與低誤碼</td>
+</tr>
+<tr>
+<th scope="row">Ethernet switch</th>
+<td>XO、TCXO、Clock IC</td>
+<td>多埠同步與 SerDes</td>
+</tr>
+<tr>
+<th scope="row">AI server</th>
+<td>XTAL、XO</td>
+<td>BMC、NIC、PCIe、系統時脈</td>
+</tr>
+<tr>
+<th scope="row">5G 基地台</th>
+<td>TCXO、OCXO</td>
+<td>高穩定同步</td>
+</tr>
+<tr>
+<th scope="row">低軌衛星</th>
+<td>OCXO、TCXO</td>
+<td>高穩定、耐環境</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>4. 石英元件與傳統被動元件的差異</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="石英元件與傳統被動元件的差異資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">項目</th>
+<th scope="col">MLCC／電感／電阻</th>
+<th scope="col">石英晶體／振盪器</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">核心任務</th>
+<td>穩壓、濾波、儲能、保護</td>
+<td>提供頻率、時脈、同步</td>
+</tr>
+<tr>
+<th scope="row">受惠主軸</th>
+<td>高功率、高電流、高密度</td>
+<td>高速傳輸、低 jitter、高穩定</td>
+</tr>
+<tr>
+<th scope="row">主要應用</th>
+<td>GPU board、PSU、EV、工業電源</td>
+<td>光模組、switch、車用、基地台、IoT</td>
+</tr>
+<tr>
+<th scope="row">規格升級</th>
+<td>高容量、低 ESR、低 DCR、高耐壓</td>
+<td>低相位雜訊、低 jitter、寬溫、小型化</td>
+</tr>
+<tr>
+<th scope="row">產業位置</th>
+<td>傳統被動元件</td>
+<td>頻率控制／Timing 元件</td>
+</tr>
+<tr>
+<th scope="row">AI server 受惠方式</th>
+<td>電源需求拉動</td>
+<td>光通訊與系統同步拉動</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="report-section reveal" id="section-06" data-chapter="6">
+<header class="chapter-header"><span class="chapter-no">06</span><h1>六、主動元件供應鏈分析</h1></header>
+
+<figure class="supply-map reveal" aria-label="主動元件價值鏈">
+  <figcaption><span class="eyebrow">ACTIVE SUPPLY CHAIN</span><h2>主動元件價值鏈</h2></figcaption>
+  <div class="supply-stages">
+    <div class="supply-stage"><span>01</span><strong>上游材料</strong><p>矽晶圓・SiC substrate・GaN wafer・光電材料</p></div><div class="supply-arrow" aria-hidden="true">→</div>
+    <div class="supply-stage"><span>02</span><strong>設計與製造</strong><p>IC 設計・晶圓代工・封裝測試</p></div><div class="supply-arrow" aria-hidden="true">→</div>
+    <div class="supply-stage"><span>03</span><strong>系統應用</strong><p>AI server・EV・資料中心・光通訊・工業</p></div>
+  </div>
+</figure>
+<h2>1. 主動元件供應鏈總圖</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="主動元件供應鏈總圖資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">供應鏈位置</th>
+<th scope="col">關鍵材料／產品</th>
+<th scope="col">對應元件</th>
+<th scope="col">下游應用</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">上游材料</th>
+<td>矽晶圓</td>
+<td>邏輯 IC、類比 IC、PMIC、MOSFET</td>
+<td>AI、車用、工業</td>
+</tr>
+<tr>
+<th scope="row">上游材料</th>
+<td>SiC substrate</td>
+<td>SiC MOSFET、SiC diode</td>
+<td>EV、快充、資料中心</td>
+</tr>
+<tr>
+<th scope="row">上游材料</th>
+<td>GaN-on-Si、GaN-on-SiC</td>
+<td>GaN HEMT、RF GaN</td>
+<td>快充、PSU、RF、基地台</td>
+</tr>
+<tr>
+<th scope="row">上游材料</th>
+<td>磊晶片</td>
+<td>MOSFET、IGBT、SiC、GaN</td>
+<td>功率半導體</td>
+</tr>
+<tr>
+<th scope="row">中游晶片</th>
+<td>CPU、GPU、ASIC、MCU</td>
+<td>運算與控制</td>
+<td>AI server、車用、工業</td>
+</tr>
+<tr>
+<th scope="row">中游晶片</th>
+<td>類比 IC、PMIC、Driver IC</td>
+<td>電源與訊號控制</td>
+<td>GPU board、PSU、車用</td>
+</tr>
+<tr>
+<th scope="row">中游元件</th>
+<td>MOSFET、IGBT、SiC、GaN、二極體</td>
+<td>電力轉換</td>
+<td>EV、資料中心、工業電源</td>
+</tr>
+<tr>
+<th scope="row">下游系統</th>
+<td>AI server、EV、OBC、充電樁、PSU</td>
+<td>系統應用</td>
+<td>資料中心、車用、能源</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>2. 主動元件上游材料</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="主動元件上游材料資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">材料</th>
+<th scope="col">對應產品</th>
+<th scope="col">功能</th>
+<th scope="col">受惠邏輯</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">矽晶圓</th>
+<td>邏輯 IC、PMIC、MCU、MOSFET</td>
+<td>半導體基板</td>
+<td>AI、車用、工業 IC 需求提升</td>
+</tr>
+<tr>
+<th scope="row">SiC substrate</th>
+<td>SiC MOSFET、SiC diode</td>
+<td>高壓高效率功率元件基板</td>
+<td>EV 800V、快充、AI data center PSU</td>
+</tr>
+<tr>
+<th scope="row">GaN-on-Si</th>
+<td>GaN HEMT</td>
+<td>高頻高效率功率元件</td>
+<td>快充、AI PSU、資料中心</td>
+</tr>
+<tr>
+<th scope="row">GaN-on-SiC</th>
+<td>RF GaN</td>
+<td>高頻高功率</td>
+<td>基地台、雷達、衛星</td>
+</tr>
+<tr>
+<th scope="row">磊晶片</th>
+<td>MOSFET、IGBT、SiC、GaN</td>
+<td>決定元件性能</td>
+<td>高壓、高頻、高效率需求</td>
+</tr>
+<tr>
+<th scope="row">光罩</th>
+<td>IC 製造</td>
+<td>圖形轉移</td>
+<td>GPU、ASIC、先進製程</td>
+</tr>
+<tr>
+<th scope="row">特用氣體</th>
+<td>蝕刻、沉積、清洗</td>
+<td>製程材料</td>
+<td>晶圓產能擴張</td>
+</tr>
+<tr>
+<th scope="row">靶材</th>
+<td>金屬薄膜</td>
+<td>導電層</td>
+<td>先進製程與功率元件</td>
+</tr>
+<tr>
+<th scope="row">陶瓷基板</th>
+<td>功率模組</td>
+<td>散熱與絕緣</td>
+<td>SiC／IGBT 模組、EV inverter</td>
+</tr>
+<tr>
+<th scope="row">封裝材料</th>
+<td>IC、功率模組</td>
+<td>散熱、保護、可靠度</td>
+<td>高功率與車規需求</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>3. 邏輯 IC、CPU、GPU、ASIC</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="邏輯 IC、CPU、GPU、ASIC資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">元件</th>
+<th scope="col">功能</th>
+<th scope="col">主要應用</th>
+<th scope="col">成長邏輯</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">CPU</th>
+<td>通用運算</td>
+<td>Server、PC、工業控制</td>
+<td>AI server 仍需 CPU 管理資料流</td>
+</tr>
+<tr>
+<th scope="row">GPU</th>
+<td>平行運算</td>
+<td>AI training、AI inference、HPC</td>
+<td>AI 模型訓練與推論核心</td>
+</tr>
+<tr>
+<th scope="row">ASIC</th>
+<td>特定用途運算</td>
+<td>TPU、Trainium、custom AI chip</td>
+<td>CSP 自研晶片提高效率</td>
+</tr>
+<tr>
+<th scope="row">邏輯 IC</th>
+<td>控制與資料處理</td>
+<td>Server、switch、車用、通訊</td>
+<td>系統複雜度提升</td>
+</tr>
+<tr>
+<th scope="row">BMC</th>
+<td>伺服器管理</td>
+<td>Server motherboard</td>
+<td>AI server 出貨成長帶動</td>
+</tr>
+<tr>
+<th scope="row">Switch ASIC</th>
+<td>資料交換</td>
+<td>AI cluster networking</td>
+<td>800G／1.6T 網路升級</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>4. 類比 IC、PMIC、MCU、Timing IC</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="類比 IC、PMIC、MCU、Timing IC資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">元件</th>
+<th scope="col">功能</th>
+<th scope="col">主要應用</th>
+<th scope="col">成長邏輯</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">類比 IC</th>
+<td>訊號放大、轉換、監控</td>
+<td>工業、車用、通訊、資料中心</td>
+<td>感測、監控與電源系統增加</td>
+</tr>
+<tr>
+<th scope="row">PMIC</th>
+<td>電源管理、電壓調節</td>
+<td>GPU board、AI server、手機、車用</td>
+<td>電源軌增加、功耗上升</td>
+</tr>
+<tr>
+<th scope="row">Driver IC</th>
+<td>驅動 MOSFET、IGBT、SiC、GaN</td>
+<td>EV、PSU、OBC、工業馬達</td>
+<td>高壓高速開關需求</td>
+</tr>
+<tr>
+<th scope="row">MCU</th>
+<td>控制與低功耗運算</td>
+<td>EV、工業、家電、車身電子</td>
+<td>車用電子與工業控制需求</td>
+</tr>
+<tr>
+<th scope="row">ADC／DAC</th>
+<td>類比數位轉換</td>
+<td>感測器、通訊、工業</td>
+<td>高速訊號與感測增加</td>
+</tr>
+<tr>
+<th scope="row">Clock／Timing IC</th>
+<td>時脈分配與抖動清除</td>
+<td>AI switch、光模組、基地台</td>
+<td>高速傳輸要求低 jitter</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>5. MOSFET、IGBT、SiC、GaN 比較</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="MOSFET、IGBT、SiC、GaN 比較資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">元件</th>
+<th scope="col">優勢</th>
+<th scope="col">主要應用</th>
+<th scope="col">受惠邏輯</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">MOSFET</th>
+<td>中低壓、高速開關、成本成熟</td>
+<td>PSU、DC-DC、主板電源、48V server</td>
+<td>AI server 48V 與電源轉換</td>
+</tr>
+<tr>
+<th scope="row">IGBT</th>
+<td>高壓大功率、成本成熟</td>
+<td>工業馬達、EV inverter、太陽能逆變器</td>
+<td>工業與部分 EV 需求</td>
+</tr>
+<tr>
+<th scope="row">SiC MOSFET</th>
+<td>高壓、高效率、高耐溫</td>
+<td>EV 800V、快充、資料中心 PSU</td>
+<td>高壓平台滲透率提升</td>
+</tr>
+<tr>
+<th scope="row">GaN HEMT</th>
+<td>高頻、高效率、小型化</td>
+<td>快充、資料中心 PSU、通訊電源</td>
+<td>高功率密度與高頻轉換</td>
+</tr>
+<tr>
+<th scope="row">二極體／整流器</th>
+<td>整流、保護、續流</td>
+<td>PSU、OBC、工業電源</td>
+<td>電源轉換基礎需求</td>
+</tr>
+<tr>
+<th scope="row">功率模組</th>
+<td>整合功率元件與散熱</td>
+<td>EV inverter、工業馬達</td>
+<td>高功率、高可靠度</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="report-section reveal" id="section-07" data-chapter="7">
+<header class="chapter-header"><span class="chapter-no">07</span><h1>七、AI Server 需求拉動</h1></header>
+
+<h2>1. AI Server 需求拉動路徑</h2>
+
+<pre class="flow-code" tabindex="0"><code>AI 模型變大
+→ GPU／ASIC 數量增加
+→ 單機與單 rack 功耗提高
+→ 電源軌與電流增加
+→ PMIC、MOSFET、Driver IC 需求增加
+→ MLCC、電感、固態電容、磁性元件用量增加
+→ PSU、BBU、UPS 升級
+→ 800G／1.6T 光通訊升級
+→ 石英振盪器、Clock IC、光電元件需求提高
+→ 資料中心電源架構走向 48V／800V HVDC</code></pre>
+<hr>
+<h2>2. AI Server 對元件的拉動</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="AI Server 對元件的拉動資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">類型</th>
+<th scope="col">元件</th>
+<th scope="col">需求變化</th>
+<th scope="col">成長原因</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">運算</th>
+<td>GPU／ASIC</td>
+<td>出貨與價值提升</td>
+<td>AI training／inference</td>
+</tr>
+<tr>
+<th scope="row">記憶體</th>
+<td>HBM／DRAM</td>
+<td>高頻寬需求提升</td>
+<td>AI 模型資料存取</td>
+</tr>
+<tr>
+<th scope="row">電源 IC</th>
+<td>PMIC、Driver IC</td>
+<td>電源軌增加</td>
+<td>GPU／ASIC 電源管理</td>
+</tr>
+<tr>
+<th scope="row">功率</th>
+<td>MOSFET、SiC、GaN</td>
+<td>用量與滲透率提升</td>
+<td>48V、PSU、HVDC</td>
+</tr>
+<tr>
+<th scope="row">被動</th>
+<td>MLCC、電感、固態電容</td>
+<td>用量增加、規格升級</td>
+<td>去耦、濾波、DC-DC</td>
+</tr>
+<tr>
+<th scope="row">Timing</th>
+<td>XO、VCXO、Clock IC</td>
+<td>低 jitter、高同步</td>
+<td>光模組、switch、SerDes</td>
+</tr>
+<tr>
+<th scope="row">光電</th>
+<td>DSP、TIA、Driver、Laser、PD</td>
+<td>速度升級</td>
+<td>800G／1.6T、CPO</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>3. 48V 與 800V 電源架構升級</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="48V 與 800V 電源架構升級資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">電源架構</th>
+<th scope="col">主要特色</th>
+<th scope="col">受惠主動元件</th>
+<th scope="col">受惠被動元件</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">12V server</th>
+<td>傳統 server 配電</td>
+<td>MOSFET、PMIC</td>
+<td>MLCC、電感、鋁電容</td>
+</tr>
+<tr>
+<th scope="row">48V AI server</th>
+<td>降低電流與導線損耗</td>
+<td>100V MOSFET、hot-swap IC、PMIC</td>
+<td>高電流電感、MLCC、磁性元件</td>
+</tr>
+<tr>
+<th scope="row">54V rack power</th>
+<td>AI rack 常見電源配送</td>
+<td>eFuse、MOSFET、Driver IC</td>
+<td>busbar、電容、磁性元件</td>
+</tr>
+<tr>
+<th scope="row">800V HVDC</th>
+<td>高壓直流資料中心架構</td>
+<td>SiC、GaN、高壓 MOSFET、整流器</td>
+<td>薄膜電容、高壓電容、變壓器、磁性元件</td>
+</tr>
+<tr>
+<th scope="row">1MW rack</th>
+<td>高密度 AI factory 方向</td>
+<td>SiC、GaN、PMIC、隔離驅動</td>
+<td>高壓電容、磁性元件、熱管理材料</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="report-section reveal" id="section-08" data-chapter="8">
+<header class="chapter-header"><span class="chapter-no">08</span><h1>八、EV、資料中心與光通訊需求</h1></header>
+
+<h2>1. EV 需求拉動路徑</h2>
+
+<pre class="flow-code" tabindex="0"><code>EV 滲透率提升
+→ 400V 升級到 800V
+→ 主逆變器、OBC、DC-DC 功率提升
+→ SiC／IGBT／MOSFET／Driver IC 需求提升
+→ 薄膜電容、電感、變壓器需求提升
+→ 車用 MLCC、電阻、MCU、sensor、石英晶體同步增加
+→ 車用電子從「機械控制」走向「電力電子與軟體控制」</code></pre>
+<hr>
+<h2>2. EV 對主動與被動元件需求</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="EV 對主動與被動元件需求資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">系統</th>
+<th scope="col">主動元件</th>
+<th scope="col">被動元件／頻率元件</th>
+<th scope="col">需求原因</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">主逆變器</th>
+<td>SiC、IGBT、Driver IC</td>
+<td>薄膜電容、電感、電阻</td>
+<td>高壓驅動馬達</td>
+</tr>
+<tr>
+<th scope="row">OBC</th>
+<td>SiC、GaN、MOSFET</td>
+<td>變壓器、薄膜電容、電感</td>
+<td>車載充電</td>
+</tr>
+<tr>
+<th scope="row">DC-DC</th>
+<td>MOSFET、PMIC</td>
+<td>電感、MLCC、變壓器</td>
+<td>高低壓轉換</td>
+</tr>
+<tr>
+<th scope="row">BMS</th>
+<td>MCU、感測器、類比 IC</td>
+<td>電阻、MLCC、石英晶體</td>
+<td>電池監控</td>
+</tr>
+<tr>
+<th scope="row">ADAS</th>
+<td>SoC、sensor、RF</td>
+<td>MLCC、電阻、TCXO</td>
+<td>高速感測與同步</td>
+</tr>
+<tr>
+<th scope="row">車身電子</th>
+<td>MCU、PMIC、sensor</td>
+<td>MLCC、電阻、XTAL</td>
+<td>智慧化與電動化</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>3. 資料中心 PSU、BBU、UPS 需求</h2>
+
+<p>AI data center 的瓶頸不只在算力，也逐漸延伸到電力。GPU rack 功率密度提高後，資料中心需要更高效率 PSU、rack-level BBU、UPS 與高壓直流配電。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="資料中心 PSU、BBU、UPS 需求資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">系統</th>
+<th scope="col">主動元件</th>
+<th scope="col">被動元件</th>
+<th scope="col">成長原因</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">PSU</th>
+<td>GaN、SiC、MOSFET、整流器</td>
+<td>鋁電容、薄膜電容、磁性元件</td>
+<td>高效率、高功率密度</td>
+</tr>
+<tr>
+<th scope="row">BBU</th>
+<td>BMS IC、MOSFET、保護 IC</td>
+<td>電容、電阻、連接器</td>
+<td>rack-level 備援</td>
+</tr>
+<tr>
+<th scope="row">UPS</th>
+<td>IGBT、SiC、整流器</td>
+<td>鋁電容、薄膜電容、變壓器</td>
+<td>資料中心穩定供電</td>
+</tr>
+<tr>
+<th scope="row">Power shelf</th>
+<td>PMIC、eFuse、hot-swap IC</td>
+<td>busbar、MLCC、電感</td>
+<td>AI rack 供電升級</td>
+</tr>
+<tr>
+<th scope="row">800V HVDC</th>
+<td>SiC、GaN、高壓整流器</td>
+<td>高壓電容、磁性元件</td>
+<td>降低轉換損耗</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>4. 光通訊與 CPO 對元件需求</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="光通訊與 CPO 對元件需求資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">環節</th>
+<th scope="col">主要元件</th>
+<th scope="col">受惠邏輯</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">光模組</th>
+<td>雷射、PD、TIA、Driver、DSP</td>
+<td>800G／1.6T 需求增加</td>
+</tr>
+<tr>
+<th scope="row">Timing</th>
+<td>XO、VCXO、TCXO、Clock IC</td>
+<td>高速傳輸需要低 jitter</td>
+</tr>
+<tr>
+<th scope="row">Switch</th>
+<td>Switch ASIC、SerDes、PMIC</td>
+<td>AI cluster 網路升級</td>
+</tr>
+<tr>
+<th scope="row">CPO</th>
+<td>光引擎、矽光子、封裝材料</td>
+<td>降低功耗與提升頻寬密度</td>
+</tr>
+<tr>
+<th scope="row">RF／濾波</th>
+<td>SAW／BAW、RF FEM</td>
+<td>通訊與高頻訊號</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="report-section reveal" id="section-09" data-chapter="9">
+<header class="chapter-header"><span class="chapter-no">09</span><h1>九、核心數據與圖表整理</h1></header>
+
+<figure class="metric-board reveal" aria-labelledby="metric-board-title">
+  <figcaption>
+    <span class="eyebrow">MARKET SIGNALS</span>
+    <h2 id="metric-board-title">核心市場訊號</h2>
+    <p>數值均整理自本報告「核心成長數據」，用來建立各產業環節的相對觀察尺度。</p>
+  </figcaption>
+  <div class="metric-grid">
+    <article class="metric metric-featured"><span>AI 光收發模組</span><strong>57%+</strong><small>2026 年增</small></article>
+    <article class="metric"><span>AI server</span><strong>28%+</strong><small>2026 出貨成長</small></article>
+    <article class="metric"><span>Power GaN</span><strong>42%</strong><small>2024–2030 CAGR</small></article>
+    <article class="metric"><span>800G 以上光模組</span><strong>60%+</strong><small>2026E 出貨占比</small></article>
+  </div>
+</figure>
+<h2>1. 核心成長數據</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="核心成長數據資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">產業環節</th>
+<th scope="col">成長指標</th>
+<th scope="col">數值</th>
+<th scope="col">資料來源</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">全球半導體</th>
+<td>2025 銷售額</td>
+<td>7,917 億美元，年增 25.6%</td>
+<td>SIA／WSTS</td>
+</tr>
+<tr>
+<th scope="row">全球半導體</th>
+<td>2026E 市場規模</td>
+<td>約 9,750 億美元，接近 1 兆美元</td>
+<td>WSTS</td>
+</tr>
+<tr>
+<th scope="row">AI server</th>
+<td>2026 出貨成長</td>
+<td>年增超過 28%</td>
+<td>TrendForce</td>
+</tr>
+<tr>
+<th scope="row">整體 server</th>
+<td>2026 出貨成長</td>
+<td>年增 12.8%</td>
+<td>TrendForce</td>
+</tr>
+<tr>
+<th scope="row">GPU-based AI server</th>
+<td>2026 出貨占比</td>
+<td>69.7%</td>
+<td>TrendForce</td>
+</tr>
+<tr>
+<th scope="row">ASIC-based AI server</th>
+<td>2026 出貨占比</td>
+<td>27.8%</td>
+<td>TrendForce</td>
+</tr>
+<tr>
+<th scope="row">AI 光收發模組</th>
+<td>2025 市場規模</td>
+<td>約 165 億美元</td>
+<td>TrendForce</td>
+</tr>
+<tr>
+<th scope="row">AI 光收發模組</th>
+<td>2026E 市場規模</td>
+<td>約 260 億美元，年增 57%+</td>
+<td>TrendForce</td>
+</tr>
+<tr>
+<th scope="row">800G 以上光模組</th>
+<td>2024 出貨占比</td>
+<td>19.5%</td>
+<td>TrendForce</td>
+</tr>
+<tr>
+<th scope="row">800G 以上光模組</th>
+<td>2026E 出貨占比</td>
+<td>60%+</td>
+<td>TrendForce</td>
+</tr>
+<tr>
+<th scope="row">資料中心 PSU</th>
+<td>2030 市場規模</td>
+<td>140 億美元以上</td>
+<td>Yole</td>
+</tr>
+<tr>
+<th scope="row">資料中心 PSU</th>
+<td>2024–2030 CAGR</td>
+<td>15.5%</td>
+<td>Yole</td>
+</tr>
+<tr>
+<th scope="row">Power GaN</th>
+<td>2030 市場規模</td>
+<td>約 30 億美元</td>
+<td>Yole</td>
+</tr>
+<tr>
+<th scope="row">Power GaN</th>
+<td>2024–2030 CAGR</td>
+<td>約 42%</td>
+<td>Yole</td>
+</tr>
+<tr>
+<th scope="row">Power SiC</th>
+<td>2031 市場規模</td>
+<td>約 110 億美元</td>
+<td>Yole</td>
+</tr>
+<tr>
+<th scope="row">Power SiC</th>
+<td>2025–2031 CAGR</td>
+<td>約 20%</td>
+<td>Yole</td>
+</tr>
+<tr>
+<th scope="row">Frequency Control &amp; Timing Devices</th>
+<td>2026E 市場規模</td>
+<td>68.4 億美元</td>
+<td>Mordor Intelligence</td>
+</tr>
+<tr>
+<th scope="row">Frequency Control &amp; Timing Devices</th>
+<td>2031E 市場規模</td>
+<td>96.1 億美元，CAGR 7.04%</td>
+<td>Mordor Intelligence</td>
+</tr>
+<tr>
+<th scope="row">Crystal Oscillator</th>
+<td>2025E 市場規模</td>
+<td>28.9 億美元</td>
+<td>MarketsandMarkets</td>
+</tr>
+<tr>
+<th scope="row">Crystal Oscillator</th>
+<td>2030E 市場規模</td>
+<td>36.6 億美元，CAGR 4.8%</td>
+<td>MarketsandMarkets</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>2. 成長強度比較</h2>
+
+<figure class="growth-chart reveal" aria-labelledby="growth-title">
+  <figcaption><span class="eyebrow">GROWTH COMPARISON</span><h3 id="growth-title">成長強度視覺比較</h3><p>各列採用原稿所列 YoY 或 CAGR 指標，僅呈現相對強度。</p></figcaption>
+  <div class="bar-list">
+    <div class="bar-row">
+      <div class="bar-meta"><span>AI 光收發模組</span><strong>57%+</strong></div>
+      <div class="bar-track" aria-hidden="true"><span style="--bar:1;--delay:0ms"></span></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-meta"><span>Power GaN</span><strong>42%</strong></div>
+      <div class="bar-track" aria-hidden="true"><span style="--bar:0.7368421052631579;--delay:45ms"></span></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-meta"><span>AI server</span><strong>28%+</strong></div>
+      <div class="bar-track" aria-hidden="true"><span style="--bar:0.49122807017543857;--delay:90ms"></span></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-meta"><span>Power SiC</span><strong>20%</strong></div>
+      <div class="bar-track" aria-hidden="true"><span style="--bar:0.3508771929824561;--delay:135ms"></span></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-meta"><span>資料中心 PSU</span><strong>15.5%</strong></div>
+      <div class="bar-track" aria-hidden="true"><span style="--bar:0.2719298245614035;--delay:180ms"></span></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-meta"><span>整體 server</span><strong>12.8%</strong></div>
+      <div class="bar-track" aria-hidden="true"><span style="--bar:0.22456140350877193;--delay:225ms"></span></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-meta"><span>Timing devices</span><strong>7.04%</strong></div>
+      <div class="bar-track" aria-hidden="true"><span style="--bar:0.12350877192982457;--delay:270ms"></span></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-meta"><span>Crystal oscillator</span><strong>4.8%</strong></div>
+      <div class="bar-track" aria-hidden="true"><span style="--bar:0.08421052631578947;--delay:315ms"></span></div>
+    </div>
+  </div>
+</figure>
+<div class="table-shell" tabindex="0" role="region" aria-label="成長強度比較資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">產業環節</th>
+<th scope="col">指標</th>
+<th scope="col">成長率</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">AI 光收發模組</th>
+<td>2026 YoY</td>
+<td>57%+</td>
+</tr>
+<tr>
+<th scope="row">Power GaN</th>
+<td>2024–2030 CAGR</td>
+<td>42%</td>
+</tr>
+<tr>
+<th scope="row">AI server</th>
+<td>2026 YoY</td>
+<td>28%+</td>
+</tr>
+<tr>
+<th scope="row">Power SiC</th>
+<td>2025–2031 CAGR</td>
+<td>20%</td>
+</tr>
+<tr>
+<th scope="row">資料中心 PSU</th>
+<td>2024–2030 CAGR</td>
+<td>15.5%</td>
+</tr>
+<tr>
+<th scope="row">整體 server</th>
+<td>2026 YoY</td>
+<td>12.8%</td>
+</tr>
+<tr>
+<th scope="row">Timing devices</th>
+<td>2026–2031 CAGR</td>
+<td>7.04%</td>
+</tr>
+<tr>
+<th scope="row">Crystal oscillator</th>
+<td>2025–2030 CAGR</td>
+<td>4.8%</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>3. AI Server 元件需求熱度圖</h2>
+
+<figure class="heatmap reveal" aria-label="AI Server 元件需求熱度">
+  <div class="heatmap-head"><span class="eyebrow">DEMAND HEATMAP</span><h3>AI Server 元件需求熱度</h3><p>5 代表最高，1 代表最低。</p></div>
+  <div class="heatmap-scroll" tabindex="0" role="region" aria-label="AI Server 元件需求熱度橫向表格">
+    <div class="heatmap-grid" style="--cols:6">
+      <div class="heat-label heat-header">元件</div><div class="heat-label heat-header">用量</div><div class="heat-label heat-header">規格</div><div class="heat-label heat-header">ASP</div><div class="heat-label heat-header">瓶頸</div><div class="heat-label heat-header">關聯度</div>
+      <div class="heat-label">GPU／ASIC</div><div class="heat-cell heat-5" aria-label="GPU／ASIC 用量 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="GPU／ASIC 規格 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="GPU／ASIC ASP 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="GPU／ASIC 瓶頸 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="GPU／ASIC 關聯度 5"><span>5</span></div><div class="heat-label">HBM</div><div class="heat-cell heat-5" aria-label="HBM 用量 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="HBM 規格 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="HBM ASP 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="HBM 瓶頸 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="HBM 關聯度 5"><span>5</span></div><div class="heat-label">AI 光模組</div><div class="heat-cell heat-5" aria-label="AI 光模組 用量 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="AI 光模組 規格 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="AI 光模組 ASP 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="AI 光模組 瓶頸 4"><span>4</span></div><div class="heat-cell heat-5" aria-label="AI 光模組 關聯度 5"><span>5</span></div><div class="heat-label">PMIC</div><div class="heat-cell heat-4" aria-label="PMIC 用量 4"><span>4</span></div><div class="heat-cell heat-5" aria-label="PMIC 規格 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="PMIC ASP 4"><span>4</span></div><div class="heat-cell heat-3" aria-label="PMIC 瓶頸 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="PMIC 關聯度 5"><span>5</span></div><div class="heat-label">MOSFET</div><div class="heat-cell heat-4" aria-label="MOSFET 用量 4"><span>4</span></div><div class="heat-cell heat-4" aria-label="MOSFET 規格 4"><span>4</span></div><div class="heat-cell heat-3" aria-label="MOSFET ASP 3"><span>3</span></div><div class="heat-cell heat-3" aria-label="MOSFET 瓶頸 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="MOSFET 關聯度 5"><span>5</span></div><div class="heat-label">MLCC</div><div class="heat-cell heat-5" aria-label="MLCC 用量 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="MLCC 規格 4"><span>4</span></div><div class="heat-cell heat-4" aria-label="MLCC ASP 4"><span>4</span></div><div class="heat-cell heat-3" aria-label="MLCC 瓶頸 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="MLCC 關聯度 5"><span>5</span></div><div class="heat-label">電感</div><div class="heat-cell heat-4" aria-label="電感 用量 4"><span>4</span></div><div class="heat-cell heat-4" aria-label="電感 規格 4"><span>4</span></div><div class="heat-cell heat-3" aria-label="電感 ASP 3"><span>3</span></div><div class="heat-cell heat-3" aria-label="電感 瓶頸 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="電感 關聯度 5"><span>5</span></div><div class="heat-label">固態電容</div><div class="heat-cell heat-4" aria-label="固態電容 用量 4"><span>4</span></div><div class="heat-cell heat-4" aria-label="固態電容 規格 4"><span>4</span></div><div class="heat-cell heat-3" aria-label="固態電容 ASP 3"><span>3</span></div><div class="heat-cell heat-3" aria-label="固態電容 瓶頸 3"><span>3</span></div><div class="heat-cell heat-4" aria-label="固態電容 關聯度 4"><span>4</span></div><div class="heat-label">石英振盪器</div><div class="heat-cell heat-3" aria-label="石英振盪器 用量 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="石英振盪器 規格 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="石英振盪器 ASP 4"><span>4</span></div><div class="heat-cell heat-3" aria-label="石英振盪器 瓶頸 3"><span>3</span></div><div class="heat-cell heat-4" aria-label="石英振盪器 關聯度 4"><span>4</span></div><div class="heat-label">鋁電容</div><div class="heat-cell heat-3" aria-label="鋁電容 用量 3"><span>3</span></div><div class="heat-cell heat-3" aria-label="鋁電容 規格 3"><span>3</span></div><div class="heat-cell heat-2" aria-label="鋁電容 ASP 2"><span>2</span></div><div class="heat-cell heat-2" aria-label="鋁電容 瓶頸 2"><span>2</span></div><div class="heat-cell heat-3" aria-label="鋁電容 關聯度 3"><span>3</span></div>
+    </div>
+  </div>
+</figure>
+<p>評分方式：5 = 最高受惠，1 = 低受惠。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="AI Server 元件需求熱度圖資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">元件</th>
+<th scope="col">用量增加</th>
+<th scope="col">規格升級</th>
+<th scope="col">ASP 提升</th>
+<th scope="col">供應鏈瓶頸</th>
+<th scope="col">AI server 關聯度</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">GPU／ASIC</th>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">HBM</th>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">AI 光模組</th>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">PMIC</th>
+<td>4</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">MOSFET</th>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">MLCC</th>
+<td>5</td>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">電感</th>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">固態電容</th>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<th scope="row">石英振盪器</th>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<th scope="row">鋁電容</th>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>4. EV 元件需求熱度圖</h2>
+
+<figure class="heatmap reveal" aria-label="EV 元件需求熱度">
+  <div class="heatmap-head"><span class="eyebrow">DEMAND HEATMAP</span><h3>EV 元件需求熱度</h3><p>5 代表最高，1 代表最低。</p></div>
+  <div class="heatmap-scroll" tabindex="0" role="region" aria-label="EV 元件需求熱度橫向表格">
+    <div class="heatmap-grid" style="--cols:6">
+      <div class="heat-label heat-header">元件</div><div class="heat-label heat-header">用量</div><div class="heat-label heat-header">規格</div><div class="heat-label heat-header">ASP</div><div class="heat-label heat-header">車用門檻</div><div class="heat-label heat-header">關聯度</div>
+      <div class="heat-label">SiC</div><div class="heat-cell heat-4" aria-label="SiC 用量 4"><span>4</span></div><div class="heat-cell heat-5" aria-label="SiC 規格 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="SiC ASP 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="SiC 車用門檻 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="SiC 關聯度 5"><span>5</span></div><div class="heat-label">IGBT</div><div class="heat-cell heat-3" aria-label="IGBT 用量 3"><span>3</span></div><div class="heat-cell heat-3" aria-label="IGBT 規格 3"><span>3</span></div><div class="heat-cell heat-3" aria-label="IGBT ASP 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="IGBT 車用門檻 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="IGBT 關聯度 4"><span>4</span></div><div class="heat-label">MOSFET</div><div class="heat-cell heat-4" aria-label="MOSFET 用量 4"><span>4</span></div><div class="heat-cell heat-4" aria-label="MOSFET 規格 4"><span>4</span></div><div class="heat-cell heat-3" aria-label="MOSFET ASP 3"><span>3</span></div><div class="heat-cell heat-4" aria-label="MOSFET 車用門檻 4"><span>4</span></div><div class="heat-cell heat-4" aria-label="MOSFET 關聯度 4"><span>4</span></div><div class="heat-label">Driver IC</div><div class="heat-cell heat-4" aria-label="Driver IC 用量 4"><span>4</span></div><div class="heat-cell heat-5" aria-label="Driver IC 規格 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="Driver IC ASP 4"><span>4</span></div><div class="heat-cell heat-5" aria-label="Driver IC 車用門檻 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="Driver IC 關聯度 5"><span>5</span></div><div class="heat-label">MCU</div><div class="heat-cell heat-4" aria-label="MCU 用量 4"><span>4</span></div><div class="heat-cell heat-4" aria-label="MCU 規格 4"><span>4</span></div><div class="heat-cell heat-3" aria-label="MCU ASP 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="MCU 車用門檻 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="MCU 關聯度 5"><span>5</span></div><div class="heat-label">薄膜電容</div><div class="heat-cell heat-4" aria-label="薄膜電容 用量 4"><span>4</span></div><div class="heat-cell heat-5" aria-label="薄膜電容 規格 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="薄膜電容 ASP 4"><span>4</span></div><div class="heat-cell heat-5" aria-label="薄膜電容 車用門檻 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="薄膜電容 關聯度 5"><span>5</span></div><div class="heat-label">車規 MLCC</div><div class="heat-cell heat-5" aria-label="車規 MLCC 用量 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="車規 MLCC 規格 4"><span>4</span></div><div class="heat-cell heat-3" aria-label="車規 MLCC ASP 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="車規 MLCC 車用門檻 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="車規 MLCC 關聯度 5"><span>5</span></div><div class="heat-label">石英晶體／TCXO</div><div class="heat-cell heat-3" aria-label="石英晶體／TCXO 用量 3"><span>3</span></div><div class="heat-cell heat-4" aria-label="石英晶體／TCXO 規格 4"><span>4</span></div><div class="heat-cell heat-3" aria-label="石英晶體／TCXO ASP 3"><span>3</span></div><div class="heat-cell heat-4" aria-label="石英晶體／TCXO 車用門檻 4"><span>4</span></div><div class="heat-cell heat-4" aria-label="石英晶體／TCXO 關聯度 4"><span>4</span></div>
+    </div>
+  </div>
+</figure>
+<div class="table-shell" tabindex="0" role="region" aria-label="EV 元件需求熱度圖資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">元件</th>
+<th scope="col">用量增加</th>
+<th scope="col">規格升級</th>
+<th scope="col">ASP 提升</th>
+<th scope="col">車用門檻</th>
+<th scope="col">EV 關聯度</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">SiC</th>
+<td>4</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">IGBT</th>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<th scope="row">MOSFET</th>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<th scope="row">Driver IC</th>
+<td>4</td>
+<td>5</td>
+<td>4</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">MCU</th>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">薄膜電容</th>
+<td>4</td>
+<td>5</td>
+<td>4</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">車規 MLCC</th>
+<td>5</td>
+<td>4</td>
+<td>3</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">石英晶體／TCXO</th>
+<td>3</td>
+<td>4</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>5. 資料中心電源元件熱度圖</h2>
+
+<figure class="heatmap reveal" aria-label="資料中心電源元件熱度">
+  <div class="heatmap-head"><span class="eyebrow">DEMAND HEATMAP</span><h3>資料中心電源元件熱度</h3><p>5 代表最高，1 代表最低。</p></div>
+  <div class="heatmap-scroll" tabindex="0" role="region" aria-label="資料中心電源元件熱度橫向表格">
+    <div class="heatmap-grid" style="--cols:7">
+      <div class="heat-label heat-header">元件</div><div class="heat-label heat-header">PSU</div><div class="heat-label heat-header">BBU</div><div class="heat-label heat-header">UPS</div><div class="heat-label heat-header">48V</div><div class="heat-label heat-header">800V</div><div class="heat-label heat-header">綜合</div>
+      <div class="heat-label">GaN</div><div class="heat-cell heat-5" aria-label="GaN PSU 5"><span>5</span></div><div class="heat-cell heat-3" aria-label="GaN BBU 3"><span>3</span></div><div class="heat-cell heat-3" aria-label="GaN UPS 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="GaN 48V 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="GaN 800V 4"><span>4</span></div><div class="heat-cell heat-5" aria-label="GaN 綜合 5"><span>5</span></div><div class="heat-label">SiC</div><div class="heat-cell heat-4" aria-label="SiC PSU 4"><span>4</span></div><div class="heat-cell heat-3" aria-label="SiC BBU 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="SiC UPS 5"><span>5</span></div><div class="heat-cell heat-3" aria-label="SiC 48V 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="SiC 800V 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="SiC 綜合 5"><span>5</span></div><div class="heat-label">MOSFET</div><div class="heat-cell heat-5" aria-label="MOSFET PSU 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="MOSFET BBU 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="MOSFET UPS 4"><span>4</span></div><div class="heat-cell heat-5" aria-label="MOSFET 48V 5"><span>5</span></div><div class="heat-cell heat-3" aria-label="MOSFET 800V 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="MOSFET 綜合 5"><span>5</span></div><div class="heat-label">PMIC／Hot-swap IC</div><div class="heat-cell heat-5" aria-label="PMIC／Hot-swap IC PSU 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="PMIC／Hot-swap IC BBU 5"><span>5</span></div><div class="heat-cell heat-3" aria-label="PMIC／Hot-swap IC UPS 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="PMIC／Hot-swap IC 48V 5"><span>5</span></div><div class="heat-cell heat-3" aria-label="PMIC／Hot-swap IC 800V 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="PMIC／Hot-swap IC 綜合 5"><span>5</span></div><div class="heat-label">鋁電容</div><div class="heat-cell heat-5" aria-label="鋁電容 PSU 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="鋁電容 BBU 4"><span>4</span></div><div class="heat-cell heat-5" aria-label="鋁電容 UPS 5"><span>5</span></div><div class="heat-cell heat-3" aria-label="鋁電容 48V 3"><span>3</span></div><div class="heat-cell heat-4" aria-label="鋁電容 800V 4"><span>4</span></div><div class="heat-cell heat-4" aria-label="鋁電容 綜合 4"><span>4</span></div><div class="heat-label">薄膜電容</div><div class="heat-cell heat-4" aria-label="薄膜電容 PSU 4"><span>4</span></div><div class="heat-cell heat-3" aria-label="薄膜電容 BBU 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="薄膜電容 UPS 5"><span>5</span></div><div class="heat-cell heat-3" aria-label="薄膜電容 48V 3"><span>3</span></div><div class="heat-cell heat-5" aria-label="薄膜電容 800V 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="薄膜電容 綜合 4"><span>4</span></div><div class="heat-label">磁性元件</div><div class="heat-cell heat-5" aria-label="磁性元件 PSU 5"><span>5</span></div><div class="heat-cell heat-4" aria-label="磁性元件 BBU 4"><span>4</span></div><div class="heat-cell heat-5" aria-label="磁性元件 UPS 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="磁性元件 48V 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="磁性元件 800V 5"><span>5</span></div><div class="heat-cell heat-5" aria-label="磁性元件 綜合 5"><span>5</span></div>
+    </div>
+  </div>
+</figure>
+<div class="table-shell" tabindex="0" role="region" aria-label="資料中心電源元件熱度圖資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">元件</th>
+<th scope="col">PSU</th>
+<th scope="col">BBU</th>
+<th scope="col">UPS</th>
+<th scope="col">48V</th>
+<th scope="col">800V HVDC</th>
+<th scope="col">綜合熱度</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">GaN</th>
+<td>5</td>
+<td>3</td>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">SiC</th>
+<td>4</td>
+<td>3</td>
+<td>5</td>
+<td>3</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">MOSFET</th>
+<td>5</td>
+<td>5</td>
+<td>4</td>
+<td>5</td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">PMIC／Hot-swap IC</th>
+<td>5</td>
+<td>5</td>
+<td>3</td>
+<td>5</td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">鋁電容</th>
+<td>5</td>
+<td>4</td>
+<td>5</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<th scope="row">薄膜電容</th>
+<td>4</td>
+<td>3</td>
+<td>5</td>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<th scope="row">磁性元件</th>
+<td>5</td>
+<td>4</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="report-section" id="section-10" data-chapter="10">
+  <header class="chapter-header"><span class="chapter-no">10</span><h1>十、公司與供應鏈整理</h1></header>
+
+    <nav class="company-jump" aria-label="公司分類快速導覽">
+      <span>依元件類型瀏覽</span>
+      <a href="#company-passive"><b>01</b> 被動元件</a>
+      <a href="#company-timing"><b>02</b> Timing</a>
+      <a href="#company-active"><b>03</b> 主動元件</a>
+    </nav>
+    <div class="company-overview reveal">
+      <header class="company-overview-head"><span class="eyebrow">COMPANY LANDSCAPE</span><h2>公司與供應鏈總覽</h2><p>先從跨產業定位建立全貌，再依被動、Timing、主動三條產業鏈分開閱讀。</p></header>
+
+    <div class="company-table-block">
+      <h3>1. 台股公司定位</h3>
+      <div class="table-shell" tabindex="0" role="region" aria-label="1. 台股公司定位資料表">
+        <div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+        <table><thead><tr><th scope="col">公司</th><th scope="col">股票代號</th><th scope="col">類型</th><th scope="col">AI server 受惠程度</th><th scope="col">產業純度</th><th scope="col">主要受惠點</th></tr></thead>
+        <tbody><tr><th scope="row">台積電</th><td>2330</td><td>晶圓代工</td><td>5</td><td>5</td><td>GPU／ASIC、先進製程、CoWoS</td></tr><tr><th scope="row">國巨</th><td>2327</td><td>被動元件</td><td>4</td><td>5</td><td>MLCC、電阻、鉭電容、薄膜電容</td></tr><tr><th scope="row">華新科</th><td>2492</td><td>被動元件</td><td>4</td><td>5</td><td>MLCC、電阻、RF 元件</td></tr><tr><th scope="row">鈺邦</th><td>6449</td><td>固態電容</td><td>4</td><td>5</td><td>Server、GPU board、PSU</td></tr><tr><th scope="row">晶技</th><td>3042</td><td>Timing</td><td>4</td><td>5</td><td>XTAL、XO、TCXO、VCXO</td></tr><tr><th scope="row">泰藝</th><td>8289</td><td>高階 Timing</td><td>4</td><td>5</td><td>XO、VCXO、TCXO、OCXO</td></tr><tr><th scope="row">瑞昱</th><td>2379</td><td>網通 IC</td><td>4</td><td>4</td><td>Ethernet、Wi-Fi、switch IC</td></tr><tr><th scope="row">強茂</th><td>2481</td><td>功率半導體</td><td>4</td><td>5</td><td>二極體、整流器、MOSFET</td></tr><tr><th scope="row">漢磊</th><td>3707</td><td>SiC／GaN</td><td>4</td><td>5</td><td>化合物半導體代工</td></tr><tr><th scope="row">嘉晶</th><td>3016</td><td>磊晶</td><td>4</td><td>5</td><td>Si／SiC epitaxy</td></tr><tr><th scope="row">環球晶</th><td>6488</td><td>矽晶圓</td><td>3</td><td>5</td><td>半導體上游材料</td></tr><tr><th scope="row">聯發科</th><td>2454</td><td>IC 設計</td><td>3</td><td>4</td><td>AI edge、手機、通訊</td></tr><tr><th scope="row">聯電</th><td>2303</td><td>晶圓代工</td><td>3</td><td>4</td><td>PMIC、MCU、成熟製程</td></tr><tr><th scope="row">世界</th><td>5347</td><td>晶圓代工</td><td>3</td><td>4</td><td>BCD、PMIC、Display driver</td></tr><tr><th scope="row">聯詠</th><td>3034</td><td>Driver IC</td><td>2</td><td>3</td><td>顯示驅動、車載顯示</td></tr><tr><th scope="row">義隆</th><td>2458</td><td>MCU／Touch IC</td><td>2</td><td>3</td><td>AI PC、NB、消費電子</td></tr><tr><th scope="row">矽創</th><td>8016</td><td>Driver／Sensor IC</td><td>2</td><td>3</td><td>車載顯示、sensor</td></tr><tr><th scope="row">台半</th><td>5425</td><td>功率半導體</td><td>3</td><td>5</td><td>二極體、整流器、MOSFET</td></tr><tr><th scope="row">德微</th><td>3675</td><td>二極體／整流器</td><td>3</td><td>5</td><td>工業電源、車用、PSU</td></tr><tr><th scope="row">尼克森</th><td>3317</td><td>MOSFET／PMIC</td><td>4</td><td>5</td><td>48V、DC-DC、server power</td></tr><tr><th scope="row">杰力</th><td>5299</td><td>功率 IC</td><td>4</td><td>5</td><td>MOSFET、Power IC</td></tr><tr><th scope="row">大中</th><td>6435</td><td>MOSFET</td><td>4</td><td>5</td><td>電源、車用、工業</td></tr><tr><th scope="row">富鼎</th><td>8261</td><td>MOSFET／Power IC</td><td>4</td><td>5</td><td>電源管理、工業、消費</td></tr><tr><th scope="row">中美晶</th><td>5483</td><td>材料控股</td><td>3</td><td>4</td><td>矽晶圓、能源材料</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="company-table-block">
+      <h3>2. 台股與全球公司供應鏈整理</h3>
+      <div class="table-shell" tabindex="0" role="region" aria-label="2. 台股與全球公司供應鏈整理資料表">
+        <div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+        <table><thead><tr><th scope="col">類型</th><th scope="col">台股代表公司</th><th scope="col">國際代表公司</th><th scope="col">主要受惠方向</th></tr></thead>
+        <tbody><tr><th scope="row">被動元件</th><td>國巨、華新科、禾伸堂、鈺邦、凱美、信昌電、金山電</td><td>Murata、TDK、Taiyo Yuden、Samsung EM、Vishay、Panasonic</td><td>AI server、EV、工業</td></tr><tr><th scope="row">鋁電容材料</th><td>立敦</td><td>Nippon Chemi-Con、Nichicon、Panasonic</td><td>PSU、UPS、工業電源</td></tr><tr><th scope="row">Timing 元件</th><td>晶技、希華、泰藝、台嘉碩、加高、安碁</td><td>Seiko Epson、NDK、Kyocera、Daishinku、SiTime、Microchip、Abracon</td><td>AI 光模組、車用、通訊</td></tr><tr><th scope="row">晶圓代工</th><td>台積電、聯電、世界、茂矽</td><td>Samsung Foundry、GlobalFoundries</td><td>GPU、ASIC、PMIC、功率元件</td></tr><tr><th scope="row">IC 設計</th><td>聯發科、瑞昱、聯詠、義隆、矽創</td><td>NVIDIA、AMD、Broadcom、Marvell、Qualcomm</td><td>AI、通訊、消費電子</td></tr><tr><th scope="row">功率半導體</th><td>強茂、台半、德微、尼克森、杰力、大中、富鼎</td><td>Infineon、ST、onsemi、Rohm、Mitsubishi、Fuji</td><td>PSU、EV、工業</td></tr><tr><th scope="row">SiC／GaN</th><td>漢磊、嘉晶、環球晶、中美晶</td><td>Wolfspeed、Navitas、Power Integrations、Coherent</td><td>EV、快充、資料中心</td></tr></tbody></table>
+      </div>
+    </div>
+      <p class="company-source-note"><span>原稿表格拆分</span>7. 國際被動元件與 Timing 公司整理</p>
+    </div>
+    <section class="company-group reveal" id="company-passive">
+      <header class="company-group-head"><span class="company-group-no">01</span><div><span class="eyebrow">PASSIVE COMPONENTS</span><h2>被動元件公司</h2><p>聚焦 MLCC、電容、電阻、磁性元件與上游材料公司。</p></div></header>
+
+    <div class="company-table-block">
+      <h3>3. 被動元件台股整理</h3>
+      <div class="table-shell" tabindex="0" role="region" aria-label="3. 被動元件台股整理資料表">
+        <div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+        <table><thead><tr><th scope="col">公司</th><th scope="col">股票代號</th><th scope="col">供應鏈位置</th><th scope="col">主要產品</th><th scope="col">受惠邏輯</th><th scope="col">產業純度</th></tr></thead>
+        <tbody><tr><th scope="row">國巨</th><td>2327</td><td>被動元件整合大廠</td><td>MLCC、電阻、鉭電容、薄膜電容、電感</td><td>AI、車用、工業高階被動元件</td><td>高</td></tr><tr><th scope="row">華新科</th><td>2492</td><td>被動元件</td><td>MLCC、電阻、RF 元件</td><td>AI、車用、通訊</td><td>高</td></tr><tr><th scope="row">禾伸堂</th><td>3026</td><td>MLCC／被動元件通路與製造</td><td>MLCC、被動元件模組</td><td>AI server 與高階被動元件需求</td><td>中高</td></tr><tr><th scope="row">凱美</th><td>2375</td><td>鋁電容／電阻</td><td>鋁質電解電容、電阻</td><td>PSU、UPS、工業電源</td><td>中高</td></tr><tr><th scope="row">鈺邦</th><td>6449</td><td>固態電容</td><td>導電高分子電容</td><td>Server、GPU board、PSU</td><td>高</td></tr><tr><th scope="row">立敦</th><td>6175</td><td>鋁箔材料</td><td>鋁箔、化成箔</td><td>鋁電容上游材料</td><td>中高</td></tr><tr><th scope="row">金山電</th><td>8042</td><td>鋁電容</td><td>鋁質電解電容</td><td>電源、工業、消費電子</td><td>中</td></tr><tr><th scope="row">信昌電</th><td>6173</td><td>MLCC／晶片電阻</td><td>MLCC、晶片電阻</td><td>通訊、工業、消費電子</td><td>中</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="company-table-block">
+      <h3>國際被動元件公司整理</h3>
+      <div class="table-shell" tabindex="0" role="region" aria-label="國際被動元件公司整理資料表">
+        <div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+        <table><thead><tr><th scope="col">類型</th><th scope="col">公司</th><th scope="col">主要產品</th><th scope="col">受惠邏輯</th></tr></thead>
+        <tbody><tr><th scope="row">MLCC／被動元件</th><td>Murata</td><td>MLCC、電感、RF 元件</td><td>AI server、車用、通訊</td></tr><tr><th scope="row">MLCC／磁性元件</th><td>TDK</td><td>電感、MLCC、磁性材料</td><td>AI 電源、車用、資料中心</td></tr><tr><th scope="row">MLCC</th><td>Taiyo Yuden</td><td>MLCC、電感</td><td>AI、車用、通訊</td></tr><tr><th scope="row">MLCC</th><td>Samsung Electro-Mechanics</td><td>MLCC、基板、camera module</td><td>AI server、車用 MLCC</td></tr><tr><th scope="row">被動元件</th><td>Vishay</td><td>電阻、電容、二極體、MOSFET</td><td>工業、車用、電源</td></tr><tr><th scope="row">被動元件</th><td>Panasonic</td><td>電容、薄膜電容、電池材料</td><td>EV、工業、電源</td></tr></tbody></table>
+      </div>
+    </div>
+    </section>
+    <section class="company-group reveal" id="company-timing">
+      <header class="company-group-head"><span class="company-group-no">02</span><div><span class="eyebrow">FREQUENCY & TIMING</span><h2>Timing 公司</h2><p>聚焦石英晶體、振盪器、MEMS oscillator 與 Clock IC 公司。</p></div></header>
+
+    <div class="company-table-block">
+      <h3>4. 石英晶體與 Timing 台股整理</h3>
+      <div class="table-shell" tabindex="0" role="region" aria-label="4. 石英晶體與 Timing 台股整理資料表">
+        <div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+        <table><thead><tr><th scope="col">公司</th><th scope="col">股票代號</th><th scope="col">供應鏈位置</th><th scope="col">主要產品</th><th scope="col">受惠邏輯</th><th scope="col">產業純度</th></tr></thead>
+        <tbody><tr><th scope="row">晶技</th><td>3042</td><td>石英晶體與振盪器龍頭</td><td>XTAL、XO、TCXO、VCXO</td><td>AI 光模組、車用、通訊、server timing</td><td>高</td></tr><tr><th scope="row">希華</th><td>2484</td><td>石英晶體與振盪器</td><td>XTAL、OSC</td><td>車用、消費電子、通訊、工業</td><td>高</td></tr><tr><th scope="row">泰藝</th><td>8289</td><td>高階振盪器</td><td>XO、VCXO、TCXO、OCXO、Timing module</td><td>低軌衛星、5G、AI data center、航太</td><td>高</td></tr><tr><th scope="row">台嘉碩</th><td>3221</td><td>RF 濾波與頻率元件</td><td>SAW、BAW、Crystal、Oscillator、VCO、TCVCXO</td><td>5G、Wi-Fi、AI 光通訊、車用</td><td>高</td></tr><tr><th scope="row">加高</th><td>8182</td><td>石英晶體與振盪器</td><td>石英晶體、石英振盪器、音叉式晶體</td><td>消費、通訊、工業、車用</td><td>中高</td></tr><tr><th scope="row">安碁</th><td>6174</td><td>石英元件</td><td>石英晶體、石英振盪器、VCXO</td><td>工業、車用、通訊、醫療、消費</td><td>中高</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="company-table-block">
+      <h3>國際 Timing 公司整理</h3>
+      <div class="table-shell" tabindex="0" role="region" aria-label="國際 Timing 公司整理資料表">
+        <div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+        <table><thead><tr><th scope="col">類型</th><th scope="col">公司</th><th scope="col">主要產品</th><th scope="col">受惠邏輯</th></tr></thead>
+        <tbody><tr><th scope="row">石英／Timing</th><td>Seiko Epson</td><td>Quartz、Oscillator、Timing devices</td><td>車用、通訊、資料中心</td></tr><tr><th scope="row">石英／Timing</th><td>NDK</td><td>Crystal、XO、TCXO、OCXO</td><td>5G、車用、光通訊</td></tr><tr><th scope="row">石英／Timing</th><td>Kyocera</td><td>Crystal、Oscillator</td><td>IoT、車用、通訊</td></tr><tr><th scope="row">石英／Timing</th><td>Daishinku／KDS</td><td>Crystal、Oscillator</td><td>消費、車用、工業</td></tr><tr><th scope="row">MEMS Timing</th><td>SiTime</td><td>MEMS oscillator、Clock、Timing IC</td><td>AI data center、通訊、工業</td></tr><tr><th scope="row">Timing／Clock IC</th><td>Microchip</td><td>Clock、Timing、Oscillator</td><td>通訊、server、工業</td></tr><tr><th scope="row">Timing</th><td>Abracon</td><td>Oscillator、Crystal、RF 元件</td><td>800G／1.6T、工業、通訊</td></tr></tbody></table>
+      </div>
+    </div>
+    </section>
+    <section class="company-group reveal" id="company-active">
+      <header class="company-group-head"><span class="company-group-no">03</span><div><span class="eyebrow">ACTIVE COMPONENTS</span><h2>主動元件公司</h2><p>聚焦晶圓代工、IC 設計、功率半導體與 SiC／GaN 公司。</p></div></header>
+
+    <div class="company-table-block">
+      <h3>5. 主動元件與 IC 設計台股整理</h3>
+      <div class="table-shell" tabindex="0" role="region" aria-label="5. 主動元件與 IC 設計台股整理資料表">
+        <div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+        <table><thead><tr><th scope="col">公司</th><th scope="col">股票代號</th><th scope="col">供應鏈位置</th><th scope="col">主要產品</th><th scope="col">受惠邏輯</th><th scope="col">產業純度</th></tr></thead>
+        <tbody><tr><th scope="row">台積電</th><td>2330</td><td>晶圓代工</td><td>先進製程、CoWoS、先進封裝</td><td>GPU／ASIC／AI chip</td><td>高</td></tr><tr><th scope="row">聯電</th><td>2303</td><td>晶圓代工</td><td>成熟製程、BCD、eNVM</td><td>PMIC、MCU、車用、工業 IC</td><td>中</td></tr><tr><th scope="row">世界</th><td>5347</td><td>晶圓代工</td><td>Display driver、PMIC、BCD、GaN 合作</td><td>類比、功率、成熟製程</td><td>中高</td></tr><tr><th scope="row">聯發科</th><td>2454</td><td>IC 設計</td><td>SoC、通訊 IC、AI edge</td><td>手機、AI edge、車用、通訊</td><td>中高</td></tr><tr><th scope="row">瑞昱</th><td>2379</td><td>IC 設計</td><td>Ethernet、Wi-Fi、Audio、Switch IC</td><td>AI server networking、PC、通訊</td><td>中高</td></tr><tr><th scope="row">聯詠</th><td>3034</td><td>IC 設計</td><td>Driver IC、TDDI、SoC</td><td>車載顯示、AI PC、消費電子</td><td>中</td></tr><tr><th scope="row">義隆</th><td>2458</td><td>IC 設計</td><td>Touch IC、MCU</td><td>NB、AI PC、消費電子</td><td>中</td></tr><tr><th scope="row">矽創</th><td>8016</td><td>IC 設計</td><td>Driver IC、Sensor IC</td><td>車載顯示、消費電子</td><td>中</td></tr><tr><th scope="row">茂矽</th><td>2342</td><td>晶圓代工／功率元件</td><td>MOSFET、功率元件代工</td><td>工業、車用、電源</td><td>中</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="company-table-block">
+      <h3>6. 功率半導體台股整理</h3>
+      <div class="table-shell" tabindex="0" role="region" aria-label="6. 功率半導體台股整理資料表">
+        <div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+        <table><thead><tr><th scope="col">公司</th><th scope="col">股票代號</th><th scope="col">供應鏈位置</th><th scope="col">主要產品</th><th scope="col">受惠邏輯</th><th scope="col">產業純度</th></tr></thead>
+        <tbody><tr><th scope="row">強茂</th><td>2481</td><td>功率半導體</td><td>二極體、整流器、MOSFET</td><td>PSU、工業、車用、AI 電源</td><td>高</td></tr><tr><th scope="row">台半</th><td>5425</td><td>功率半導體</td><td>二極體、整流器、MOSFET</td><td>電源與工業需求</td><td>高</td></tr><tr><th scope="row">德微</th><td>3675</td><td>二極體／整流器</td><td>Diode、Rectifier</td><td>工業電源、車用、PSU</td><td>高</td></tr><tr><th scope="row">尼克森</th><td>3317</td><td>MOSFET／PMIC</td><td>MOSFET、Regulator、Control IC</td><td>48V、DC-DC、AI server 電源</td><td>高</td></tr><tr><th scope="row">杰力</th><td>5299</td><td>功率 IC</td><td>MOSFET、Power IC</td><td>Server、NB、工業電源</td><td>高</td></tr><tr><th scope="row">大中</th><td>6435</td><td>MOSFET</td><td>Power MOSFET</td><td>電源、車用、工業</td><td>高</td></tr><tr><th scope="row">富鼎</th><td>8261</td><td>MOSFET／電源 IC</td><td>MOSFET、Power IC</td><td>電源管理、工業、消費</td><td>高</td></tr><tr><th scope="row">漢磊</th><td>3707</td><td>化合物半導體</td><td>SiC、GaN、磊晶、代工</td><td>EV、快充、資料中心</td><td>高</td></tr><tr><th scope="row">嘉晶</th><td>3016</td><td>磊晶</td><td>Si、SiC 磊晶</td><td>功率半導體上游</td><td>高</td></tr><tr><th scope="row">環球晶</th><td>6488</td><td>矽晶圓</td><td>6–12 吋矽晶圓</td><td>半導體上游材料</td><td>高</td></tr><tr><th scope="row">中美晶</th><td>5483</td><td>材料控股</td><td>矽晶圓、太陽能</td><td>上游材料</td><td>中高</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="company-table-block">
+      <h3>8. 國際主動元件與功率半導體公司整理</h3>
+      <div class="table-shell" tabindex="0" role="region" aria-label="8. 國際主動元件與功率半導體公司整理資料表">
+        <div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+        <table><thead><tr><th scope="col">類型</th><th scope="col">公司</th><th scope="col">主要產品</th><th scope="col">受惠邏輯</th></tr></thead>
+        <tbody><tr><th scope="row">AI 晶片</th><td>NVIDIA</td><td>GPU、networking、AI platform</td><td>AI server 核心</td></tr><tr><th scope="row">AI 晶片</th><td>AMD</td><td>CPU、GPU、AI accelerator</td><td>AI server、HPC</td></tr><tr><th scope="row">ASIC／Networking</th><td>Broadcom</td><td>Custom ASIC、switch、RF</td><td>AI ASIC、資料中心網路</td></tr><tr><th scope="row">ASIC／光通訊</th><td>Marvell</td><td>Custom ASIC、DSP、optical、networking</td><td>AI optical networking、custom chip</td></tr><tr><th scope="row">通訊 IC</th><td>Qualcomm</td><td>SoC、RF、modem</td><td>手機、車用、edge AI</td></tr><tr><th scope="row">類比／PMIC</th><td>Texas Instruments</td><td>Analog、PMIC、power</td><td>工業、車用、AI power</td></tr><tr><th scope="row">類比／電源</th><td>Analog Devices</td><td>Signal chain、power IC</td><td>AI data center、工業、車用</td></tr><tr><th scope="row">功率半導體</th><td>Infineon</td><td>MOSFET、IGBT、SiC、MCU</td><td>EV、AI data center power</td></tr><tr><th scope="row">MCU／SiC</th><td>STMicroelectronics</td><td>MCU、SiC、sensor、analog</td><td>EV、資料中心、工業</td></tr><tr><th scope="row">功率／感測</th><td>onsemi</td><td>SiC、MOSFET、sensor</td><td>EV、工業、資料中心</td></tr><tr><th scope="row">SiC</th><td>Wolfspeed</td><td>SiC substrate、SiC device</td><td>EV、工業、AI power</td></tr><tr><th scope="row">SiC／MOSFET</th><td>Rohm</td><td>SiC、MOSFET、PMIC</td><td>EV、AI server 48V power</td></tr><tr><th scope="row">功率模組</th><td>Mitsubishi Electric</td><td>IGBT、SiC module</td><td>工業、車用、能源</td></tr><tr><th scope="row">功率模組</th><td>Fuji Electric</td><td>IGBT、SiC、工業電源</td><td>EV、工業、能源</td></tr><tr><th scope="row">MCU／類比</th><td>Renesas</td><td>MCU、PMIC、Analog</td><td>車用、工業</td></tr><tr><th scope="row">GaN／SiC</th><td>Navitas</td><td>GaNFast、GeneSiC</td><td>快充、AI data center PSU</td></tr><tr><th scope="row">GaN 電源 IC</th><td>Power Integrations</td><td>PowiGaN、AC-DC IC</td><td>快充、工業、資料中心</td></tr></tbody></table>
+      </div>
+    </div>
+    </section>
+</section>
+<section class="report-section reveal" id="section-11" data-chapter="11">
+<header class="chapter-header"><span class="chapter-no">11</span><h1>十一、產業純度排序</h1></header>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="十一、產業純度排序資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">級別</th>
+<th scope="col">類型</th>
+<th scope="col">代表公司</th>
+<th scope="col">主要受惠原因</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">S</th>
+<td>AI server 被動元件核心</td>
+<td>Murata、TDK、國巨、華新科、鈺邦</td>
+<td>MLCC、電感、固態電容需求提升</td>
+</tr>
+<tr>
+<th scope="row">S</th>
+<td>AI server 主動元件核心</td>
+<td>NVIDIA、AMD、Broadcom、Marvell、台積電</td>
+<td>GPU、ASIC、AI networking、先進製程</td>
+</tr>
+<tr>
+<th scope="row">S</th>
+<td>AI 光通訊與 Timing 核心</td>
+<td>晶技、泰藝、台嘉碩、NDK、Epson、SiTime、Microchip</td>
+<td>800G／1.6T、低 jitter、CPO</td>
+</tr>
+<tr>
+<th scope="row">S</th>
+<td>功率半導體核心</td>
+<td>Infineon、ST、onsemi、Rohm、強茂、台半</td>
+<td>PSU、EV、工業電源</td>
+</tr>
+<tr>
+<th scope="row">A</th>
+<td>SiC／GaN 上游材料</td>
+<td>Wolfspeed、漢磊、嘉晶、環球晶</td>
+<td>高壓功率元件材料</td>
+</tr>
+<tr>
+<th scope="row">A</th>
+<td>電源管理與類比 IC</td>
+<td>TI、ADI、杰力、尼克森</td>
+<td>電源軌增加與控制需求</td>
+</tr>
+<tr>
+<th scope="row">A</th>
+<td>車用被動元件核心</td>
+<td>國巨、Murata、TDK、Vishay、Panasonic</td>
+<td>車規 MLCC、薄膜電容、電阻</td>
+</tr>
+<tr>
+<th scope="row">A</th>
+<td>工業與能源功率模組</td>
+<td>Mitsubishi、Fuji、Infineon、ST、台半、強茂</td>
+<td>太陽能、儲能、馬達、充電樁</td>
+</tr>
+<tr>
+<th scope="row">B</th>
+<td>消費電子復甦型</td>
+<td>聯發科、瑞昱、聯詠、義隆、矽創、信昌電、凱美</td>
+<td>AI PC、手機、消費電子回溫</td>
+</tr>
+<tr>
+<th scope="row">B</th>
+<td>傳統石英元件復甦型</td>
+<td>希華、加高、安碁</td>
+<td>車用、工業、通訊、消費電子回補</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="report-section reveal" id="section-12" data-chapter="12">
+<header class="chapter-header"><span class="chapter-no">12</span><h1>十二、產業核心邏輯總整理</h1></header>
+
+<h2>1. 成長來自哪裡？</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="成長來自哪裡？資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">成長來源</th>
+<th scope="col">對應元件</th>
+<th scope="col">代表應用</th>
+<th scope="col">說明</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">用量增加</th>
+<td>MLCC、電感、MOSFET、PMIC</td>
+<td>AI server</td>
+<td>GPU 功耗提高，電源軌增加</td>
+</tr>
+<tr>
+<th scope="row">規格升級</th>
+<td>高階 MLCC、薄膜電容、SiC、低 jitter XO</td>
+<td>AI、EV、光通訊</td>
+<td>高壓、高頻、高可靠、低抖動</td>
+</tr>
+<tr>
+<th scope="row">ASP 提升</th>
+<td>高容量 MLCC、SiC、GaN、OCXO／VCXO</td>
+<td>AI server、EV、資料中心</td>
+<td>高階料號供需較緊</td>
+</tr>
+<tr>
+<th scope="row">滲透率提升</th>
+<td>SiC、GaN、CPO、800G／1.6T</td>
+<td>EV、PSU、光通訊</td>
+<td>高效率與高頻寬架構導入</td>
+</tr>
+<tr>
+<th scope="row">終端擴張</th>
+<td>GPU、ASIC、HBM、光模組</td>
+<td>AI server</td>
+<td>AI 基礎建設投資</td>
+</tr>
+<tr>
+<th scope="row">材料瓶頸</th>
+<td>SiC substrate、石英晶棒、陶瓷粉末、磁性材料</td>
+<td>功率元件、Timing、MLCC</td>
+<td>上游材料決定供給彈性</td>
+</tr>
+<tr>
+<th scope="row">系統升級</th>
+<td>48V、800V HVDC、OBC、BBU</td>
+<td>資料中心、EV</td>
+<td>電源架構改變帶動零組件價值提升</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>2. 哪些環節價值提升最多？</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="哪些環節價值提升最多？資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">價值提升順位</th>
+<th scope="col">環節</th>
+<th scope="col">原因</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">1</th>
+<td>GPU／ASIC／HBM</td>
+<td>AI server BOM 價值最高</td>
+</tr>
+<tr>
+<th scope="row">2</th>
+<td>先進製程與先進封裝</td>
+<td>AI chip 製造瓶頸</td>
+</tr>
+<tr>
+<th scope="row">3</th>
+<td>AI 光模組與 Switch ASIC</td>
+<td>AI cluster 高速互連需求</td>
+</tr>
+<tr>
+<th scope="row">4</th>
+<td>PMIC／MOSFET／電源管理</td>
+<td>高功耗系統必需</td>
+</tr>
+<tr>
+<th scope="row">5</th>
+<td>SiC／GaN</td>
+<td>高壓高效率電源架構滲透率提升</td>
+</tr>
+<tr>
+<th scope="row">6</th>
+<td>MLCC／電感／固態電容</td>
+<td>用量增加且規格升級</td>
+</tr>
+<tr>
+<th scope="row">7</th>
+<td>石英振盪器／Clock IC</td>
+<td>高速通訊與同步需求</td>
+</tr>
+<tr>
+<th scope="row">8</th>
+<td>薄膜電容／磁性元件</td>
+<td>EV 與資料中心高壓電源升級</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>3. 哪些環節最接近上游材料瓶頸？</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="哪些環節最接近上游材料瓶頸？資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">環節</th>
+<th scope="col">材料瓶頸</th>
+<th scope="col">代表產品</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">SiC 功率元件</th>
+<td>SiC substrate、SiC epitaxy</td>
+<td>SiC MOSFET、SiC diode</td>
+</tr>
+<tr>
+<th scope="row">MLCC</th>
+<td>陶瓷粉末、鎳粉、薄層堆疊技術</td>
+<td>高容量 MLCC</td>
+</tr>
+<tr>
+<th scope="row">鋁電容</th>
+<td>鋁箔、化成箔</td>
+<td>鋁質電解電容</td>
+</tr>
+<tr>
+<th scope="row">薄膜電容</th>
+<td>高品質薄膜材料</td>
+<td>EV DC-link 電容</td>
+</tr>
+<tr>
+<th scope="row">磁性元件</th>
+<td>磁性粉末、鐵氧體、線材</td>
+<td>電感、變壓器</td>
+</tr>
+<tr>
+<th scope="row">石英元件</th>
+<td>人造石英晶棒、切割研磨製程</td>
+<td>XTAL、XO、TCXO、OCXO</td>
+</tr>
+<tr>
+<th scope="row">功率模組</th>
+<td>陶瓷基板、散熱材料</td>
+<td>IGBT module、SiC module</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>4. 哪些環節最接近終端需求？</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="哪些環節最接近終端需求？資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">終端需求</th>
+<th scope="col">直接受惠環節</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">AI server</th>
+<td>GPU、ASIC、HBM、PMIC、MOSFET、MLCC、電感、光模組</td>
+</tr>
+<tr>
+<th scope="row">AI data center</th>
+<td>PSU、BBU、UPS、GaN、SiC、高壓電容、磁性元件</td>
+</tr>
+<tr>
+<th scope="row">EV</th>
+<td>SiC、IGBT、Driver IC、薄膜電容、車規 MLCC、MCU、sensor</td>
+</tr>
+<tr>
+<th scope="row">光通訊</th>
+<td>DSP、TIA、Driver、Laser、PD、XO、VCXO、Clock IC</td>
+</tr>
+<tr>
+<th scope="row">工業電源</th>
+<td>IGBT、MOSFET、SiC、鋁電容、變壓器、電感</td>
+</tr>
+<tr>
+<th scope="row">消費電子</th>
+<td>SoC、PMIC、MLCC、石英晶體、SAW／BAW</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="report-section reveal" id="section-13" data-chapter="13">
+<header class="chapter-header"><span class="chapter-no">13</span><h1>十三、總結</h1></header>
+
+<h2>1. 一句話總結</h2>
+
+<p>被動元件負責讓電路穩定，主動元件負責讓系統運算與控制，石英與 Timing 元件則負責讓高速系統同步運作。AI server、EV、資料中心與光通訊升級，正在同時推動「電源密度升級、訊號速度升級、時脈精度升級與材料規格升級」。</p>
+<hr>
+<h2>2. 最值得聚焦的產業鏈位置</h2>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="最值得聚焦的產業鏈位置資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">產業鏈位置</th>
+<th scope="col">核心元件</th>
+<th scope="col">代表公司</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">AI server 被動元件</th>
+<td>MLCC、電感、固態電容</td>
+<td>國巨、華新科、鈺邦、Murata、TDK</td>
+</tr>
+<tr>
+<th scope="row">AI server 主動元件</th>
+<td>GPU、ASIC、PMIC、MOSFET</td>
+<td>NVIDIA、AMD、Broadcom、台積電、TI</td>
+</tr>
+<tr>
+<th scope="row">AI 光通訊</th>
+<td>光模組、DSP、TIA、Driver、低 jitter oscillator</td>
+<td>Broadcom、Marvell、晶技、泰藝、SiTime</td>
+</tr>
+<tr>
+<th scope="row">Timing 元件</th>
+<td>XTAL、XO、TCXO、VCXO、OCXO</td>
+<td>晶技、泰藝、NDK、Epson、SiTime</td>
+</tr>
+<tr>
+<th scope="row">EV 功率元件</th>
+<td>SiC、IGBT、MOSFET、Driver IC</td>
+<td>Infineon、ST、onsemi、Rohm、漢磊</td>
+</tr>
+<tr>
+<th scope="row">EV 被動元件</th>
+<td>薄膜電容、電感、車規 MLCC</td>
+<td>國巨、Murata、TDK、Panasonic</td>
+</tr>
+<tr>
+<th scope="row">資料中心電源</th>
+<td>GaN、SiC、PSU、BBU、UPS、高壓電容、磁性元件</td>
+<td>Infineon、ST、Navitas、Power Integrations</td>
+</tr>
+<tr>
+<th scope="row">上游材料</th>
+<td>SiC substrate、矽晶圓、石英晶棒、陶瓷粉末、磁性粉末、鋁箔</td>
+<td>Wolfspeed、環球晶、嘉晶、立敦</td>
+</tr>
+</tbody></table></div>
+<hr>
+</section>
+<section class="report-section reveal" id="section-14" data-chapter="14">
+<header class="chapter-header"><span class="chapter-no">14</span><h1>十四、資料來源整理</h1></header>
+
+<div class="table-shell" tabindex="0" role="region" aria-label="十四、資料來源整理資料表">
+<div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div>
+<table><thead><tr>
+<th scope="col">資料項目</th>
+<th scope="col">來源</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">全球半導體 2025 銷售額、2026 市場預估</th>
+<td>SIA、WSTS</td>
+</tr>
+<tr>
+<th scope="row">AI server 2026 出貨成長、GPU／ASIC AI server 占比</th>
+<td>TrendForce</td>
+</tr>
+<tr>
+<th scope="row">AI 光收發模組市場規模、800G 以上光模組占比</th>
+<td>TrendForce</td>
+</tr>
+<tr>
+<th scope="row">資料中心 PSU 市場規模與 CAGR</th>
+<td>Yole Group</td>
+</tr>
+<tr>
+<th scope="row">Power GaN 市場規模與 CAGR</th>
+<td>Yole Group</td>
+</tr>
+<tr>
+<th scope="row">Power SiC 市場規模與 CAGR</th>
+<td>Yole Group</td>
+</tr>
+<tr>
+<th scope="row">Frequency Control &amp; Timing Devices 市場規模</th>
+<td>Mordor Intelligence</td>
+</tr>
+<tr>
+<th scope="row">Crystal Oscillator 市場規模</th>
+<td>MarketsandMarkets</td>
+</tr>
+<tr>
+<th scope="row">被動元件、Timing、功率半導體公司產品線</th>
+<td>各公司公開資料、年報、產品型錄、公開產業資料</td>
+</tr>
+</tbody></table></div>
+</section>
+      <footer class="footer"><strong>被動元件與主動元件產業研究</strong><span>資料日期：2026-06-20 · 單檔研究網頁</span></footer>
+    </main>
+  </div>
+  <button class="back-top" type="button" aria-label="返回頁首">↑</button>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const progress = document.querySelector('.progress');
+      const progressBar = progress.querySelector('span');
+      const backTop = document.querySelector('.back-top');
+      const menuButton = document.querySelector('.mobile-bar button');
+      const mobileMenu = document.querySelector('.mobile-menu');
+      const navLinks = [...document.querySelectorAll('[data-nav]')];
+      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const updateScroll = () => {
+        const max = root.scrollHeight - innerHeight;
+        const ratio = max > 0 ? Math.min(1, scrollY / max) : 0;
+        progressBar.style.transform = 'scaleX(' + ratio + ')';
+        progress.setAttribute('aria-valuenow', String(Math.round(ratio * 100)));
+        backTop.classList.toggle('visible', scrollY > innerHeight * .7);
+      };
+      addEventListener('scroll', updateScroll, { passive: true });
+      addEventListener('resize', updateScroll, { passive: true });
+      updateScroll();
+
+      menuButton.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('open');
+        menuButton.setAttribute('aria-expanded', String(open));
+        menuButton.querySelector('i').textContent = open ? '收合' : '展開';
+      });
+      mobileMenu.addEventListener('click', (event) => {
+        if (!event.target.closest('a')) return;
+        mobileMenu.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.querySelector('i').textContent = '展開';
+      });
+      backTop.addEventListener('click', () => scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' }));
+
+      const sectionObserver = new IntersectionObserver((entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        navLinks.forEach((link) => link.classList.toggle('active', link.dataset.nav === visible.target.id));
+      }, { rootMargin: '-18% 0px -62% 0px', threshold: [0, .25, .6] });
+      document.querySelectorAll('.report-section').forEach((section) => sectionObserver.observe(section));
+
+      if (reducedMotion) document.querySelectorAll('.reveal').forEach((node) => node.classList.add('visible'));
+      else {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+        document.querySelectorAll('.reveal').forEach((node) => revealObserver.observe(node));
+      }
+
+      document.querySelectorAll('.table-shell').forEach((shell) => {
+        const sync = () => shell.classList.toggle('scrolled-end', shell.scrollLeft + shell.clientWidth >= shell.scrollWidth - 4);
+        shell.addEventListener('scroll', sync, { passive: true });
+        sync();
+      });
+    })();
+  </script>
+</body>
+</html>

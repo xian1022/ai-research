@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="AI 產業研究庫，集中瀏覽半導體、AI 伺服器與電子元件產業研究。">
+  <title>AI 產業研究庫</title>
+  <style>
+    :root {
+      --paper: #f4f0e8;
+      --surface: #fbf9f4;
+      --ink: #14283a;
+      --muted: #66727b;
+      --line: #d8d2c6;
+      --accent: #c66a3d;
+      --accent-soft: #f2dfd2;
+      --dark: #183449;
+      --success: #55705d;
+      --white: #fffdf9;
+      --shadow: 0 24px 70px rgba(35, 47, 53, .08);
+      --radius: 24px;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+      --sans: "Outfit", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100dvh;
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(rgba(20, 40, 58, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 40, 58, .035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 44px 44px;
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 100;
+      top: 12px;
+      left: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      color: var(--white);
+      background: var(--dark);
+      transform: translateY(-180%);
+      transition: transform .18s ease;
+    }
+    .skip-link:focus { transform: none; }
+
+    .shell {
+      width: min(1360px, calc(100% - 64px));
+      margin-inline: auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 78px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: .75rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .brand-mark {
+      display: grid;
+      width: 32px;
+      aspect-ratio: 1;
+      place-items: center;
+      border-radius: 9px;
+      color: var(--white);
+      background: var(--dark);
+      font-size: .68rem;
+      letter-spacing: .05em;
+    }
+    .topbar-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: .78rem;
+      letter-spacing: .04em;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      min-height: 520px;
+      padding-block: clamp(78px, 11vw, 148px) clamp(70px, 9vw, 116px);
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      color: var(--accent);
+      font-size: .72rem;
+      font-weight: 850;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      width: 34px;
+      height: 2px;
+      background: var(--accent);
+      content: "";
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(2.35rem, 7.1vw, 7rem);
+      font-weight: 750;
+      letter-spacing: -.07em;
+      line-height: .92;
+      white-space: nowrap;
+    }
+    .hero-copy p {
+      max-width: 760px;
+      margin: 30px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.4vw, 1.16rem);
+    }
+
+    main { padding-block: clamp(76px, 9vw, 124px); }
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, .6fr);
+      gap: 36px;
+      align-items: end;
+      margin-bottom: 42px;
+    }
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4.3vw, 4.4rem);
+      font-weight: 720;
+      letter-spacing: -.052em;
+      line-height: 1;
+    }
+    .section-heading p {
+      max-width: 48ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .list-head,
+    .report-item {
+      display: grid;
+      grid-template-columns: 68px minmax(0, 1fr) 160px 128px 168px;
+      gap: 24px;
+      align-items: center;
+    }
+    .list-head {
+      padding: 0 22px 13px;
+      color: var(--muted);
+      font-size: .67rem;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .list-head span:first-child { grid-column: 1 / 3; }
+
+    .report-list {
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--ink);
+      list-style: none;
+    }
+    .report-item {
+      position: relative;
+      min-height: 190px;
+      padding: 30px 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(251, 249, 244, .58);
+      opacity: 0;
+      transform: translateY(14px);
+      animation: enter .62s var(--ease) forwards;
+      animation-delay: calc(var(--i) * 80ms);
+      transition: background-color .22s ease, transform .22s var(--ease);
+    }
+    .report-item::before {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 3px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform .24s var(--ease);
+      content: "";
+    }
+    .report-item:hover {
+      z-index: 1;
+      background: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 44px rgba(35, 47, 53, .06);
+    }
+    .report-item:hover::before { transform: scaleY(1); }
+
+    .report-number {
+      align-self: start;
+      color: var(--accent);
+      font-size: .75rem;
+      font-weight: 850;
+      letter-spacing: .08em;
+    }
+    .report-copy { min-width: 0; }
+    .report-copy h3 {
+      margin: 0;
+      font-size: clamp(1.25rem, 2vw, 1.75rem);
+      font-weight: 720;
+      letter-spacing: -.025em;
+      line-height: 1.25;
+    }
+    .report-copy p {
+      max-width: 700px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.7;
+    }
+    .report-category,
+    .report-date {
+      color: var(--muted);
+      font-size: .78rem;
+    }
+    .category-name {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+      font-weight: 750;
+    }
+    .category-code {
+      color: var(--accent);
+      font-size: .66rem;
+      font-weight: 850;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .report-date time {
+      display: block;
+      color: var(--ink);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .link-mode {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 7px;
+      color: var(--success);
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .link-mode::before {
+      width: 7px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: currentColor;
+      content: "";
+    }
+
+    .report-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 48px;
+      padding: 12px 15px;
+      border: 1px solid var(--ink);
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: .78rem;
+      font-weight: 800;
+      transition: color .2s ease, background-color .2s ease, transform .14s ease;
+    }
+    .report-link:hover {
+      color: var(--white);
+      background: var(--ink);
+    }
+    .report-link:active { transform: scale(.98); }
+    .report-link svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      transition: transform .2s var(--ease);
+    }
+    .report-link:hover svg { transform: translate(2px, -2px); }
+
+    .empty-state {
+      padding: 48px 22px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 32px;
+      padding-block: 30px 44px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .75rem;
+    }
+    footer p { margin: 0; }
+    footer strong { color: var(--ink); }
+
+    @keyframes enter {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1040px) {
+      .list-head { display: none; }
+      .report-item {
+        grid-template-columns: 52px minmax(0, 1fr) 140px 150px;
+      }
+      .report-category { grid-column: 2; }
+      .report-date { grid-column: 3; grid-row: 1 / 3; }
+      .report-link { grid-column: 4; grid-row: 1 / 3; }
+    }
+
+    @media (max-width: 768px) {
+      .shell { width: min(100% - 36px, 1360px); }
+      .topbar-note { display: none; }
+      .hero {
+        min-height: auto;
+        padding-block: 72px;
+      }
+      .section-heading { grid-template-columns: 1fr; }
+      .report-item {
+        grid-template-columns: 42px minmax(0, 1fr);
+        gap: 18px;
+        min-height: 0;
+        padding: 28px 10px;
+      }
+      .report-category,
+      .report-date,
+      .report-link {
+        grid-column: 2;
+        grid-row: auto;
+      }
+      .report-category {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+      }
+      .category-name { margin: 0; }
+      .report-link {
+        width: min(100%, 220px);
+        margin-top: 4px;
+      }
+      footer { display: block; }
+      footer p + p { margin-top: 8px; }
+    }
+
+    @media (max-width: 520px) {
+      .shell { width: min(100% - 28px, 1360px); }
+      .topbar { min-height: 68px; }
+      .brand span:last-child { font-size: .68rem; }
+      .hero { padding-block: 58px 64px; }
+      .hero-copy p { margin-top: 24px; }
+      main { padding-block: 70px; }
+      .section-heading { margin-bottom: 30px; }
+      .section-heading h2 { font-size: 2.7rem; }
+      .report-item { grid-template-columns: 34px minmax(0, 1fr); gap: 12px; }
+      .report-copy p { font-size: .84rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: .01ms !important;
+      }
+      .report-item { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#research-list">跳至研究列表</a>
+
+  <header class="shell">
+    <div class="topbar">
+      <div class="brand" aria-label="AI 產業研究庫">
+        <span class="brand-mark" aria-hidden="true">AR</span>
+        <span>AI Industry Research</span>
+      </div>
+      <p class="topbar-note">Independent research index · Taiwan</p>
+    </div>
+
+    <div class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Research intelligence / 2026</div>
+        <h1>AI 產業研究庫</h1>
+        <p>從晶圓製造、AI 伺服器運算，到 PCB 與關鍵電子元件。把分散的產業研究整理成一個清楚、可持續更新的入口。</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell" id="research-list">
+    <div class="section-heading">
+      <h2>研究索引</h2>
+      <p>依最近更新日期排列。每份報告皆可獨立閱讀，涵蓋供應鏈結構、市場動能與關鍵廠商。</p>
+    </div>
+
+    <div class="list-head" aria-hidden="true">
+      <span>Research topic</span>
+      <span>Category</span>
+      <span>Updated</span>
+      <span>Access</span>
+    </div>
+
+    <ol class="report-list" aria-label="AI 產業研究清單" data-research-count="4">
+      <li class="report-item" style="--i: 0" data-project="tsmc">
+        <span class="report-number">01</span>
+        <div class="report-copy">
+          <h3>台積電供應產業鏈研究</h3>
+          <p>拆解先進製程、CoWoS、設備材料與在地供應商，追蹤 AI 半導體擴產帶來的產業鏈機會。</p>
+        </div>
+        <div class="report-category">
+          <span class="category-name">半導體供應鏈</span>
+          <span class="category-code">Semiconductor</span>
+        </div>
+        <div class="report-date">
+          <time datetime="2026-06-23">2026.06.23</time>
+          <span class="link-mode">本機可用</span>
+        </div>
+        <a class="report-link" data-report-link data-public-url="https://xian1022.github.io/ai-research/reports/tsmc/" href="reports/tsmc/" target="_blank" rel="noopener" aria-label="在新分頁開啟台積電供應產業鏈研究">
+          <span>閱讀研究</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+        </a>
+      </li>
+
+      <li class="report-item" style="--i: 1" data-project="components">
+        <span class="report-number">02</span>
+        <div class="report-copy">
+          <h3>主動元件與被動元件產業研究</h3>
+          <p>從電源、網通與運算需求出發，整理主被動元件市場、產品定位、技術門檻與台灣供應商版圖。</p>
+        </div>
+        <div class="report-category">
+          <span class="category-name">電子元件</span>
+          <span class="category-code">Components</span>
+        </div>
+        <div class="report-date">
+          <time datetime="2026-06-22">2026.06.22</time>
+          <span class="link-mode">本機可用</span>
+        </div>
+        <a class="report-link" data-report-link data-public-url="https://xian1022.github.io/ai-research/reports/components/" href="reports/components/" target="_blank" rel="noopener" aria-label="在新分頁開啟主動元件與被動元件產業研究">
+          <span>閱讀研究</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+        </a>
+      </li>
+
+      <li class="report-item" style="--i: 2" data-project="server-cpu">
+        <span class="report-number">03</span>
+        <div class="report-copy">
+          <h3>AI Server CPU 產業研究</h3>
+          <p>比較 x86 與 Arm 平台、伺服器 CPU 競爭格局及 AI 資料中心架構演進，梳理運算平台的價值鏈。</p>
+        </div>
+        <div class="report-category">
+          <span class="category-name">AI 運算平台</span>
+          <span class="category-code">Compute</span>
+        </div>
+        <div class="report-date">
+          <time datetime="2026-06-22">2026.06.22</time>
+          <span class="link-mode">本機可用</span>
+        </div>
+        <a class="report-link" data-report-link data-public-url="https://xian1022.github.io/ai-research/reports/server-cpu/" href="reports/server-cpu/" target="_blank" rel="noopener" aria-label="在新分頁開啟 AI Server CPU 產業研究">
+          <span>閱讀研究</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+        </a>
+      </li>
+
+      <li class="report-item" style="--i: 3" data-project="ai-pcb">
+        <span class="report-number">04</span>
+        <div class="report-copy">
+          <h3>AI PCB 供應鏈研究</h3>
+          <p>聚焦 AI 伺服器高階 PCB、CCL 與製程升級，整理材料規格、產能趨勢與主要供應商競爭位置。</p>
+        </div>
+        <div class="report-category">
+          <span class="category-name">PCB 供應鏈</span>
+          <span class="category-code">Hardware</span>
+        </div>
+        <div class="report-date">
+          <time datetime="2026-06-20">2026.06.20</time>
+          <span class="link-mode">本機可用</span>
+        </div>
+        <a class="report-link" data-report-link data-public-url="https://xian1022.github.io/ai-research/reports/ai-pcb/" href="reports/ai-pcb/" target="_blank" rel="noopener" aria-label="在新分頁開啟 AI PCB 供應鏈研究">
+          <span>閱讀研究</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+        </a>
+      </li>
+    </ol>
+
+    <p class="empty-state" hidden>目前沒有可顯示的研究。</p>
+  </main>
+
+  <footer class="shell">
+    <p><strong>AI 產業研究庫</strong> · 產業研究與供應鏈觀察入口</p>
+    <p>最後整理日期：<time datetime="2026-06-23">2026 年 6 月 23 日</time></p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('[data-report-link]').forEach((link) => {
+      const publicUrl = link.dataset.publicUrl.trim();
+      if (publicUrl) {
+        link.href = publicUrl;
+        const item = link.closest('.report-item');
+        const mode = item && item.querySelector('.link-mode');
+        if (mode) mode.textContent = '公開網址';
+      }
+    });
+  </script>
+</body>
+</html>

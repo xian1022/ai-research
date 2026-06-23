@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="從 Bernstein Server CPU TAM 圖表到全球大廠與台股供應鏈">
+  <title>AI 伺服器 CPU 產業研究報告</title>
+  <style>:root {
+  --paper: #f4f7fb;
+  --surface: #ffffff;
+  --ink: #10233f;
+  --muted: #5f7086;
+  --accent: #1769e0;
+  --accent-deep: #0b4f92;
+  --accent-rgb: 23, 105, 224;
+  --line: #d7e2ed;
+  --soft: #eaf2fb;
+  --green: #0b8f6a;
+  --green-soft: #e9f8f3;
+  --shadow: 0 18px 52px rgba(16, 35, 63, .08);
+  --radius: 20px;
+  --serif: "Noto Serif TC", "Songti TC", "PMingLiU", "新細明體", serif;
+  --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.78;
+  overflow-x: hidden;
+}
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+button, input { font: inherit; }
+code { font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace; }
+:focus-visible { outline: 3px solid rgba(var(--accent-rgb), .42); outline-offset: 3px; }
+
+.skip-link {
+  position: fixed;
+  z-index: 1000;
+  top: 10px;
+  left: 10px;
+  padding: 9px 14px;
+  background: var(--ink);
+  color: #fff;
+  transform: translateY(-160%);
+  transition: transform .18s;
+}
+.skip-link:focus { transform: none; }
+.progress {
+  position: fixed;
+  z-index: 950;
+  inset: 0 0 auto;
+  height: 4px;
+  background: rgba(215, 226, 237, .72);
+}
+.progress > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.container { width: min(1180px, calc(100% - 44px)); margin-inline: auto; }
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--accent);
+  font-size: .74rem;
+  font-weight: 850;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+.eyebrow::before { content: ""; width: 24px; height: 2px; background: currentColor; }
+
+.topbar {
+  position: fixed;
+  z-index: 900;
+  inset: 4px 0 auto;
+  border-bottom: 1px solid rgba(215, 226, 237, .9);
+  background: rgba(255, 255, 255, .91);
+  backdrop-filter: blur(16px);
+}
+.nav-shell { min-height: 64px; display: flex; align-items: center; gap: 18px; }
+.brand { color: var(--ink); font-weight: 900; text-decoration: none; white-space: nowrap; }
+.brand-mark {
+  display: inline-grid;
+  width: 32px;
+  height: 32px;
+  margin-right: 9px;
+  place-items: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), #49a9ff);
+  color: #fff;
+  font-size: .68rem;
+  box-shadow: 0 8px 20px rgba(var(--accent-rgb), .24);
+}
+.nav-links { margin-left: auto; display: flex; align-items: center; gap: 2px; overflow: auto; scrollbar-width: none; }
+.nav-links a { padding: 8px 10px; border-radius: 9px; color: var(--muted); font-size: .8rem; font-weight: 750; text-decoration: none; white-space: nowrap; }
+.nav-links a span { margin-right: 4px; color: #8293a8; font-variant-numeric: tabular-nums; }
+.nav-links a:hover, .nav-links a.active { color: var(--accent); background: var(--soft); }
+.nav-toggle { display: none; margin-left: auto; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); }
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: min(620px, 65vw);
+  aspect-ratio: 1;
+  right: -15vw;
+  top: -18vw;
+  border: 1px solid rgba(var(--accent-rgb), .16);
+  border-radius: 50%;
+  box-shadow: 0 0 0 7vw rgba(var(--accent-rgb), .035), 0 0 0 14vw rgba(var(--accent-rgb), .022);
+}
+.hero h1 {
+  margin: 20px 0 18px;
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 6.5vw, 6.8rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -.035em;
+  font-feature-settings: "palt";
+}
+.hero-deck { max-width: 760px; margin: 0; color: #465a73; font-size: clamp(1.05rem, 1.7vw, 1.35rem); line-height: 1.62; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-top: 30px; color: var(--muted); font-size: .8rem; }
+.hero-meta span { padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255, 255, 255, .72); }
+
+body[data-layout="dashboard"] .hero { padding: 132px 0 70px; background: linear-gradient(180deg, #f7faff, #fff); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(290px, .8fr); gap: clamp(38px, 7vw, 88px); align-items: end; }
+.hero-aside { position: relative; z-index: 1; padding: 28px; border-radius: 26px; background: var(--ink); color: #fff; box-shadow: 0 28px 72px rgba(9, 40, 76, .2); }
+.hero-aside h2 { margin: 0 0 20px; font-size: .82rem; letter-spacing: .12em; color: #86c5ff; }
+.hero-stat { padding-bottom: 22px; border-bottom: 1px solid rgba(255, 255, 255, .16); }
+.hero-stat strong { display: block; font-family: Arial, sans-serif; font-size: clamp(2.8rem, 5vw, 5.2rem); line-height: 1; }
+.hero-stat span { display: block; margin-top: 8px; color: #bed0e4; font-size: .86rem; }
+.thesis-list { display: grid; margin-top: 13px; }
+.thesis { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 13px 0; border-top: 1px solid rgba(255, 255, 255, .12); }
+.thesis:first-child { border-top: 0; }
+.thesis b { color: #70baff; font-family: Arial, sans-serif; font-size: .7rem; }
+.thesis strong { display: block; font-size: .92rem; }
+.thesis p { margin: 3px 0 0; color: #b9cce0; font-size: .78rem; line-height: 1.5; }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 44px; }
+.kpi { padding: 18px; border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 16px; background: rgba(255, 255, 255, .93); box-shadow: 0 10px 28px rgba(16, 35, 63, .055); }
+.kpi:nth-child(even) { border-top-color: var(--green); }
+.kpi b { display: block; color: var(--accent); font-family: Arial, sans-serif; font-size: clamp(1.45rem, 2.7vw, 2.15rem); line-height: 1.1; }
+.kpi:nth-child(even) b { color: var(--green); }
+.kpi span { display: block; margin-top: 9px; color: #4b6079; font-size: .8rem; line-height: 1.45; }
+
+body[data-layout="report"] .topbar { display: none; }
+body[data-layout="report"] .hero { min-height: 92dvh; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr); gap: clamp(46px, 8vw, 116px); align-items: end; padding: clamp(100px, 14vh, 160px) max(5vw, 30px) clamp(72px, 10vh, 112px); }
+body[data-layout="report"] .hero-copy { position: relative; z-index: 1; }
+body[data-layout="report"] .hero-aside { border-radius: 0; border-top: 3px solid var(--accent); background: transparent; color: var(--ink); box-shadow: none; padding: 24px 0 0; }
+body[data-layout="report"] .hero-aside h2 { color: var(--ink); }
+body[data-layout="report"] .hero-stat { border-color: var(--line); }
+body[data-layout="report"] .hero-stat span, body[data-layout="report"] .thesis p { color: var(--muted); }
+body[data-layout="report"] .thesis { border-color: var(--line); }
+body[data-layout="report"] .thesis strong { color: var(--ink); }
+
+.mobile-bar { display: none; position: sticky; z-index: 800; top: 4px; padding: 10px 18px; border-bottom: 1px solid var(--line); background: rgba(244, 247, 251, .95); backdrop-filter: blur(16px); }
+.mobile-bar button { width: 100%; display: flex; justify-content: space-between; border: 0; background: none; color: var(--ink); font-weight: 850; }
+.mobile-menu { display: none; max-height: 66dvh; overflow: auto; padding: 10px 0; }
+.mobile-menu.open { display: grid; }
+.mobile-menu a { padding: 8px 0; color: var(--muted); font-size: .82rem; text-decoration: none; }
+
+.page-layout { min-width: 0; }
+body[data-layout="report"] .page-layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); max-width: 1480px; margin: auto; }
+.side-nav { display: none; }
+body[data-layout="report"] .side-nav { display: block; position: sticky; top: 4px; height: calc(100dvh - 4px); padding: 52px 28px 40px; border-right: 1px solid var(--line); overflow: auto; }
+.side-nav > span { display: block; margin-bottom: 28px; color: var(--muted); font-size: .74rem; font-weight: 800; letter-spacing: .12em; }
+.side-nav nav { display: grid; }
+.side-nav a { display: grid; grid-template-columns: 30px 1fr; gap: 8px; padding: 8px 0; border-left: 2px solid transparent; color: var(--muted); font-size: .78rem; line-height: 1.4; text-decoration: none; transition: .18s; }
+.side-nav a span { color: #8b9bae; font-variant-numeric: tabular-nums; }
+.side-nav a:hover, .side-nav a.active { padding-left: 8px; border-left-color: var(--accent); color: var(--ink); }
+.side-nav a.active span { color: var(--accent); }
+
+main { min-width: 0; overflow-x: hidden; }
+body[data-layout="dashboard"] main { padding-bottom: 110px; background: #fff; }
+body[data-layout="report"] main { padding: 0 clamp(28px, 6vw, 92px) 120px; }
+.visual-deck { padding: 72px 0 10px; background: #fff; }
+.visual-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.visual-card { min-width: 0; padding: clamp(22px, 3vw, 34px); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
+.visual-card.wide { grid-column: 1 / -1; }
+.visual-card h2, .visual-card h3 { margin: 8px 0 4px; font-family: var(--serif); font-size: clamp(1.45rem, 2.7vw, 2.3rem); line-height: 1.25; }
+.visual-card > p { margin: 0 0 24px; color: var(--muted); font-size: .84rem; }
+.scenario-exhibit { padding: clamp(24px, 4vw, 46px); border-top: 4px solid var(--accent); background: linear-gradient(155deg, #f8fbff 0%, #fff 58%); }
+.scenario-head { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(240px, .65fr); gap: 34px; align-items: end; }
+.scenario-head h3 { margin: 12px 0 8px; font-size: clamp(2rem, 4vw, 3.7rem); }
+.scenario-head p { max-width: 62ch; margin: 0; color: var(--muted); }
+.scenario-hero { padding: 22px 24px; border-radius: 18px; background: var(--ink); color: #fff; box-shadow: 0 18px 38px rgba(16, 35, 63, .16); }
+.scenario-hero small { display: block; color: #86c5ff; font-size: .67rem; font-weight: 850; letter-spacing: .13em; }
+.scenario-hero strong { display: block; margin: 8px 0 3px; font-family: Arial, sans-serif; font-size: clamp(2.4rem, 4.8vw, 4.8rem); line-height: 1; }
+.scenario-hero strong span { margin-left: 4px; color: #a8c1da; font-size: .28em; }
+.scenario-hero em { color: #91e0c4; font-size: .76rem; font-style: normal; font-weight: 800; }
+.scenario-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 30px 0; }
+.scenario-card { padding: 22px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+.scenario-card.base { border-color: var(--accent); box-shadow: 0 12px 30px rgba(var(--accent-rgb), .1); }
+.scenario-card.bear { border-top: 3px solid #8b9bae; }
+.scenario-card.base { border-top: 3px solid var(--accent); }
+.scenario-card.bull { border-top: 3px solid var(--green); }
+.scenario-card > span { color: var(--muted); font-size: .72rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+.scenario-card > strong { display: block; margin: 10px 0 18px; color: var(--ink); font-family: Arial, sans-serif; font-size: clamp(2rem, 3.4vw, 3.1rem); line-height: 1; }
+.scenario-card.base > strong { color: var(--accent); }
+.scenario-card.bull > strong { color: var(--green); }
+.scenario-card > strong small { margin-left: 3px; color: var(--muted); font-size: .32em; }
+.scenario-card dl { margin: 0; border-top: 1px solid var(--line); }
+.scenario-card dl div { display: flex; justify-content: space-between; gap: 14px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: .74rem; }
+.scenario-card dl div:last-child { border-bottom: 0; }
+.scenario-card dt { color: var(--muted); }
+.scenario-card dd { margin: 0; color: var(--ink); font-weight: 800; text-align: right; }
+.scenario-subhead { display: flex; justify-content: space-between; gap: 20px; margin: 38px 0 14px; color: var(--muted); font-size: .7rem; letter-spacing: .11em; }
+.scenario-subhead b { color: var(--accent-deep); letter-spacing: 0; }
+.driver-rail { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 18px; }
+.driver-node { position: relative; min-width: 0; padding: 15px 11px; border-radius: 11px; background: var(--soft); text-align: center; }
+.driver-node:not(:last-child)::after { content: "→"; position: absolute; top: 50%; right: -16px; color: var(--accent); font-size: 1rem; transform: translateY(-50%); }
+.driver-node span { display: block; overflow: hidden; color: var(--muted); font-size: .65rem; text-overflow: ellipsis; white-space: nowrap; }
+.driver-node strong { display: block; margin-top: 5px; color: var(--accent-deep); font-family: Arial, sans-serif; font-size: 1.05rem; }
+.scenario-insights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin: 30px 0; }
+.scenario-insights article { padding: 20px; border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; background: #fff; box-shadow: 0 8px 24px rgba(16, 35, 63, .045); }
+.scenario-insights article:nth-child(2) { border-left-color: var(--green); }
+.scenario-insights b { display: block; color: var(--accent); font-family: Arial, sans-serif; font-size: 1.75rem; line-height: 1; }
+.scenario-insights article:nth-child(2) b { color: var(--green); }
+.scenario-insights strong { display: block; margin: 9px 0 5px; font-size: .88rem; }
+.scenario-insights p { margin: 0; color: var(--muted); font-size: .75rem; line-height: 1.55; }
+.scenario-table-shell { max-width: 100%; overflow: auto; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
+.scenario-matrix { min-width: 820px; font-size: .78rem; }
+.scenario-matrix thead { background: #071e39; }
+.scenario-matrix td:not(:first-child) { font-family: Arial, sans-serif; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.scenario-matrix th:not(:first-child) { text-align: right; }
+.scenario-matrix .scenario-total { background: #e9f2ff; color: var(--accent-deep); font-weight: 900; }
+.scenario-exhibit figcaption { margin-top: 12px; color: var(--muted); font-size: .7rem; }
+.bar-list { display: grid; gap: 14px; margin-top: 26px; }
+.bar-meta { display: flex; justify-content: space-between; gap: 18px; font-size: .82rem; }
+.bar-meta strong { color: var(--accent); }
+.bar-track { height: 8px; border-radius: 99px; background: var(--soft); overflow: hidden; }
+.bar-track span { display: block; width: 100%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent-deep), var(--accent)); transform: scaleX(var(--bar)); transform-origin: left center; transition: transform .75s var(--ease) var(--delay, 0ms); }
+.heatmap-scroll { overflow: auto; margin-top: 22px; }
+.heatmap-grid { display: grid; grid-template-columns: minmax(145px, 1.5fr) repeat(calc(var(--cols) - 1), minmax(68px, 1fr)); gap: 5px; min-width: 620px; }
+.heat-label, .heat-cell { min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 5px 8px; border-radius: 6px; font-size: .74rem; }
+.heat-label { justify-content: flex-start; background: var(--soft); font-weight: 750; }
+.heat-header { justify-content: center; background: var(--ink); color: #fff; }
+.heat-cell { border: 1px solid rgba(var(--accent-rgb), .08); font-weight: 850; }
+.heat-1 { background: rgba(var(--accent-rgb), .08); }
+.heat-2 { background: rgba(var(--accent-rgb), .16); }
+.heat-3 { background: rgba(var(--accent-rgb), .28); }
+.heat-4 { background: rgba(var(--accent-rgb), .48); color: #0d3f69; }
+.heat-5 { background: var(--accent); color: #fff; }
+.supply-stages { display: grid; grid-template-columns: repeat(var(--stages), minmax(0, 1fr)); gap: 28px; margin-top: 28px; }
+.supply-stage { position: relative; padding: 22px; border-top: 3px solid var(--accent); background: var(--soft); }
+.supply-stage:not(:last-child)::after { content: "→"; position: absolute; right: -21px; top: 50%; color: var(--accent); font-size: 1.25rem; transform: translateY(-50%); }
+.supply-stage span { color: var(--accent); font-size: .7rem; font-weight: 850; }
+.supply-stage strong { display: block; margin: 8px 0 4px; }
+.supply-stage p { margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.55; }
+
+.report-section { max-width: 1040px; margin-inline: auto; padding: clamp(82px, 9vw, 132px) 0 0; }
+body[data-layout="dashboard"] .report-section { width: min(1180px, calc(100% - 44px)); max-width: none; }
+.report-section + .report-section { margin-top: 38px; }
+.section-header { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 18px; padding-bottom: 28px; margin-bottom: 42px; border-bottom: 1px solid var(--line); }
+.section-no { color: var(--accent); font-family: Arial, sans-serif; font-size: .76rem; font-weight: 850; letter-spacing: .14em; }
+.section-header h1, .section-header h2 { margin: 0; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 700; line-height: 1.14; letter-spacing: -.02em; }
+.section-body > h1, .section-body > h2, .section-body > h3, .section-body > h4 { max-width: 74ch; color: var(--ink); }
+.section-body > h1, .section-body > h2 { margin: 68px 0 22px; font-family: var(--serif); font-size: clamp(1.5rem, 2.4vw, 2.15rem); line-height: 1.34; }
+.section-body > h3 { margin: 46px 0 18px; font-size: 1.2rem; }
+.section-body > h4 { margin: 34px 0 14px; font-size: 1rem; }
+.section-body > p, .section-body > ul, .section-body > ol, .section-body > blockquote { max-width: 76ch; }
+.section-body p { margin: 0 0 20px; color: #344861; }
+.section-body ul, .section-body ol { padding-left: 1.35rem; margin: 18px 0 28px; }
+.section-body li { padding-left: .3rem; margin: 6px 0; }
+.section-body li::marker { color: var(--accent); font-weight: 800; }
+.section-body hr { margin: 52px 0; border: 0; border-top: 1px solid var(--line); }
+.section-body blockquote { margin: 28px 0; padding: 18px 22px; border-left: 4px solid var(--accent); background: var(--soft); color: #2c4763; }
+.section-body blockquote p:last-child { margin-bottom: 0; }
+.section-body pre { max-width: 100%; margin: 28px 0 42px; padding: 24px; overflow: auto; border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 12px; background: #f9fbfd; color: #243d59; font-size: .82rem; line-height: 1.75; }
+.inline-code { padding: .12em .36em; border-radius: 5px; background: var(--soft); color: #174a78; font-size: .9em; }
+.table-shell { max-width: 100%; margin: 28px 0 46px; overflow: auto; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: 0 10px 28px rgba(16, 35, 63, .045); }
+.table-hint { position: sticky; left: 0; display: none; justify-content: space-between; padding: 8px 12px; background: var(--soft); color: var(--muted); font-size: .7rem; }
+table { width: 100%; min-width: 680px; border-collapse: collapse; text-align: left; font-size: .84rem; line-height: 1.55; }
+thead { background: var(--ink); color: #fff; }
+th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+thead th { white-space: nowrap; font-size: .74rem; letter-spacing: .03em; }
+tbody th { min-width: 125px; color: var(--ink); }
+tbody td { color: #42566f; }
+tbody tr:nth-child(even) { background: rgba(var(--accent-rgb), .025); }
+tbody tr:hover { background: rgba(var(--accent-rgb), .06); }
+.media-figure { max-width: 900px; margin: 34px 0 46px; }
+.media-figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: var(--shadow); }
+.media-figure figcaption { margin-top: 9px; color: var(--muted); font-size: .76rem; }
+.source-section { margin-top: 92px; padding-top: 42px; border-top: 1px solid var(--line); }
+.source-section .section-header { border: 0; }
+.page-footer { max-width: 1180px; margin: 92px auto 0; padding: 36px 0 46px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 24px; color: var(--muted); font-size: .76rem; }
+.page-footer strong { color: var(--ink); }
+.back-top { position: fixed; z-index: 850; right: 20px; bottom: 20px; width: 46px; height: 46px; border: 1px solid var(--line); border-radius: 50%; background: rgba(255, 255, 255, .94); color: var(--ink); box-shadow: var(--shadow); opacity: 0; pointer-events: none; transform: translateY(9px); transition: .2s; }
+.back-top.visible { opacity: 1; pointer-events: auto; transform: none; }
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .58s var(--ease), transform .58s var(--ease); }
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (max-width: 1040px) {
+  .hero-grid, body[data-layout="report"] .hero { grid-template-columns: 1fr; align-items: center; min-height: auto; }
+  body[data-layout="report"] .page-layout { grid-template-columns: 1fr; }
+  body[data-layout="report"] .side-nav { display: none; }
+  body[data-layout="report"] .mobile-bar { display: block; }
+  body[data-layout="report"] main { padding-inline: clamp(20px, 5vw, 52px); }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 760px) {
+  body { font-size: 15px; }
+  .container, body[data-layout="dashboard"] .report-section { width: min(100% - 28px, 1180px); }
+  body[data-layout="dashboard"] .hero { padding-top: 108px; }
+  .hero h1 { font-size: clamp(2.55rem, 14vw, 4.2rem); }
+  .hero-grid { gap: 32px; }
+  .hero-aside { padding: 23px; }
+  .nav-toggle { display: block; }
+  .nav-links { display: none; position: absolute; left: 14px; right: 14px; top: 60px; max-height: 68vh; padding: 9px; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: var(--shadow); flex-direction: column; align-items: stretch; }
+  .nav-links.open { display: flex; }
+  .visual-grid, .kpi-grid { grid-template-columns: 1fr; }
+  .visual-card.wide { grid-column: auto; }
+  .scenario-head { grid-template-columns: 1fr; }
+  .scenario-cards, .scenario-insights { grid-template-columns: 1fr; }
+  .driver-rail { grid-template-columns: repeat(4, 1fr); row-gap: 26px; }
+  .driver-node:nth-child(4)::after { display: none; }
+  .supply-stages { grid-template-columns: 1fr; }
+  .supply-stage:not(:last-child)::after { right: 50%; top: auto; bottom: -27px; transform: translateX(50%) rotate(90deg); }
+  .section-header { grid-template-columns: 1fr; gap: 7px; }
+  .section-header h1, .section-header h2 { font-size: 2.25rem; }
+  .table-hint { display: flex; }
+  .page-footer { margin-inline: 16px; display: block; }
+  .page-footer span { display: block; margin-top: 7px; }
+}
+@media (max-width: 390px) {
+  body[data-layout="report"] main { padding-inline: 16px; }
+  .visual-card { padding: 20px 16px; }
+  .driver-rail { grid-template-columns: repeat(2, 1fr); }
+  .driver-node:nth-child(2n)::after { display: none; }
+  .scenario-subhead { display: block; }
+  .scenario-subhead b { display: block; margin-top: 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; transition-delay: 0ms !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+@media print {
+  .progress, .topbar, .side-nav, .mobile-bar, .back-top { display: none !important; }
+  .hero { min-height: auto !important; padding: 18mm 12mm !important; break-after: page; }
+  .page-layout { display: block !important; }
+  main { padding: 0 12mm !important; }
+  .report-section { break-before: page; padding-top: 12mm; }
+  .reveal { opacity: 1; transform: none; }
+  .table-shell { overflow: visible; box-shadow: none; }
+  table { min-width: 0; font-size: 8pt; }
+}
+</style>
+</head>
+<body data-layout="dashboard">
+  <a class="skip-link" href="#main-content">跳至主要內容</a>
+  <div class="progress" role="progressbar" aria-label="閱讀進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+  <nav class="topbar" aria-label="主要導覽"><div class="container nav-shell"><a class="brand" href="#top"><span class="brand-mark">IR</span>Research Webpage</a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="開啟導覽">☰</button><div class="nav-links" id="nav-links"><a href="#section-01" data-nav="section-01"><span>01</span>核心結論</a><a href="#section-02" data-nav="section-02"><span>02</span>Bernstein 圖表逐層拆解</a><a href="#section-03" data-nav="section-03"><span>03</span>2025–2030 動態劇本：不是線性成長，而是三段式演進</a><a href="#section-04" data-nav="section-04"><span>04</span>為什麼 Agentic AI 會更吃 CPU？</a><a href="#section-05" data-nav="section-05"><span>05</span>模型假設與敏感度：CPU TAM 最大變數不是 capex，而是 CPU:GPU ratio</a><a href="#section-06" data-nav="section-06"><span>06</span>軟體層是 CPU 需求能否放大的關鍵變數</a><a href="#section-07" data-nav="section-07"><span>07</span>全球 AI 伺服器 CPU 競爭格局</a><a href="#section-08" data-nav="section-08"><span>08</span>全球大公司 × 台股供應鏈對照</a><a href="#section-09" data-nav="section-09"><span>09</span>台股供應鏈完整分層</a><a href="#section-10" data-nav="section-10"><span>10</span>台股供應鏈：重疊度與稀缺性分析</a><a href="#section-11" data-nav="section-11"><span>11</span>從 CPU 受惠延伸到整櫃價值鏈</a><a href="#section-12" data-nav="section-12"><span>12</span>產業主線整理</a><a href="#section-13" data-nav="section-13"><span>13</span>最終結論</a><a href="#section-14" data-nav="section-14"><span>14</span>資料來源</a></div></div></nav>
+  <header class="hero" id="top"><div class="container hero-grid"><div><span class="eyebrow">INDUSTRY RESEARCH</span><h1>AI 伺服器 CPU 產業研究報告</h1><p class="hero-deck">從 Bernstein Server CPU TAM 圖表到全球大廠與台股供應鏈</p><div class="hero-meta"><span>資料日期：2026-06-21</span><span>研究範圍：產業研究</span><span>離線單檔研究網頁</span></div></div><aside class="hero-aside" aria-label="研究核心重點"><h2>RESEARCH SIGNAL</h2><div class="hero-stat"><strong>600b</strong><span>AI capex</span></div><div class="thesis-list"><div class="thesis"><b>01</b><div><strong>AI 工作負載從 training 走向 inference，再走向 agentic AI 後，CPU 會從 AI 伺服器裡的 host 配角，變成任務編排、資料處理、工具調用與系統調度的關鍵算力層</strong><p>Bernstein 圖表的核心不是「CPU 取代 GPU」，而是 AI 工作負載從 training 走向 inference，再走向 agentic AI 後，CPU 會從 AI 伺服器裡的 host 配角，變成任務編排、資料處理、工具調用與系統調度的關鍵算力層。</p></div></div><div class="thesis"><b>02</b><div><strong>2030 Base case</strong><p>根據圖表，在 2030 Base case 下：</p></div></div><div class="thesis"><b>03</b><div><strong>373 億美元</strong><p>1 CPU-to-GPU pairing ratio。 資料來源：Yahoo Finance / Bernstein 公開轉述[^1]</p></div></div></div></aside></div><div class="container kpi-grid"><div class="kpi"><b>600b</b><span>AI capex</span></div><div class="kpi"><b>240b</b><span>AI GPU / accelerator TAM</span></div><div class="kpi"><b>35%</b><span>Inference ratio</span></div><div class="kpi"><b>0.25</b><span>CPU:GPU ratio, inference</span></div></div></header>
+  
+  <section class="visual-deck" aria-label="研究數據視覺化"><div class="container"><div class="visual-grid"><figure class="visual-card wide scenario-exhibit reveal" data-visual="scenario">
+      <div class="scenario-head"><div><span class="eyebrow">BERNSTEIN EXHIBIT · SCENARIO MODEL</span><h3>2030 Server CPU TAM 情境模型</h3><p>在 3.5 兆美元 AI capex 的 Base case 下，2030 Server CPU TAM 為 2,234 億美元。</p></div><div class="scenario-hero"><small>2030 BASE CPU TAM</small><strong>$223.4<span>bn</span></strong><em>6.0× vs. 2025</em></div></div>
+      <div class="scenario-cards"><article class="scenario-card bear"><span>2030 Bear</span><strong>$137.2<small>bn</small></strong><dl><div><dt>AI capex</dt><dd>$3,000bn</dd></div><div><dt>Inference CPU:GPU</dt><dd>0.5x</dd></div><div><dt>Agentic AI CPU</dt><dd>$87.8bn</dd></div></dl></article><article class="scenario-card base"><span>2030 Base</span><strong>$223.4<small>bn</small></strong><dl><div><dt>AI capex</dt><dd>$3,500bn</dd></div><div><dt>Inference CPU:GPU</dt><dd>1.0x</dd></div><div><dt>Agentic AI CPU</dt><dd>$174.0bn</dd></div></dl></article><article class="scenario-card bull"><span>2030 Bull</span><strong>$330.2<small>bn</small></strong><dl><div><dt>AI capex</dt><dd>$4,000bn</dd></div><div><dt>Inference CPU:GPU</dt><dd>1.5x</dd></div><div><dt>Agentic AI CPU</dt><dd>$280.8bn</dd></div></dl></article></div>
+      <div class="scenario-subhead"><span>BASE CASE DRIVER CHAIN</span><b>70 GW × $50bn/GW → $3.5tn AI capex</b></div>
+      <div class="driver-rail"><div class="driver-node"><span>AI GW</span><strong>70</strong></div><div class="driver-node"><span>AI Capex</span><strong>3,500</strong></div><div class="driver-node"><span>GPU TAM</span><strong>1,575</strong></div><div class="driver-node"><span>Inference</span><strong>70%</strong></div><div class="driver-node"><span>CPU:GPU</span><strong>1.0x</strong></div><div class="driver-node"><span>Agentic CPU</span><strong>174.0</strong></div><div class="driver-node"><span>CPU TAM</span><strong>223.4</strong></div></div>
+      <div class="scenario-insights">
+        <article><b>6.0×</b><strong>2025 → 2030 Base</strong><p>CPU TAM 從 $37.3bn 成長至 $223.4bn。</p></article>
+        <article><b>78%</b><strong>Agentic AI 是情境差異主因</strong><p>Base case 中 Agentic AI CPU 約占整體 CPU TAM 的 77.9%。</p></article>
+        <article><b>2.4×</b><strong>Bull／Bear 差距</strong><p>2030 inference ratio 都是 70%，真正拉開差距的是 AI capex 與 inference CPU:GPU ratio。</p></article>
+      </div>
+      <div class="scenario-table-shell" tabindex="0" role="region" aria-label="Bernstein Server CPU TAM 完整情境表"><table class="scenario-matrix"><thead><tr><th scope="col">指標</th><th scope="col">2025</th><th scope="col">2030 Base</th><th scope="col">2030 Bull</th><th scope="col">2030 Bear</th></tr></thead><tbody><tr><th scope="row">AI GW additions</th><td>15</td><td>70</td><td>80</td><td>60</td></tr><tr><th scope="row">AI capex intensity (bn / GW)</th><td>40</td><td>50</td><td>50</td><td>50</td></tr><tr><th scope="row">AI capex ($ bn)</th><td>600</td><td>3,500</td><td>4,000</td><td>3,000</td></tr><tr><th scope="row">AI GPU/accelerator TAM ($ bn)</th><td>240</td><td>1,575</td><td>1,800</td><td>1,350</td></tr><tr><th scope="row">Inference ratio</th><td>35%</td><td>70%</td><td>70%</td><td>70%</td></tr><tr><th scope="row">AI GPU for inferencing ($ bn)</th><td>84</td><td>1,103</td><td>1,260</td><td>945</td></tr><tr><th scope="row">CPU:GPU ratio (inference)</th><td>0.25x</td><td>1.0x</td><td>1.5x</td><td>0.5x</td></tr><tr><th scope="row">AI GPU for training ($ bn)</th><td>156</td><td>473</td><td>540</td><td>405</td></tr><tr><th scope="row">CPU:GPU ratio (training)</th><td>0.25x</td><td>0.50x</td><td>0.50x</td><td>0.50x</td></tr><tr><th scope="row">CPU:GPU cost ratio</th><td>10.0%</td><td>13.0%</td><td>13.0%</td><td>13.0%</td></tr><tr><th scope="row">CPU for agentic AI ($ bn)</th><td>6.0</td><td>174.0</td><td>280.8</td><td>87.8</td></tr><tr><th scope="row">CPU for general CPU server ($ bn)</th><td>31.3</td><td>49.4</td><td>49.4</td><td>49.4</td></tr><tr class="scenario-total"><th scope="row">CPU TAM ($ bn)</th><td>37.3</td><td>223.4</td><td>330.2</td><td>137.2</td></tr></tbody></table></div>
+      <figcaption>Source: Company disclosures, Mercury, Bernstein estimates and analysis. 網頁數值依研究原稿與使用者提供圖表重建。</figcaption>
+    </figure><figure class="visual-card wide reveal"><span class="eyebrow">DATA VIEW 02</span><h3>供應鏈路徑</h3><p>資料直接取自研究原稿。</p><div class="supply-stages" style="--stages:4"><div class="supply-stage"><span>01</span><strong>使用者輸入 prompt</strong><p>使用者輸入 prompt</p></div><div class="supply-stage"><span>02</span><strong>tokenizer</strong><p>tokenizer</p></div><div class="supply-stage"><span>03</span><strong>GPU 跑模型推理</strong><p>GPU 跑模型推理</p></div><div class="supply-stage"><span>04</span><strong>產生回答</strong><p>產生回答</p></div></div></figure></div></div></section>
+  <div class="page-layout"><main id="main-content"><section class="report-section reveal" id="section-01"><header class="section-header"><span class="section-no">01</span><h2>核心結論</h2></header><div class="section-body"><p>Bernstein 圖表的核心不是「CPU 取代 GPU」，而是 <strong>AI 工作負載從 training 走向 inference，再走向 agentic AI 後，CPU 會從 AI 伺服器裡的 host 配角，變成任務編排、資料處理、工具調用與系統調度的關鍵算力層</strong>。</p>
+<p>根據圖表，在 <strong>2030 Base case</strong> 下：</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">項目</th><th scope="col">2025</th><th scope="col">2030 Base</th></tr></thead><tbody><tr><th scope="row">AI capex</th><td>600bn</td><td>3,500bn</td></tr><tr><th scope="row">AI GPU / accelerator TAM</th><td>240bn</td><td>1,575bn</td></tr><tr><th scope="row">Inference ratio</th><td>35%</td><td>70%</td></tr><tr><th scope="row">CPU:GPU ratio, inference</th><td>0.25x</td><td>1.0x</td></tr><tr><th scope="row">CPU for agentic AI</th><td>6.0bn</td><td>174.0bn</td></tr><tr><th scope="row">General server CPU</th><td>31.3bn</td><td>49.4bn</td></tr><tr><th scope="row">Server CPU TAM</th><td>37.3bn</td><td>223.4bn</td></tr></tbody></table></div>
+<p>也就是說，2030 年 Server CPU TAM 可從 2025 年的 <strong>373 億美元</strong> 擴大到 <strong>2,234 億美元</strong>，約為 <strong>6 倍</strong>。公開轉述也指出，Bernstein 的基本情境假設包含 <strong>3.5 兆美元 AI data center capex</strong> 與 inference 場景 <strong>1:1 CPU-to-GPU pairing ratio</strong>。 資料來源：Yahoo Finance / Bernstein 公開轉述[^1]</p>
+<p>這份報告的核心判斷是：</p>
+<blockquote><p><strong>AI 伺服器 CPU 的成長，不是單一 CPU 晶片概念，而是 AI infrastructure 從 GPU-heavy training cluster，走向 agentic inference + rack-scale heterogeneous computing 後，整個 CPU、GPU、DPU、網路、電源、散熱、BMC、ABF、PCB、ODM 整櫃系統一起升級。</strong></p></blockquote>
+<hr></div></section>
+<section class="report-section reveal" id="section-02"><header class="section-header"><span class="section-no">02</span><h2>Bernstein 圖表逐層拆解</h2></header><div class="section-body"><h3>2.0 Bernstein Exhibit：2030 Server CPU TAM 情境總表</h3>
+<p>圖表將 AI data center capex、GPU／accelerator TAM、inference 比重與 CPU:GPU ratio 串成同一個情境模型。Bernstein 的 Base case 假設 2030 年 AI capex 達 <strong>3.5 兆美元</strong>，Server CPU TAM 達 <strong>2,234 億美元</strong>。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">指標</th><th scope="col">2025</th><th scope="col">2030 Base</th><th scope="col">2030 Bull</th><th scope="col">2030 Bear</th></tr></thead><tbody><tr><th scope="row">AI GW additions</th><td>15</td><td>70</td><td>80</td><td>60</td></tr><tr><th scope="row">AI capex intensity (bn / GW)</th><td>40</td><td>50</td><td>50</td><td>50</td></tr><tr><th scope="row">AI capex ($ bn)</th><td>600</td><td>3,500</td><td>4,000</td><td>3,000</td></tr><tr><th scope="row">AI GPU/accelerator TAM ($ bn)</th><td>240</td><td>1,575</td><td>1,800</td><td>1,350</td></tr><tr><th scope="row">Inference ratio</th><td>35%</td><td>70%</td><td>70%</td><td>70%</td></tr><tr><th scope="row">AI GPU for inferencing ($ bn)</th><td>84</td><td>1,103</td><td>1,260</td><td>945</td></tr><tr><th scope="row">CPU:GPU ratio (inference)</th><td>0.25x</td><td>1.0x</td><td>1.5x</td><td>0.5x</td></tr><tr><th scope="row">AI GPU for training ($ bn)</th><td>156</td><td>473</td><td>540</td><td>405</td></tr><tr><th scope="row">CPU:GPU ratio (training)</th><td>0.25x</td><td>0.50x</td><td>0.50x</td><td>0.50x</td></tr><tr><th scope="row">CPU:GPU cost ratio</th><td>10.0%</td><td>13.0%</td><td>13.0%</td><td>13.0%</td></tr><tr><th scope="row">CPU for agentic AI ($ bn)</th><td>6.0</td><td>174.0</td><td>280.8</td><td>87.8</td></tr><tr><th scope="row">CPU for general CPU server ($ bn)</th><td>31.3</td><td>49.4</td><td>49.4</td><td>49.4</td></tr><tr><th scope="row">CPU TAM ($ bn)</th><td>37.3</td><td>223.4</td><td>330.2</td><td>137.2</td></tr></tbody></table></div>
+<p>這張表最重要的不是單一 TAM 數字，而是情境差異的來源：</p>
+<ul><li><strong>Base case 約為 2025 年的 6 倍</strong>：CPU TAM 從 373 億美元增至 2,234 億美元。</li><li><strong>Agentic AI 是主要增量</strong>：Base case 的 agentic AI CPU 為 1,740 億美元，約占總 CPU TAM 的 77.9%。</li><li><strong>Inference ratio 不是 Bull／Bear 的差異點</strong>：三個 2030 情境均為 70%；真正的敏感變數是 AI capex 與 inference CPU:GPU ratio。</li><li><strong>Bull／Bear CPU TAM 相差約 2.4 倍</strong>：反映多 agent、長流程與工具調用是否大規模落地。</li></ul>
+<p>資料來源：Company disclosures、Mercury、Bernstein estimates and analysis；依使用者提供圖表整理。</p>
+<h3>2.1 AI capex：2030 Base case 達 3.5 兆美元</h3>
+<p>圖表最上層假設是 AI 資料中心新增容量與資本支出強度。</p>
+<pre tabindex="0"><code class="language-text">AI capex = AI GW additions × AI capex intensity</code></pre>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">項目</th><th scope="col">2025</th><th scope="col">2030 Base</th><th scope="col">2030 Bull</th><th scope="col">2030 Bear</th></tr></thead><tbody><tr><th scope="row">AI GW additions</th><td>15</td><td>70</td><td>80</td><td>60</td></tr><tr><th scope="row">AI capex intensity</th><td>40bn/GW</td><td>50bn/GW</td><td>50bn/GW</td><td>50bn/GW</td></tr><tr><th scope="row">AI capex</th><td>600bn</td><td>3,500bn</td><td>4,000bn</td><td>3,000bn</td></tr></tbody></table></div>
+<p>這裡的重點是：AI capex 不只是 GPU 採購，而是包含 <strong>資料中心機房、伺服器、GPU、CPU、網通、HBM、電源、散熱、液冷、機櫃、軟體平台與能源基礎設施</strong>。</p>
+<hr>
+<h3>2.2 GPU / accelerator TAM：GPU 仍然是最大支出核心</h3>
+<p>圖表假設 AI capex 中有一部分會流向 GPU / accelerator。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">項目</th><th scope="col">2025</th><th scope="col">2030 Base</th></tr></thead><tbody><tr><th scope="row">AI capex</th><td>600bn</td><td>3,500bn</td></tr><tr><th scope="row">GPU / accelerator 占比</th><td>40%</td><td>45%</td></tr><tr><th scope="row">AI GPU / accelerator TAM</th><td>240bn</td><td>1,575bn</td></tr></tbody></table></div>
+<p>2030 Base 的計算是：</p>
+<pre tabindex="0"><code class="language-text">3,500bn × 45% = 1,575bn</code></pre>
+<p>這代表 Bernstein 並不是認為 GPU 不重要，而是認為 GPU 市場本身仍然大幅擴張，只是 <strong>GPU 擴張之後，CPU attach value 也被重新放大</strong>。</p>
+<hr>
+<h3>2.3 Inference ratio：AI 支出重心從 training 轉向 inference</h3>
+<p>圖表假設 inference ratio 從 2025 年的 <strong>35%</strong> 提升到 2030 年的 <strong>70%</strong>。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">項目</th><th scope="col">2025</th><th scope="col">2030 Base</th></tr></thead><tbody><tr><th scope="row">AI GPU / accelerator TAM</th><td>240bn</td><td>1,575bn</td></tr><tr><th scope="row">Inference ratio</th><td>35%</td><td>70%</td></tr><tr><th scope="row">AI GPU for inferencing</th><td>84bn</td><td>1,103bn</td></tr><tr><th scope="row">AI GPU for training</th><td>156bn</td><td>473bn</td></tr></tbody></table></div>
+<p>這代表 AI 投資重心會從「訓練大模型」逐漸轉向「大量部署模型」。真正會拉動 CPU 的不是單純 training，而是 inference 進入企業流程後產生的大量 <strong>agent workflow、RAG、資料庫查詢、工具調用、權限驗證與任務排程</strong>。</p>
+<hr>
+<h3>2.4 CPU:GPU ratio：整張圖最關鍵的槓桿</h3>
+<p>圖表中最關鍵的變數是 inference 場景的 CPU:GPU ratio。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">項目</th><th scope="col">2025</th><th scope="col">2030 Base</th></tr></thead><tbody><tr><th scope="row">CPU:GPU ratio, inference</th><td>0.25x</td><td>1.0x</td></tr><tr><th scope="row">CPU:GPU ratio, training</th><td>0.25x</td><td>0.50x</td></tr><tr><th scope="row">CPU:GPU cost ratio</th><td>10%</td><td>13%</td></tr></tbody></table></div>
+<p>過去 AI server 多半是：</p>
+<pre tabindex="0"><code class="language-text">少量 CPU + 大量 GPU</code></pre>
+<p>Agentic AI 之後，架構會更接近：</p>
+<pre tabindex="0"><code class="language-text">CPU：任務拆解、工具調用、資料處理、API、資料庫、權限、排程、I/O
+GPU：大模型推理、矩陣運算、token generation
+DPU / NIC：網路、storage、security、data movement offload</code></pre>
+<p>AMD 公開指出，傳統 chatbot AI 常見 CPU:GPU ratio 約 <strong>1:4 到 1:8</strong>，但 agentic AI 可能把比例推向 <strong>1:1</strong>，甚至在部分情境下 CPU 端更高。TrendForce 也指出，agentic AI 正在推動 data center CPU:GPU ratio 從 <strong>1:4 / 1:8</strong> 走向 <strong>1:1 / 1:2</strong>。 資料來源：AMD Agentic AI blog[^2]、TrendForce[^3]</p>
+<hr>
+<h3>2.5 Agentic AI CPU：真正爆發的來源</h3>
+<p>Bernstein 圖表中最重要的不是 general server CPU，而是 <strong>CPU for agentic AI</strong>。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">項目</th><th scope="col">2025</th><th scope="col">2030 Base</th></tr></thead><tbody><tr><th scope="row">CPU for agentic AI</th><td>6.0bn</td><td>174.0bn</td></tr><tr><th scope="row">CPU for general CPU server</th><td>31.3bn</td><td>49.4bn</td></tr><tr><th scope="row">CPU TAM</th><td>37.3bn</td><td>223.4bn</td></tr></tbody></table></div>
+<p>2030 Base 的 agentic AI CPU 計算邏輯：</p>
+<pre tabindex="0"><code class="language-text">Inference CPU value = 1,103 × 1.0 = 1,103
+Training CPU value = 473 × 0.5 = 236.5
+合計 = 1,339.5
+
+CPU for agentic AI = 1,339.5 × 13% = 174.1bn</code></pre>
+<p>2030 Base 中，agentic AI CPU 占 CPU TAM 約：</p>
+<pre tabindex="0"><code class="language-text">174.0 / 223.4 = 77.9%</code></pre>
+<p>所以這張圖真正要表達的是：</p>
+<blockquote><p><strong>未來 CPU TAM 的主要增量，不是傳統伺服器自然成長，而是 agentic inference 使 CPU 變成 AI data center 的新算力層。</strong></p></blockquote>
+<hr></div></section>
+<section class="report-section reveal" id="section-03"><header class="section-header"><span class="section-no">03</span><h2>2025–2030 動態劇本：不是線性成長，而是三段式演進</h2></header><div class="section-body"><p>Bernstein 圖表是 2025 與 2030 的靜態對比，但實際需求大概率不是線性增加，而是跟著 <strong>軟體 agent 平台成熟、硬體平台換代、企業 workflow 滲透</strong> 出現階段式跳升。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">時間</th><th scope="col">產業節奏</th><th scope="col">CPU 需求變化</th></tr></thead><tbody><tr><th scope="row"><strong>2025–2026</strong></th><td>Agentic AI 平台產品化</td><td>CPU 需求先從雲端 agent runtime、企業試點、RAG、工具調用平台開始增加</td></tr><tr><th scope="row"><strong>2026–2027</strong></th><td>新一代 CPU / AI rack 平台量產</td><td>Venice、Vera Rubin、GB300 / Rubin、Kyber 等平台可能讓 CPU:GPU ratio 明顯跳升</td></tr><tr><th scope="row"><strong>2028–2030</strong></th><td>企業 agent workflow 規模化</td><td>Agent 進入 ERP、CRM、客服、資料分析、程式開發、資安、營運自動化，CPU compute layer 大規模部署</td></tr></tbody></table></div>
+<p>2025–2026 年的關鍵在軟體端。AWS Bedrock AgentCore 已 GA，AWS 將其定位為讓開發者把 agents 從 pilot 推向 full-scale production 的基礎平台；Microsoft Copilot Studio 在 2025 年宣布 autonomous agents 與 generative orchestration GA；Google Gemini Enterprise Agent Platform 則定位為企業建置、擴展、治理與最佳化 agents 的平台。 資料來源：AWS Bedrock AgentCore[^4]、Microsoft Copilot Studio[^5]、Google Cloud Gemini Enterprise Agent Platform[^6]</p>
+<p>2026–2027 年的關鍵在硬體平台換代。AMD 已宣布 6th Gen EPYC「Venice」開始 production ramp，並稱 Venice 是第一個在 TSMC 2nm 進入 production ramp 的 HPC 產品；NVIDIA Vera CPU 則被官方定位為服務 agentic AI 與 reinforcement learning 的 CPU，負責 code execution、tool use、sandboxing、analytics、data pipelines 與 orchestration beyond the model。 資料來源：AMD Venice production ramp[^7]、NVIDIA Vera CPU[^8]</p>
+<p>NVIDIA Vera Rubin 平台也被定位為 agentic AI 與 reasoning 時代的平台，目標是處理 multi-step problem-solving 與 massive long-context workflows；GB200 NVL72 則已經是 rack-scale liquid-cooled 設計，連接 36 顆 Grace CPU 與 72 顆 Blackwell GPU，形成 72-GPU NVLink domain。 資料來源：NVIDIA Rubin architecture[^9]、NVIDIA GB200 NVL72[^10]</p>
+<p>所以 CPU:GPU ratio 從 0.25x 拉到 1.0x，較可能不是每年平均上升，而是跟著幾個節點跳升：</p>
+<pre tabindex="0"><code class="language-text">2025–2026：agent 平台 GA，企業試點增加
+2026–2027：Venice、Vera Rubin、GB300 / Rubin rack、800VDC / Kyber 架構推進
+2028–2030：企業 agent workflow 進入規模部署</code></pre>
+<p>NVIDIA 的 800 VDC 架構也暗示 AI data center 正從傳統 54V rack power 走向更高功率密度。官方指出 800 VDC 可降低轉換階段、減少銅用量與線纜體積，並支援更高 compute density。 資料來源：NVIDIA 800 VDC architecture[^11]</p>
+<hr></div></section>
+<section class="report-section reveal" id="section-04"><header class="section-header"><span class="section-no">04</span><h2>為什麼 Agentic AI 會更吃 CPU？</h2></header><div class="section-body"><h3>4.1 傳統 LLM：CPU 是 host，GPU 是主角</h3>
+<p>傳統 chatbot 型 AI 流程比較單純：</p>
+<pre tabindex="0"><code class="language-text">使用者輸入 prompt
+→ tokenizer
+→ GPU 跑模型推理
+→ 產生回答</code></pre>
+<p>CPU 在這種架構中主要做：</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">CPU 工作</th><th scope="col">說明</th></tr></thead><tbody><tr><th scope="row">Host control</th><td>啟動與管理 GPU 任務</td></tr><tr><th scope="row">Tokenization</th><td>文字切 token</td></tr><tr><th scope="row">Data movement</th><td>搬移資料</td></tr><tr><th scope="row">Scheduling</th><td>任務排程</td></tr><tr><th scope="row">Networking</th><td>與外部服務溝通</td></tr></tbody></table></div>
+<p>所以傳統 AI server 容易形成 GPU-heavy 架構。</p>
+<hr>
+<h3>4.2 Agentic AI：CPU 變成任務編排與資料處理中心</h3>
+<p>Agentic AI 不只是回答問題，而是會把任務拆成多步驟：</p>
+<pre tabindex="0"><code class="language-text">理解任務
+→ 拆解子任務
+→ 查資料
+→ 呼叫工具
+→ 讀資料庫
+→ 執行程式
+→ 驗證結果
+→ 多輪修正
+→ 輸出或執行動作</code></pre>
+<p>這讓 CPU 工作量大幅增加。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">Agentic AI 工作</th><th scope="col">為什麼會增加 CPU 負載</th></tr></thead><tbody><tr><th scope="row">Tool calling</th><td>呼叫 API、搜尋、資料庫、Python interpreter、內部工具</td></tr><tr><th scope="row">Orchestration</th><td>多 agent、多步驟、多模型、多流程任務調度</td></tr><tr><th scope="row">RAG</th><td>檢索、排序、向量資料庫、資料前處理</td></tr><tr><th scope="row">Enterprise workflow</th><td>權限、交易、ERP / CRM / ITSM 連接</td></tr><tr><th scope="row">Memory / context management</th><td>長上下文切分、快取、壓縮、狀態管理</td></tr><tr><th scope="row">Security / compliance</th><td>權限驗證、資料隔離、審計記錄</td></tr><tr><th scope="row">Network I/O</th><td>多節點、多服務、多資料來源通訊</td></tr></tbody></table></div>
+<p>一篇針對 agentic AI 的 CPU-centric 研究指出，agentic AI framework 在 LLM 上加入 decision-making orchestrator 與外部工具，使模型從被動文字回答變成能 plan、call tools、remember past steps 的系統；研究也觀察到工具處理在 CPU 上最高可占總延遲 <strong>90.6%</strong>，大 batch 下 CPU dynamic energy 最高可占總 dynamic energy <strong>44%</strong>。 資料來源：arXiv CPU-centric agentic AI study[^12]</p>
+<p>這就是為什麼 CPU 在 agentic AI 中不是單純「搭配 GPU 的 host」，而是變成 workflow runtime 的核心。</p>
+<hr></div></section>
+<section class="report-section reveal" id="section-05"><header class="section-header"><span class="section-no">05</span><h2>模型假設與敏感度：CPU TAM 最大變數不是 capex，而是 CPU:GPU ratio</h2></header><div class="section-body"><p>Bernstein 圖表中的 2030 情境差異如下：</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">情境</th><th scope="col">AI capex</th><th scope="col">Inference CPU:GPU ratio</th><th scope="col">Agentic AI CPU</th><th scope="col">CPU TAM</th></tr></thead><tbody><tr><th scope="row">2030 Bear</th><td>3,000bn</td><td>0.5x</td><td>87.8bn</td><td>137.2bn</td></tr><tr><th scope="row">2030 Base</th><td>3,500bn</td><td>1.0x</td><td>174.0bn</td><td>223.4bn</td></tr><tr><th scope="row">2030 Bull</th><td>4,000bn</td><td>1.5x</td><td>280.8bn</td><td>330.2bn</td></tr></tbody></table></div>
+<p>這裡最敏感的變數是 <strong>inference CPU:GPU ratio</strong>。AI capex 從 3.0 兆到 4.0 兆美元當然重要，但 CPU TAM 真正大幅變動的原因，是每單位 inference GPU 旁邊需要多少 CPU orchestration、data processing、memory、I/O 與 runtime 管理。</p>
+<p>可以把 Bernstein 的三個情境理解成：</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">情境</th><th scope="col">背後假設</th></tr></thead><tbody><tr><th scope="row"><strong>Bear</strong></th><td>AI inference 增長，但 agentic workflow 沒有全面滲透；CPU:GPU ratio 只到 0.5x</td></tr><tr><th scope="row"><strong>Base</strong></th><td>Agentic AI 進入主流企業流程；CPU:GPU ratio 到 1.0x</td></tr><tr><th scope="row"><strong>Bull</strong></th><td>多 agent、長流程、自動化工具調用大規模落地；CPU:GPU ratio 到 1.5x</td></tr></tbody></table></div>
+<p>換句話說：</p>
+<blockquote><p><strong>CPU TAM 的核心不是「AI capex 有多大」，而是「AI capex 裡有多少真的變成 agentic inference，以及每單位 inference GPU 需要多少 CPU」。</strong></p></blockquote>
+<hr></div></section>
+<section class="report-section reveal" id="section-06"><header class="section-header"><span class="section-no">06</span><h2>軟體層是 CPU 需求能否放大的關鍵變數</h2></header><div class="section-body"><p>CPU 需求並不只由硬體世代決定，也會被 agent framework、inference serving、KV cache、RAG 與 enterprise workflow 軟體架構影響。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">軟體層</th><th scope="col">代表</th><th scope="col">對 CPU 需求的影響</th></tr></thead><tbody><tr><th scope="row">Agent orchestration</th><td>LangGraph、CrewAI、AutoGen、Copilot Studio、Bedrock AgentCore</td><td>多步驟任務、工具調用、狀態管理、multi-agent 協作增加 CPU / memory / I/O 負載</td></tr><tr><th scope="row">Inference serving</th><td>vLLM、TensorRT-LLM</td><td>批次排程、KV cache、prefill / decode 分離、GPU utilization 決定 CPU 是否成為瓶頸</td></tr><tr><th scope="row">Memory / cache optimization</th><td>KV cache offloading、KV reuse、CPU / disk offload</td><td>可能提高 CPU memory / I/O 角色，也可能降低重複運算</td></tr><tr><th scope="row">Enterprise data plane</th><td>RAG、database connector、API、MCP</td><td>CPU 從 host 變成 workflow / data plane 的一部分</td></tr></tbody></table></div>
+<p>vLLM Production Stack 官方文件指出，KV cache offloading 可將大型 KV cache 從 GPU memory 移到 CPU 或 disk，以提高 KV cache hit 的可能性。這代表 CPU / system memory 在長上下文與多輪 agent 任務中可能扮演更重要的 memory tier。 資料來源：vLLM KV cache offloading documentation[^13]</p>
+<p>但這也形成一股反向力量：如果 GPU serving stack、DPU、BlueField、TensorRT-LLM、vLLM、KV cache reuse / offloading 把更多資料移動、storage、networking、cache 管理與 serving optimization 做得更有效率，general-purpose CPU 的邊際需求可能被部分壓低。NVIDIA Vera Rubin 平台本身就不是只靠 CPU，而是把 Vera CPU、Rubin GPU、NVLink、BlueField、Spectrum-X 等整合成完整異質運算架構。 資料來源：NVIDIA Rubin architecture[^9]</p>
+<p>因此，未來 CPU 需求的形狀會分成兩塊：</p>
+<pre tabindex="0"><code class="language-text">會增加 CPU 的部分：
+agent orchestration、tool call、RAG、API、資料處理、企業 workflow、sandbox execution
+
+可能降低 CPU 邊際需求的部分：
+DPU offload、GPU-native serving、KV cache optimization、specialized accelerator、network/storage offload</code></pre>
+<p>結論是：<strong>CPU 需求會增加，但不會平均分布在所有 CPU 任務上，而會集中在 agent runtime、workflow orchestration、memory / I/O、資料處理與企業應用整合。</strong></p>
+<hr></div></section>
+<section class="report-section reveal" id="section-07"><header class="section-header"><span class="section-no">07</span><h2>全球 AI 伺服器 CPU 競爭格局</h2></header><div class="section-body"><h3>7.1 AMD：x86 server CPU 份額上升，EPYC 是最直接受惠者之一</h3>
+<p>AMD 的 server CPU 主力是 EPYC。6th Gen EPYC「Venice」已進入 production ramp，AMD 表示這是與 TSMC 2nm 技術合作的重要里程碑，也是業界第一個進入 TSMC 2nm production ramp 的 HPC 產品。 資料來源：AMD Venice production ramp[^7]</p>
+<p>AMD 的競爭優勢主要來自：</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">面向</th><th scope="col">內容</th></tr></thead><tbody><tr><th scope="row">架構</th><td>x86 server CPU</td></tr><tr><th scope="row">核心產品</th><td>EPYC 9004 / 9005、Venice</td></tr><tr><th scope="row">優勢</th><td>高核心數、chiplet、TSMC 先進製程、高階雲端與 AI / HPC workload</td></tr><tr><th scope="row">台股連結</th><td>台積電、日月光、力成、欣興、南電、景碩、緯穎、緯創、英業達、AIC</td></tr></tbody></table></div>
+<p>依 Mercury Research 數據公開轉述，AMD 在 2026 Q1 的 server x86 CPU unit share 達 <strong>33.2%</strong>，server x86 CPU revenue share 達 <strong>46.2%</strong>，顯示 AMD 不只出貨量提升，也在高階產品與 ASP 上取得更高收入占比。 資料來源：Tom&#39;s Hardware / Mercury Research 公開轉述[^14]</p>
+<p>所以在 x86 內部，CPU TAM 擴大不是 AMD 與 Intel 平均受惠。AMD 的份額與收入占比正在上升，因此它對 agentic AI CPU 需求的邊際彈性更大。</p>
+<hr>
+<h3>7.2 Intel：Xeon 仍有企業基礎盤，但面對 AMD 與 Arm 雙重壓力</h3>
+<p>Intel Xeon 仍是傳統 data center server CPU 的代表。Intel 官方將 Xeon 定位為支援 AI、HPC 與 data center workload 的處理器，強調 enterprise-class reliability 與 manageability。 資料來源：Intel Xeon 官方產品頁[^15]</p>
+<p>Intel 的優勢是：</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">優勢</th><th scope="col">說明</th></tr></thead><tbody><tr><th scope="row">企業客戶基礎</th><td>長期 enterprise server 與 OEM 生態</td></tr><tr><th scope="row">軟體相容性</th><td>x86 軟體堆疊成熟</td></tr><tr><th scope="row">平台管理</th><td>企業管理、資安、虛擬化、資料中心部署經驗</td></tr><tr><th scope="row">製造與封裝</th><td>自有製造與 advanced packaging 策略</td></tr></tbody></table></div>
+<p>但 Intel 面臨兩個結構性挑戰：</p>
+<pre tabindex="0"><code class="language-text">AMD EPYC 在 x86 server 裡提高份額
+Arm / CSP 自研 CPU 正在吃掉部分 merchant CPU 空間</code></pre>
+<p>因此 Intel 仍會受惠於 AI server CPU 需求回升，但相較 AMD，其增長彈性更取決於 Xeon 平台更新速度、AI host CPU 定位，以及是否能守住企業與雲端基礎盤。</p>
+<hr>
+<h3>7.3 NVIDIA：從 GPU 公司變成 CPU + GPU + DPU + networking + rack-scale AI infrastructure 公司</h3>
+<p>NVIDIA 已經不是單純 GPU 公司。GB200 NVL72 官方資料顯示，它是一個 rack-scale liquid-cooled system，連接 <strong>36 顆 Grace CPU 與 72 顆 Blackwell GPU</strong>，形成 72-GPU NVLink domain。 資料來源：NVIDIA GB200 NVL72[^10]</p>
+<p>NVIDIA Vera CPU 則更直接切入 Bernstein 圖表的 agentic AI CPU 主題。NVIDIA 官方表示，Vera CPU 是為 agentic AI 與 reinforcement learning 背後的 CPU 工作設計，包括 code execution、tool use、sandboxing、analytics、data pipelines 與 orchestration beyond the model。 資料來源：NVIDIA Vera CPU[^8]</p>
+<p>NVIDIA 的定位可以拆成：</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">層級</th><th scope="col">產品 / 技術</th></tr></thead><tbody><tr><th scope="row">CPU</th><td>Grace、Vera</td></tr><tr><th scope="row">GPU</th><td>H100、H200、B200、GB200、GB300、Rubin</td></tr><tr><th scope="row">DPU / NIC</th><td>BlueField、ConnectX</td></tr><tr><th scope="row">Network</th><td>NVLink、NVSwitch、Spectrum-X、InfiniBand</td></tr><tr><th scope="row">System</th><td>DGX、HGX、MGX、NVL72、Rubin rack</td></tr><tr><th scope="row">Power</th><td>800 VDC、Kyber rack-scale power architecture</td></tr></tbody></table></div>
+<p>NVIDIA 的優勢不是只賣 CPU，而是用 <strong>GPU + CPU + networking + rack system</strong> 綁定 AI infrastructure。這對台股最重要，因為台灣供應鏈不是只接觸單顆 CPU，而是接觸整櫃：台積電、鴻海、廣達、緯創、緯穎、英業達、台達電、光寶、雙鴻、奇鋐、信驊、嘉澤、貿聯都在這條鏈上。</p>
+<hr>
+<h3>7.4 Arm：從 IP 授權者變成 data center CPU 生態核心</h3>
+<p>Arm 的 Neoverse CSS V3 被官方定位為 data center-ready subsystem，支援 cloud、HPC、AI、chiplets 與 confidential computing。 資料來源：Arm Neoverse CSS V3[^16]</p>
+<p>Arm 的受惠不是靠單一 CPU 產品，而是靠整個雲端自研 CPU 生態：</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">公司</th><th scope="col">Arm CPU / 平台</th><th scope="col">意義</th></tr></thead><tbody><tr><th scope="row">AWS</th><td>Graviton</td><td>雲端自研 Arm CPU 代表</td></tr><tr><th scope="row">Google</th><td>Axion</td><td>Google Cloud custom Arm-based data center CPU</td></tr><tr><th scope="row">Microsoft</th><td>Cobalt</td><td>Azure Arm-based CPU</td></tr><tr><th scope="row">NVIDIA</th><td>Grace / Vera</td><td>AI rack CPU</td></tr><tr><th scope="row">Ampere</th><td>AmpereOne</td><td>獨立 Arm server CPU 供應商</td></tr><tr><th scope="row">Arm</th><td>Neoverse / CSS</td><td>IP / subsystem / CPU platform</td></tr></tbody></table></div>
+<p>AWS 官方指出，Graviton-based EC2 instances 相較同級 x86 EC2 instances 可降低最高 20% 成本、最高 60% 能源使用；Google Axion 是 custom Arm-based processors for general purpose computing；Microsoft Cobalt 100-based VMs 則提供比前一代 Arm-based VMs 最高 50% 更好的 price performance。 資料來源：AWS Graviton[^17]、Google Axion[^18]、Microsoft Cobalt 100[^19]</p>
+<p>Server CPU TAM 要拆成兩種：</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">類型</th><th scope="col">代表</th><th scope="col">對 AMD / Intel 的影響</th></tr></thead><tbody><tr><th scope="row">Merchant CPU TAM</th><td>AMD EPYC、Intel Xeon、Ampere</td><td>AMD / Intel 可直接取得的市場</td></tr><tr><th scope="row">Captive / 自研 CPU TAM</th><td>AWS Graviton、Google Axion、Microsoft Cobalt、NVIDIA Grace / Vera</td><td>擴大整體 CPU 需求，但稀釋 AMD / Intel 可直接吃到的 TAM</td></tr></tbody></table></div>
+<p>所以結論不是「全部 CPU 公司平均受惠」，而是：</p>
+<pre tabindex="0"><code class="language-text">整體 CPU 需求變大
+但 AMD / Intel 能吃到的是 merchant CPU
+Arm / CSP 自研 CPU 會吃掉部分 x86 空間
+台股供應鏈則更平台中立，反而能同時接觸多種 CPU 架構</code></pre>
+<hr></div></section>
+<section class="report-section reveal" id="section-08"><header class="section-header"><span class="section-no">08</span><h2>全球大公司 × 台股供應鏈對照</h2></header><div class="section-body"><div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">全球公司</th><th scope="col">CPU / 平台</th><th scope="col">台股主要對應</th><th scope="col">受惠邏輯</th></tr></thead><tbody><tr><th scope="row">AMD</th><td>EPYC、Venice</td><td>台積電、日月光、力成、欣興、南電、景碩、緯穎、緯創、英業達、AIC</td><td>EPYC 出貨、TSMC 2nm、ABF、server ODM</td></tr><tr><th scope="row">Intel</th><td>Xeon</td><td>廣達、緯創、緯穎、英業達、技嘉、華碩、華擎、信驊、台達電</td><td>x86 server 基礎盤、AI host CPU</td></tr><tr><th scope="row">NVIDIA</th><td>Grace、Vera、GB200、GB300、Rubin</td><td>台積電、鴻海、廣達、緯創、緯穎、英業達、台達電、光寶、雙鴻、奇鋐、信驊、嘉澤、貿聯</td><td>rack-scale AI system、CPU + GPU + DPU + network</td></tr><tr><th scope="row">Arm</th><td>Neoverse、CSS</td><td>台積電、封測、ABF、ODM、電源散熱</td><td>Arm-based cloud CPU / custom CPU</td></tr><tr><th scope="row">AWS</th><td>Graviton、Bedrock AgentCore</td><td>台積電、ODM、PCB、電源散熱</td><td>自研 Arm CPU + agent runtime</td></tr><tr><th scope="row">Google</th><td>Axion、Gemini Enterprise Agent Platform</td><td>台積電、ODM、PCB、電源散熱</td><td>Google Cloud 自研 CPU / agent infrastructure</td></tr><tr><th scope="row">Microsoft</th><td>Cobalt、Copilot agents</td><td>ODM、PCB、電源散熱、連接器</td><td>Azure 自研 CPU + Copilot agent workload</td></tr><tr><th scope="row">Ampere</th><td>AmpereOne</td><td>ODM、PCB、電源散熱、連接器</td><td>Arm server CPU</td></tr></tbody></table></div>
+<p>台灣供應鏈的關鍵是：<strong>不需要押單一 CPU 架構勝出，而是押 AI server 整體複雜度提升。</strong> Reuters 報導指出，台灣約占全球 server 出貨 80%，AI server 超過 90%，Foxconn、Quanta、Wistron 等台廠正因 AI infrastructure 轉型受惠。 資料來源：Reuters[^20]</p>
+<hr></div></section>
+<section class="report-section reveal" id="section-09"><header class="section-header"><span class="section-no">09</span><h2>台股供應鏈完整分層</h2></header><div class="section-body"><h3>9.1 晶圓代工 / 先進封裝：台積電是最核心平台</h3>
+<p>TSMC CoWoS-S 官方定位為 ultra-high performance computing applications 的封裝技術，包含 AI 與 supercomputing，可在大面積 silicon interposer 上整合 logic chiplets 與 HBM。 資料來源：TSMC CoWoS 官方頁[^21]</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">公司</th><th scope="col">代號</th><th scope="col">角色</th></tr></thead><tbody><tr><th scope="row">台積電</th><td>2330</td><td>先進製程、CoWoS、SoIC、3DFabric</td></tr><tr><th scope="row">日月光投控</th><td>3711</td><td>封測、SiP、advanced packaging</td></tr><tr><th scope="row">力成</th><td>6239</td><td>封測 / 測試</td></tr><tr><th scope="row">京元電</th><td>2449</td><td>IC 測試</td></tr><tr><th scope="row">矽格</th><td>6257</td><td>IC 測試</td></tr></tbody></table></div>
+<p>台積電 2025 年合併營收達 <strong>NT$3.809 兆</strong>，年增 <strong>31.6%</strong>；淨利 <strong>NT$1.718 兆</strong>，年增 <strong>46.4%</strong>，反映 AI / HPC 需求已明顯進入財務數字。 資料來源：TSMC 2025 Annual Report[^22]</p>
+<hr>
+<h3>9.2 ABF 載板：CPU、GPU、ASIC 共同瓶頸</h3>
+<p>AI CPU / GPU / ASIC 的共同特徵是：</p>
+<pre tabindex="0"><code class="language-text">晶片尺寸變大
+→ I/O 數增加
+→ 功耗上升
+→ 封裝複雜度提高
+→ ABF 載板面積與層數提升</code></pre>
+<p>DIGITIMES 報導指出，AI GPUs、CPUs、ASICs 正推動 ABF substrate 往更大尺寸與更高層數發展，且 Unimicron、Kinsus、Nan Ya PCB 的 ABF 供應出現吃緊。 資料來源：DIGITIMES[^23]</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">公司</th><th scope="col">代號</th><th scope="col">角色</th></tr></thead><tbody><tr><th scope="row">欣興</th><td>3037</td><td>ABF 載板、PCB</td></tr><tr><th scope="row">南電</th><td>8046</td><td>ABF 載板</td></tr><tr><th scope="row">景碩</th><td>3189</td><td>ABF / BT 載板</td></tr></tbody></table></div>
+<p>ABF 的優勢是平台重疊度高：</p>
+<pre tabindex="0"><code class="language-text">AMD EPYC
++ Intel Xeon
++ NVIDIA Grace / Vera
++ AWS / Google / Microsoft custom CPU
++ AI ASIC
++ networking ASIC
+都需要高階 substrate</code></pre>
+<hr>
+<h3>9.3 PCB / CCL：高速訊號與高層數板材升級</h3>
+<p>AI server 的 PCB / CCL 需求不是單純出貨量增加，而是規格升級。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">公司</th><th scope="col">代號</th><th scope="col">主要產品</th></tr></thead><tbody><tr><th scope="row">金像電</th><td>2368</td><td>server PCB、高階多層板</td></tr><tr><th scope="row">健鼎</th><td>3044</td><td>PCB</td></tr><tr><th scope="row">臻鼎-KY</th><td>4958</td><td>PCB / HDI</td></tr><tr><th scope="row">台光電</th><td>2383</td><td>高速低損耗 CCL</td></tr><tr><th scope="row">台燿</th><td>6274</td><td>高頻高速 CCL</td></tr><tr><th scope="row">聯茂</th><td>6213</td><td>CCL</td></tr><tr><th scope="row">亞電</th><td>4939</td><td>銅箔基板</td></tr><tr><th scope="row">騰輝電子-KY</th><td>6672</td><td>特殊材料 / 高階板材</td></tr></tbody></table></div>
+<p>AI rack-scale system 需要 PCIe、CXL、NVLink、Ethernet、InfiniBand、SerDes 等高速互連，會拉高低損耗材料、高層數 PCB、backplane、UBB、switch board 的價值。</p>
+<hr>
+<h3>9.4 AI Server ODM / Rack System：台灣是全球製造核心</h3>
+<p>台灣 ODM 是 AI server 供應鏈中最直接吃到整機 / 整櫃出貨的環節。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">公司</th><th scope="col">代號</th><th scope="col">定位</th></tr></thead><tbody><tr><th scope="row">鴻海</th><td>2317</td><td>AI server / rack / Ingrasys</td></tr><tr><th scope="row">廣達</th><td>2382</td><td>QCT / hyperscale AI server</td></tr><tr><th scope="row">緯創</th><td>3231</td><td>AI server ODM</td></tr><tr><th scope="row">緯穎</th><td>6669</td><td>hyperscale cloud server</td></tr><tr><th scope="row">英業達</th><td>2356</td><td>server ODM</td></tr><tr><th scope="row">和碩</th><td>4938</td><td>Pegatron server</td></tr><tr><th scope="row">技嘉</th><td>2376</td><td>server motherboard / GPU server</td></tr><tr><th scope="row">華碩</th><td>2357</td><td>server / workstation</td></tr><tr><th scope="row">華擎</th><td>3515</td><td>ASRock Rack</td></tr></tbody></table></div>
+<p>Wiwynn 2026 Q1 合併營收達 <strong>NT$2765.08 億</strong>，年增 <strong>62.0%</strong>；稅後淨利 <strong>NT$141.14 億</strong>，年增 <strong>44.1%</strong>，顯示 hyperscale AI server 需求已反映在台廠財報。 資料來源：Wiwynn Q1 2026 results[^24]</p>
+<hr>
+<h3>9.5 電源：AI rack 從數十 kW 走向百 kW / MW 級</h3>
+<p>AI rack 功耗提升後，電源架構從傳統 rack power 走向更高電壓、更高效率、更少轉換階段。NVIDIA 官方指出，800 VDC 可降低電流、銅用量與 cable bulk，並支援更高 compute density。 資料來源：NVIDIA 800 VDC architecture[^11]</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">公司</th><th scope="col">代號</th><th scope="col">角色</th></tr></thead><tbody><tr><th scope="row">台達電</th><td>2308</td><td>data center power、cooling、infrastructure</td></tr><tr><th scope="row">光寶科</th><td>2301</td><td>server power、cabinet power</td></tr><tr><th scope="row">康舒</th><td>6282</td><td>power supply</td></tr><tr><th scope="row">群電</th><td>6412</td><td>power supply</td></tr><tr><th scope="row">全漢</th><td>3015</td><td>power supply</td></tr><tr><th scope="row">高力</th><td>8996</td><td>熱交換 / 能源設備</td></tr></tbody></table></div>
+<p>電源供應鏈的重點從「PSU 數量」升級成：</p>
+<pre tabindex="0"><code class="language-text">power shelf
+→ rack-level power
+→ 800 VDC
+→ busbar
+→ power connector
+→ energy storage / power smoothing
+→ data center energy management</code></pre>
+<hr>
+<h3>9.6 散熱 / 液冷：高熱密度下的必要條件</h3>
+<p>GB200 NVL72 是 rack-scale liquid-cooled design，Vera Rubin 這類後續平台也會繼續提高功耗密度。液冷不只是 GPU 散熱，而是 CPU、GPU、memory、switch、power module、storage 都可能進入更完整的 thermal system。 資料來源：NVIDIA GB200 NVL72[^10]</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">公司</th><th scope="col">代號</th><th scope="col">角色</th></tr></thead><tbody><tr><th scope="row">雙鴻</th><td>3324</td><td>liquid cooling、thermal module</td></tr><tr><th scope="row">奇鋐</th><td>3017</td><td>cooling module、液冷</td></tr><tr><th scope="row">健策</th><td>3653</td><td>heat sink、thermal components</td></tr><tr><th scope="row">高力</th><td>8996</td><td>heat exchanger</td></tr><tr><th scope="row">建準</th><td>2421</td><td>fan / thermal</td></tr><tr><th scope="row">尼得科超眾</th><td>6230</td><td>thermal module</td></tr><tr><th scope="row">泰碩</th><td>3338</td><td>thermal solution</td></tr></tbody></table></div>
+<p>AI CPU 需求增加後，散熱價值不只來自 GPU，而是來自整櫃功耗密度上升。</p>
+<hr>
+<h3>9.7 BMC / 管理晶片：信驊的稀缺位置</h3>
+<p>BMC 是 Baseboard Management Controller，負責伺服器遠端管理、監控、開關機、韌體更新、硬體狀態回報。</p>
+<p>Taipei Times 報導指出，信驊是全球最大 BMC 供應商，市占約 <strong>70%</strong>；搭載 NVIDIA GB300 的 server rack 需要 <strong>71 顆 BMC</strong>，相較 H100 世代 rack 約 15 顆大幅增加。 資料來源：Taipei Times / Aspeed[^25]</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">公司</th><th scope="col">代號</th><th scope="col">角色</th></tr></thead><tbody><tr><th scope="row">信驊</th><td>5274</td><td>BMC SoC</td></tr><tr><th scope="row">新唐</th><td>4919</td><td>MCU / server management related</td></tr><tr><th scope="row">威盛</th><td>2388</td><td>embedded / platform IC</td></tr></tbody></table></div>
+<p>這一層的邏輯是：</p>
+<pre tabindex="0"><code class="language-text">AI rack 節點變多
+→ 每個 node / tray / power / thermal subsystem 都需要管理
+→ BMC 用量增加
+→ 管理晶片價值提升</code></pre>
+<hr>
+<h3>9.8 連接器 / 線束 / Busbar：整櫃化後的高功率與高速互連</h3>
+<p>AI server 從單機變整櫃後，連接器、線束、busbar 重要性提高。NVIDIA 800 VDC 架構明確提到降低電流、銅用量與線纜體積，並推動更高功率密度。 資料來源：NVIDIA 800 VDC architecture[^11]</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">公司</th><th scope="col">代號</th><th scope="col">角色</th></tr></thead><tbody><tr><th scope="row">嘉澤</th><td>3533</td><td>CPU socket、high-speed connector</td></tr><tr><th scope="row">貿聯-KY</th><td>3665</td><td>high-power cable、busbar、connector</td></tr><tr><th scope="row">良維</th><td>6290</td><td>cable / power cord</td></tr><tr><th scope="row">凡甲</th><td>3526</td><td>connector</td></tr><tr><th scope="row">宏致</th><td>3605</td><td>connector</td></tr><tr><th scope="row">萬旭</th><td>6134</td><td>cable / connector</td></tr><tr><th scope="row">聯穎</th><td>3550</td><td>cable assembly</td></tr><tr><th scope="row">鴻名</th><td>3021</td><td>connector / cable</td></tr><tr><th scope="row">胡連</th><td>6279</td><td>connector</td></tr></tbody></table></div>
+<p>這一層的需求分成三種：</p>
+<pre tabindex="0"><code class="language-text">高速訊號：PCIe / CXL / NVLink / Ethernet / InfiniBand
+高功率：54V / 800VDC / busbar / power connector
+高可靠度：液冷環境、防漏、熱插拔、長時間運轉</code></pre>
+<hr>
+<h3>9.9 ASIC / IC 設計服務：雲端自研 CPU / ASIC 的延伸主線</h3>
+<p>CSP 自研 CPU 與 AI ASIC 會推升設計服務與先進製程需求。這一層與 CPU 的關係在於：AWS、Google、Microsoft、Meta、OpenAI 類型的客戶，不只採購 GPU，也在推動 CPU、DPU、TPU、AI ASIC、networking ASIC、自研 accelerator。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">公司</th><th scope="col">代號</th><th scope="col">角色</th></tr></thead><tbody><tr><th scope="row">世芯-KY</th><td>3661</td><td>ASIC design service</td></tr><tr><th scope="row">創意</th><td>3443</td><td>ASIC design service</td></tr><tr><th scope="row">智原</th><td>3035</td><td>ASIC / IP / design service</td></tr><tr><th scope="row">聯發科</th><td>2454</td><td>ASIC / custom silicon / data center</td></tr><tr><th scope="row">瑞昱</th><td>2379</td><td>networking IC</td></tr><tr><th scope="row">譜瑞-KY</th><td>4966</td><td>high-speed interface / retimer / SerDes related</td></tr><tr><th scope="row">祥碩</th><td>5269</td><td>high-speed interface IC</td></tr></tbody></table></div>
+<p>這一層不是傳統 server CPU 概念，而是 <strong>雲端自研晶片生態</strong>。如果 CSP 更積極自研 CPU / ASIC，AMD / Intel 的 merchant CPU TAM 可能被稀釋，但台積電、先進封裝、ABF、ODM、設計服務反而能同時受惠。</p>
+<hr></div></section>
+<section class="report-section reveal" id="section-10"><header class="section-header"><span class="section-no">10</span><h2>台股供應鏈：重疊度與稀缺性分析</h2></header><div class="section-body"><h3>10.1 多重曝險：不太挑 CPU 贏家</h3>
+<p>有些台股公司不是押單一 CPU 架構，而是同時接觸 AMD、NVIDIA、Intel、Arm custom CPU、CSP 自研 ASIC。</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">類型</th><th scope="col">台股公司</th><th scope="col">重疊度高的原因</th></tr></thead><tbody><tr><th scope="row">晶圓代工 / 先進封裝</th><td>台積電</td><td>AMD、NVIDIA、Arm custom CPU、AI ASIC 都可能使用先進製程 / CoWoS</td></tr><tr><th scope="row">封測</th><td>日月光、力成、京元電、矽格</td><td>CPU、GPU、ASIC、networking chip 都有封裝與測試需求</td></tr><tr><th scope="row">ABF 載板</th><td>欣興、南電、景碩</td><td>CPU、GPU、ASIC、networking ASIC 都需要高階載板</td></tr><tr><th scope="row">ODM / rack</th><td>鴻海、廣達、緯創、緯穎、英業達</td><td>不論 x86、Arm、NVIDIA rack，最後都要 server / rack integration</td></tr><tr><th scope="row">電源 / 散熱</th><td>台達電、光寶、雙鴻、奇鋐、健策</td><td>CPU:GPU ratio 上升後，整櫃功耗與熱密度一起提高</td></tr></tbody></table></div>
+<p>這些公司比較像押：</p>
+<pre tabindex="0"><code class="language-text">AI server 複雜度提升
+AI rack 整櫃化
+AI data center 電力與散熱升級</code></pre>
+<p>而不是押單一 CPU 公司。</p>
+<hr>
+<h3>10.2 稀缺性排序：哪些位階更接近瓶頸</h3>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">稀缺性</th><th scope="col">位階</th><th scope="col">原因</th></tr></thead><tbody><tr><th scope="row"><strong>最高</strong></th><td>CoWoS / 先進封裝</td><td>TSMC CoWoS 是 AI / HPC 高整合密度平台，且高階 AI 晶片封裝持續放大需求</td></tr><tr><th scope="row"><strong>高</strong></th><td>ABF 載板</td><td>AI CPU、GPU、ASIC 推動更大尺寸與更高層數 ABF，供需缺口擴大</td></tr><tr><th scope="row"><strong>高</strong></th><td>液冷 / 散熱</td><td>GB200 / Vera Rubin 等 rack-scale 平台提高液冷必要性，熱密度成為系統限制條件</td></tr><tr><th scope="row"><strong>高但小眾</strong></th><td>BMC</td><td>信驊市占高，GB300 rack BMC 用量大幅高於 H100 rack</td></tr><tr><th scope="row"><strong>中高</strong></th><td>高速連接器 / busbar</td><td>800 VDC、高功率、高速互連推升 connector、cable、busbar 規格</td></tr><tr><th scope="row"><strong>中高</strong></th><td>AI server ODM / rack</td><td>營收彈性大，但組裝競爭與客戶集中度高，稀缺性通常低於先進封裝與 BMC</td></tr></tbody></table></div>
+<p>一句話整理：</p>
+<blockquote><p><strong>若只看名單，會把所有 AI server 供應鏈看成一樣；若看稀缺性，CoWoS、ABF、液冷、BMC、高功率連接器更接近瓶頸位階。ODM 營收彈性最大，但稀缺性通常低於先進封裝、BMC 與高階散熱。</strong></p></blockquote>
+<hr></div></section>
+<section class="report-section reveal" id="section-11"><header class="section-header"><span class="section-no">11</span><h2>從 CPU 受惠延伸到整櫃價值鏈</h2></header><div class="section-body"><h3>11.1 傳統伺服器價值鏈</h3>
+<pre tabindex="0"><code class="language-text">CPU
+→ 主機板
+→ 記憶體
+→ 儲存
+→ 電源
+→ 機殼
+→ 整機組裝</code></pre>
+<h3>11.2 AI rack-scale 價值鏈</h3>
+<pre tabindex="0"><code class="language-text">CPU / GPU / ASIC
+→ HBM / memory
+→ CoWoS / advanced packaging
+→ ABF substrate
+→ UBB / high-layer PCB
+→ NVLink / PCIe / CXL / Ethernet / InfiniBand
+→ BMC / retimer / controller
+→ power shelf / 800VDC
+→ liquid cooling
+→ high-speed cable / busbar
+→ rack integration
+→ data center deployment</code></pre>
+<p>Bernstein 的 CPU TAM 上修，對台股來說不是「找誰做 CPU」，而是要看：</p>
+<pre tabindex="0"><code class="language-text">CPU 增加
+→ CPU socket / ABF / PCB 增加
+→ server node 增加
+→ BMC 增加
+→ power 增加
+→ cooling 增加
+→ rack integration 增加</code></pre>
+<hr></div></section>
+<section class="report-section reveal" id="section-12"><header class="section-header"><span class="section-no">12</span><h2>產業主線整理</h2></header><div class="section-body"><h3>主線一：AMD EPYC + 台灣先進製程 / 載板 / ODM</h3>
+<p>AMD 是 x86 server CPU 中最直接的受惠者之一。Venice 進入 TSMC 2nm production ramp，代表 AMD 與台灣先進製程、封裝、載板、ODM 的連結會更深。 資料來源：AMD Venice production ramp[^7]</p>
+<pre tabindex="0"><code class="language-text">AMD EPYC / Venice
+→ TSMC 2nm
+→ advanced packaging / testing
+→ ABF substrate
+→ server ODM
+→ cloud / AI data center</code></pre>
+<p>核心台股：</p>
+<pre tabindex="0"><code class="language-text">台積電、日月光、力成、京元電、欣興、南電、景碩、緯穎、緯創、英業達、AIC</code></pre>
+<hr>
+<h3>主線二：NVIDIA Grace / Vera + rack-scale AI system</h3>
+<p>NVIDIA 的 CPU 敘事不是單賣 CPU，而是將 CPU 放入完整 AI factory 架構。GB200 NVL72 已經是 36 Grace CPU + 72 Blackwell GPU 的 liquid-cooled rack-scale system；Vera CPU 則進一步針對 agentic AI 的 tool use、orchestration、sandboxing、data pipelines 設計。 資料來源：NVIDIA GB200 NVL72[^10]、NVIDIA Vera CPU[^8]</p>
+<pre tabindex="0"><code class="language-text">NVIDIA Grace / Vera CPU
++ Blackwell / Rubin GPU
++ BlueField DPU
++ NVLink / Spectrum-X
+→ TSMC / CoWoS
+→ 台灣 ODM 整櫃
+→ 電源 / 液冷 / BMC / 連接器</code></pre>
+<p>核心台股：</p>
+<pre tabindex="0"><code class="language-text">台積電、鴻海、廣達、緯創、緯穎、英業達、台達電、光寶、雙鴻、奇鋐、健策、信驊、嘉澤、貿聯</code></pre>
+<hr>
+<h3>主線三：Arm server CPU 生態擴張</h3>
+<p>Arm Neoverse / CSS 是 AWS Graviton、Google Axion、Microsoft Cobalt、NVIDIA Grace / Vera、AmpereOne 等 Arm server CPU 生態的底層基礎。Arm 的意義不只是單一公司，而是雲端自研 CPU 的架構平台。 資料來源：Arm Neoverse CSS V3[^16]</p>
+<pre tabindex="0"><code class="language-text">Arm Neoverse / CSS
+→ CSP custom CPU
+→ TSMC / advanced packaging
+→ 台灣 ODM
+→ cloud / AI data center</code></pre>
+<p>核心台股：</p>
+<pre tabindex="0"><code class="language-text">台積電、日月光、力成、欣興、南電、景碩、廣達、緯創、緯穎、英業達、台達電、雙鴻、奇鋐</code></pre>
+<hr>
+<h3>主線四：AI server 從 box 變 rack</h3>
+<p>NVIDIA GB200 NVL72、Vera Rubin、800 VDC、Kyber 這些平台都指向同一件事：AI server 不是單台機器，而是整櫃級電腦。</p>
+<pre tabindex="0"><code class="language-text">L6 motherboard
+→ L10 server
+→ L11 rack
+→ data center infrastructure module</code></pre>
+<p>L11 / rack-level 的價值來自：</p>
+<pre tabindex="0"><code class="language-text">power shelf
+liquid cooling
+cable management
+BMC
+system validation
+firmware integration
+rack-level burn-in
+整櫃交付能力</code></pre>
+<p>這也是台灣 ODM 從 PC / server box 升級到 AI infrastructure supply chain 的關鍵。</p>
+<hr></div></section>
+<section class="report-section reveal" id="section-13"><header class="section-header"><span class="section-no">13</span><h2>最終結論</h2></header><div class="section-body"><p>Bernstein 的 Server CPU TAM 上修，表面上是在講 AMD、Intel、Arm、NVIDIA；但更深層的意思是：</p>
+<blockquote><p><strong>AI data center 正從 GPU-heavy training cluster，轉向 agentic inference + heterogeneous rack-scale computing。</strong></p></blockquote>
+<p>這會讓 CPU 的角色從傳統 host processor，升級成：</p>
+<pre tabindex="0"><code class="language-text">agent runtime processor
+workflow orchestration processor
+data processing processor
+memory / I/O coordination processor
+enterprise integration processor</code></pre>
+<p>全球競爭格局上：</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">類型</th><th scope="col">主要公司</th><th scope="col">判斷</th></tr></thead><tbody><tr><th scope="row">x86 直接受惠</th><td>AMD、Intel</td><td>AMD 份額與收入占比提升，彈性高於 Intel；Intel 仍有企業基礎盤</td></tr><tr><th scope="row">Arm 生態</th><td>Arm、AWS、Google、Microsoft、Ampere、NVIDIA</td><td>擴大整體 CPU 需求，但會稀釋部分 AMD / Intel merchant CPU TAM</td></tr><tr><th scope="row">Rack-scale AI 平台</th><td>NVIDIA</td><td>以 CPU + GPU + DPU + networking + power + cooling 綁定整櫃生態</td></tr><tr><th scope="row">台股平台型受惠</th><td>台積電、ODM、ABF、電源、散熱、BMC、連接器</td><td>不太挑 CPU 架構勝負，主要受惠 AI server 複雜度提升</td></tr></tbody></table></div>
+<p>對台股供應鏈來說，最關鍵的不是單純找「CPU 概念股」，而是找出 <strong>多平台重疊度高、且位於瓶頸層的公司</strong>：</p>
+<div class="table-shell" tabindex="0" role="region" aria-label="研究資料表"><div class="table-hint" aria-hidden="true"><span>橫向捲動查看完整表格</span><b>→</b></div><table><thead><tr><th scope="col">位階</th><th scope="col">核心公司</th></tr></thead><tbody><tr><th scope="row">晶圓代工 / 先進封裝</th><td>台積電</td></tr><tr><th scope="row">封測</th><td>日月光、力成、京元電、矽格</td></tr><tr><th scope="row">ABF 載板</th><td>欣興、南電、景碩</td></tr><tr><th scope="row">AI server ODM / rack</th><td>鴻海、廣達、緯創、緯穎、英業達、和碩</td></tr><tr><th scope="row">PCB / CCL</th><td>金像電、健鼎、臻鼎-KY、台光電、台燿、聯茂</td></tr><tr><th scope="row">電源</th><td>台達電、光寶科、康舒、群電、全漢</td></tr><tr><th scope="row">散熱 / 液冷</th><td>雙鴻、奇鋐、健策、高力、建準、尼得科超眾</td></tr><tr><th scope="row">BMC</th><td>信驊</td></tr><tr><th scope="row">連接器 / 線束 / busbar</th><td>嘉澤、貿聯-KY、良維、凡甲、宏致、萬旭</td></tr><tr><th scope="row">ASIC / design service</th><td>世芯-KY、創意、智原、聯發科</td></tr><tr><th scope="row">高速介面 / 網通 IC</th><td>瑞昱、譜瑞-KY、祥碩</td></tr></tbody></table></div>
+<p>最終可以濃縮成一句話：</p>
+<blockquote><p><strong>Bernstein 的 CPU TAM 上修，不應該被理解成「CPU 公司全部平均受惠」，而應該理解成 AI infrastructure 從 GPU server 走向 agentic AI 整櫃系統後，CPU、先進封裝、ABF、PCB、電源、液冷、BMC、連接器與 ODM 全鏈條同步升級。</strong></p></blockquote>
+<hr></div></section>
+<section class="report-section reveal source-section" id="section-14"><header class="section-header"><span class="section-no">14</span><h2>資料來源</h2></header><div class="section-body"><p>[^1]: Yahoo Finance / Bernstein 公開轉述，Bernstein base case assumes $3.5tn AI data center capex and 1:1 CPU-to-GPU pairing ratio for inference. &lt;https://finance.yahoo.com/technology/ai/articles/bernstein-flags-structural-beneficiaries-cpu-120149951.html&gt; [^2]: AMD, “Agentic AI Changes the CPU/GPU Equation.” &lt;https://www.amd.com/en/blogs/2026/agentic-ai-changes-the-cpu-gpu-equation.html&gt; [^3]: TrendForce, “How Agentic AI Is Reshaping the CPU:GPU Ratio.” &lt;https://insights.trendforce.com/p/agentic-ai-cpu-gpu&gt; [^4]: AWS, “Amazon Bedrock AgentCore is now generally available.” &lt;https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-agentcore-is-now-generally-available/&gt; [^5]: Microsoft Copilot Studio, “What&#39;s new in Copilot Studio: March 2025.” &lt;https://www.microsoft.com/en-us/microsoft-copilot/blog/copilot-studio/whats-new-in-copilot-studio-march-2025/&gt; [^6]: Google Cloud, “Introducing Gemini Enterprise Agent Platform.” &lt;https://cloud.google.com/blog/products/ai-machine-learning/introducing-gemini-enterprise-agent-platform&gt; [^7]: AMD, “AMD Announces Production Ramp of Next-Generation AMD EPYC Processor ‘Venice’ on TSMC 2nm Process Technology.” &lt;https://www.amd.com/en/newsroom/press-releases/2026-5-20-amd-announces-production-ramp-of-next-generation-a.html&gt; [^8]: NVIDIA, “Vera CPU.” &lt;https://www.nvidia.com/en-us/data-center/vera-cpu/&gt; [^9]: NVIDIA, “Rubin Architecture.” &lt;https://www.nvidia.com/en-us/data-center/technologies/rubin/&gt; [^10]: NVIDIA, “GB200 NVL72.” &lt;https://www.nvidia.com/en-us/data-center/gb200-nvl72/&gt; [^11]: NVIDIA, “800 VDC Architecture.” &lt;https://www.nvidia.com/en-us/data-center/technologies/800-vdc-architecture/&gt; [^12]: arXiv, “The Energy Blind Spot: NVIDIA&#39;s Flagship Edge AI Hardware Cannot Support Process-Level Energy Attribution.” &lt;https://arxiv.org/abs/2605.27599&gt; [^13]: vLLM Production Stack, “KV Cache Offloading.” &lt;https://docs.vllm.ai/projects/production-stack/en/vllm-stack-0.1.2/tutorials/kv_cache.html&gt; [^14]: Tom&#39;s Hardware, “AMD reaches 46 percent of server x86 CPU revenue.” &lt;https://www.tomshardware.com/pc-components/cpus/amd-reaches-46-percent-of-server-x86-cpu-revenue-intel-still-controls-70-percent-of-the-consumer-pc-market-share&gt; [^15]: Intel, “Intel Xeon Processors.” &lt;https://www.intel.com/content/www/us/en/products/details/processors/xeon.html&gt; [^16]: Arm, “Arm Neoverse CSS V3.” &lt;https://www.arm.com/products/cloud-datacenter/neoverse-compute-subsystems/css-v3&gt; [^17]: AWS, “AWS Graviton Processor.” &lt;https://aws.amazon.com/ec2/graviton/&gt; [^18]: Google Cloud, “Google Axion processors.” &lt;https://cloud.google.com/products/axion&gt; [^19]: Microsoft Azure, “Azure Cobalt 100-based Virtual Machines are now generally available.” &lt;https://azure.microsoft.com/en-us/blog/azure-cobalt-100-based-virtual-machines-are-now-generally-available/&gt; [^20]: Reuters, “Foxconn&#39;s Apple era fades as AI servers drive growth in Taiwan tech sector.” &lt;https://www.reuters.com/world/china/foxconns-apple-era-fades-ai-servers-drive-growth-taiwan-tech-sector-2025-08-18/&gt; [^21]: TSMC 3DFabric, “CoWoS.” &lt;https://3dfabric.tsmc.com/english/dedicatedFoundry/technology/cowos.htm&gt; [^22]: TSMC, 2025 Annual Report. &lt;https://investor.tsmc.com/static/annualReports/2025/english/index.html&gt; [^23]: DIGITIMES, “AI GPUs, CPUs and ASICs drive ABF substrate demand.” &lt;https://www.digitimes.com/news/a20260420PD216/revenue-pcb-abf-substrate-unimicron-ai-chip.html&gt; [^24]: Wiwynn, “Wiwynn Reports First Quarter 2026 Financial Results.” &lt;https://www.wiwynn.com/news/wiwynn-reports-first-quarter-2026-financial-results&gt; [^25]: Taipei Times, “Aspeed expects servers to drive 25% revenue rise.” &lt;https://www.taipeitimes.com/News/biz/archives/2025/11/25/2003847763&gt;</p></div></section><footer class="page-footer"><strong>AI 伺服器 CPU 產業研究報告</strong><span>資料日期：2026-06-21 · 由原始 Markdown 生成</span></footer></main></div>
+  <button class="back-top" type="button" aria-label="返回頁首">↑</button>
+  <script>(() => {
+  const root = document.documentElement;
+  const progress = document.querySelector('.progress');
+  const progressBar = progress?.querySelector('span');
+  const backTop = document.querySelector('.back-top');
+  const navLinks = [...document.querySelectorAll('[data-nav]')];
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('.nav-links');
+  const mobileButton = document.querySelector('.mobile-bar button');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const updateScroll = () => {
+    const max = root.scrollHeight - innerHeight;
+    const ratio = max > 0 ? Math.min(1, scrollY / max) : 0;
+    if (progressBar) progressBar.style.transform = `scaleX(${ratio})`;
+    if (progress) progress.setAttribute('aria-valuenow', String(Math.round(ratio * 100)));
+    backTop?.classList.toggle('visible', scrollY > innerHeight * .65);
+  };
+  addEventListener('scroll', updateScroll, { passive: true });
+  addEventListener('resize', updateScroll, { passive: true });
+  updateScroll();
+
+  navToggle?.addEventListener('click', () => {
+    const open = navMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(open));
+  });
+  navMenu?.addEventListener('click', (event) => {
+    if (!event.target.closest('a')) return;
+    navMenu.classList.remove('open');
+    navToggle?.setAttribute('aria-expanded', 'false');
+  });
+  mobileButton?.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    mobileButton.setAttribute('aria-expanded', String(open));
+    const state = mobileButton.querySelector('i');
+    if (state) state.textContent = open ? '收合' : '展開';
+  });
+  mobileMenu?.addEventListener('click', (event) => {
+    if (!event.target.closest('a')) return;
+    mobileMenu.classList.remove('open');
+    mobileButton?.setAttribute('aria-expanded', 'false');
+  });
+  backTop?.addEventListener('click', () => scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' }));
+
+  if ('IntersectionObserver' in window) {
+    const sectionObserver = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      navLinks.forEach((link) => link.classList.toggle('active', link.dataset.nav === visible.target.id));
+    }, { rootMargin: '-18% 0px -62% 0px', threshold: [0, .25, .6] });
+    document.querySelectorAll('.report-section').forEach((section) => sectionObserver.observe(section));
+
+    if (!reducedMotion) {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      }, { rootMargin: '0px 0px -7% 0px', threshold: .06 });
+      document.querySelectorAll('.reveal').forEach((node) => revealObserver.observe(node));
+    }
+  }
+  if (reducedMotion || !('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal').forEach((node) => node.classList.add('visible'));
+  }
+})();
+</script>
+</body>
+</html>

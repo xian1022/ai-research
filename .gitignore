@@ -1,0 +1,15 @@
+# Private source material and working files
+.agents/
+projects/
+work/
+docs/
+
+# Local operating-system files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Generated backups and temporary artifacts
+*.bak-*.html
+*.tmp
+*.log
