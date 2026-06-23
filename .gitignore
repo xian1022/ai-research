@@ -5,6 +5,7 @@ work/
 docs/
 
 # Local operating-system files
+.worktrees/
 Thumbs.db
 Desktop.ini
 .DS_Store
